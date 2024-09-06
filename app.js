@@ -23,7 +23,7 @@ app.get('/:id1', (req, res) => {
         let data = fs.readFileSync(dynamicHtmlPath, 'utf8');
         console.log(data); // 로깅 추가
         // id1을 직접 삽입
-        const dynamicHtml = data.replace(/{{objektId}}/g, id1);
+        const dynamicHtml = data.replace(/{{id1}}/g, id1);
         res.send(dynamicHtml);
     } catch (err) {
         console.error(err);
