@@ -1,5 +1,5 @@
 [build]
-  command = "node app.js"
+  command = "npm start"
   publish = "public"
 
 [[redirects]]
