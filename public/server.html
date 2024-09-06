@@ -60,6 +60,7 @@
                       document.getElementById('goodsname').textContent = doc.data()['name'];
                       document.getElementById('description').innerHTML = doc.data()['description'];
                       document.getElementById('price').textContent = doc.data()['price'];
+                      document.getElementById('goodsimage').src = `esset/${id1}.png`;
                   } else {
                       console.log("No such document!");
                   }
@@ -79,7 +80,7 @@
     <div id="media">
         <div id="app" class="vision-grid" style="margin-top: 10px;">
             
-            <img src="esset/{{id1}}.png" alt="" width="100%">
+            <img id="goodsimage" src="esset/{{id1}}.png" alt="" width="100%">
             <div class="white vision-left">
                 <h1 id="goodsname" class="vision-text">굳즈 이름</h1>
                 <p id="description">설명</p>
