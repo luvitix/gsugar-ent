@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GSUGAR STORE</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="script" href="script.js">
+    <link rel="icon" href="favicon.ico">
+    <script src="information.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyCbg4hzNgHuHLPPf-p81tOR9NokHUkJEYU",
+            authDomain: "wav-page.firebaseapp.com",
+            projectId: "wav-page",
+            storageBucket: "wav-page.appspot.com",
+            messagingSenderId: "177402832992",
+            appId: "1:177402832992:web:f9e73201becffd901cfb05",
+            measurementId: "G-7LRKNDFK7B"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+
+
+        // Initialize Cloud Firestore and get a reference to the service
+        const DB = firebase.firestore();
+
+        var currentUrl = window.location.href;
+        var id1 = currentUrl.substring(currentUrl.lastIndexOf('/') + 1);
+        window.onload = function () {
+            load();
+            
+            test(id1);
+        };
+        // Firestore에서 링크 가져오기
+        function openMediaLink() {
+            DB.collection('goods').doc(id1)
+              .get()
+              .then((doc) => {
+                  if (doc.exists) {
+                      // Firestore에서 가져온 링크를 새 창으로 열기
+                      window.open(doc.data()['linkconnect'], '_blank');
+                  } else {
+                      console.log("No such document!");
+                  }
+              })
+              .catch((error) => {
+                  console.log("Error getting document:", error);
+              });
+        }
+            // Firestore에서 정보 가져오기
+        function openMediaContent() {
+          DB.collection('goods').doc(id1)
+              .get()
+              .then((doc) => {
+                  if (doc.exists) {
+                      // Firestore에서 가져온 링크를 새 창으로 열기
+                      document.getElementById('goodsname').textContent = doc.data()['name'];
+                      document.getElementById('description').innerHTML = doc.data()['description'];
+                      document.getElementById('price').textContent = doc.data()['price'];
+                  } else {
+                      console.log("No such document!");
+                  }
+              })
+              .catch((error) => {
+                  console.log("Error getting document:", error);
+              });
+        }
+        window.onload = openMediaContent();
+    </script>
+</head>
+<body>
+    <div id="var">
+        <a href="index.html"><h1 class="logo-text white">GSUGAR Store</h1></a>
+    </div>
+
+    <div id="media">
+        <div id="app" class="vision-grid" style="margin-top: 10px;">
+            
+            <img src="esset/{{objektId}}.png" alt="" width="100%">
+            <div class="white vision-left">
+                <h1 id="goodsname" class="vision-text">굳즈 이름</h1>
+                <p id="description">설명</p>
+                <h2 id="price">가격</h2>
+                <div style=" margin-top: 40px;">
+                    <a><button onclick="openMediaLink()" style="border-style: solid; border-color: aliceblue; border-radius: 50px; font-size: 20px; padding: 8px;">구매하기</button></a>
+                </div>
+            </div>
+        </div>
+    </div> 
+
+
+
+    <!-- Career Section -->
+    <div id="capyright">
+        <p class="white">© GSUGAR ENTERTAINMENT</p>
+    </div>
+</body>
+<script>
+    let observer = new IntersectionObserver((e) => {
+        console.log("확인")
+        e.forEach((vision_letter) => {
+            if (vision_letter.isIntersecting) {
+                vision_letter.target.style.opacity = 1;
+            } else {
+                vision_letter.target.style.opacity = 0;
+            }
+            
+        })
+    });
+
+    let vision = document.querySelectorAll('.vision-letter')
+    console.log(vision)
+    observer.observe(vision[0]);
+    observer.observe(vision[1]);
+    observer.observe(vision[2]);
+    observer.observe(vision[3]);
+</script>
+</html>
