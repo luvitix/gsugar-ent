@@ -63,15 +63,15 @@ a {
     margin: -8px;
     margin-top: -4px;
     padding-top: 50px;
-    padding-left: 50px;
-    padding-right: 50px;
+    padding-left: 100px;
+    padding-right: 100px;
     padding-bottom: 50px;
-    font-family: 'SUIT-Regular';
+    font-family: 'Pretendard-Regular';
     color: rgb(42, 42, 42);
 }
 
 .black {
-    font-family: 'SUIT-Regular';
+    font-family: 'Pretendard-Regular';
     color: rgb(42, 42, 42);
 }
 
