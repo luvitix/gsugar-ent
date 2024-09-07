@@ -50,6 +50,10 @@ a {
     text-align: center;
 }
 
+#media-color {
+    background-color: rgb(36, 26, 100);
+}
+
 #project {
     background-color: rgb(62, 0, 144);
     margin: -8px;
