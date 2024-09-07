@@ -29,7 +29,7 @@
 
         var currentUrl = window.location.href;
         var id1 = currentUrl.substring(currentUrl.lastIndexOf('/') + 1);
-        var instagram_error = id1.split('?');
+        var instagram_error = id1.split('?')[0];
         window.onload = function () {
             load();
             
