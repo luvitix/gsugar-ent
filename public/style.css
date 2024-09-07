@@ -83,6 +83,10 @@ a {
     font-size: clamp(10px, 10vh, 10vh);
 }
 
+.goods-text {
+    font-size: clamp(7px, 3vh, 3vh);
+}
+
 .vision-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -140,6 +144,12 @@ a {
 .vision-letter {
     opacity: 0;
     transition: all 1s;
+}
+
+.goods-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
 }
 
 @media (max-width: 900px) {

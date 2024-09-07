@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="facebook-domain-verification" content="izww706vitlsjbxq2ue1hxfgugjy92" />
+    <title>GSUGAR ENTERTAINMENT</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="script" href="script.js">
+    <link rel="icon" href="favicon.ico">
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyCbg4hzNgHuHLPPf-p81tOR9NokHUkJEYU",
+            authDomain: "wav-page.firebaseapp.com",
+            projectId: "wav-page",
+            storageBucket: "wav-page.appspot.com",
+            messagingSenderId: "177402832992",
+            appId: "1:177402832992:web:f9e73201becffd901cfb05",
+            measurementId: "G-7LRKNDFK7B"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+
+
+        // Initialize Cloud Firestore and get a reference to the service
+        const DB = firebase.firestore();
+
+        // Firestore에서 정보 가져오기
+        function openMediaContent() {
+            DB.collection('goods').doc('goodslist').get().then((doc) => {
+                if (doc.exists) {
+                    // Firestore에서 가져와서 HTML만들기
+                    var goodslist = doc.data()['list']
+                    var storeContent = ""
+                    // 모든 비동기 작업을 처리할 Promise 배열 생성
+                    var promises = goodslist.map((item) => {
+                        return DB.collection('goods').doc(item).get().then((doc1) => {
+                            if (doc1.exists) {
+                                storeContent += `
+                                    <div><a href="${item}" class="white">
+                                        <img src="esset/${item}.png" alt="" width="100%">
+                                        <h1 class="goods-text">${doc1.data()['name']}</h1>
+                                        <h2>${doc1.data()['price']}</h2>
+                                    </a></div>`;
+                            } else {
+                                console.log("No such document!");
+                            }
+                        });
+                    });
+
+                    // 모든 Promise가 완료된 후에 storeContent 적용
+                    Promise.all(promises).then(() => {
+                        document.getElementById('storeContent').innerHTML = storeContent;
+                    });
+
+                } else {
+                    console.log("No such document!");
+                }
+            })
+            .catch((error) => {
+                console.log("Error getting document:", error);
+            });
+        }
+        window.onload = openMediaContent();
+    </script>
+</head>
+<body>
+    <div id="var">
+        <h1 class="logo-text white">GSUGAR Store</h1>
+    </div>
+
+    <!-- Media Section -->
+    <div id="media">
+        <h2 class="logo-text white">GOODS</h2>
+        <div id="storeContent" class="goods-grid">
+            <a href="test" class="white">
+                <img src="esset/test.png" alt="" width="100%">
+                <h1 id="goodsname" class="vision-text">굳즈 이름</h1>
+                <h2 id="price">가격</h2>
+            </a>
+        </div>
+    </div>
+
+    <!-- Career Section -->
+    <div id="capyright">
+        <p class="white">© GSUGAR ENTERTAINMENT</p>
+    </div>
+</body>
+<script>
+    let observer = new IntersectionObserver((e) => {
+        console.log("확인")
+        e.forEach((vision_letter) => {
+            if (vision_letter.isIntersecting) {
+                vision_letter.target.style.opacity = 1;
+            } else {
+                vision_letter.target.style.opacity = 0;
+            }
+            
+        })
+    });
+
+    let vision = document.querySelectorAll('.vision-letter')
+    console.log(vision)
+    observer.observe(vision[0]);
+    observer.observe(vision[1]);
+    observer.observe(vision[2]);
+    observer.observe(vision[3]);
+</script>
+
+</html>
