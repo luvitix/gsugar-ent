@@ -216,19 +216,19 @@ a {
         gap: 10px;
     }
     .goods-title {
-        font-size: 16px;
+        font-size: 15px;
     }
     
     .goods-price {
-        font-size: 14px;
+        font-size: 13px;
     }
     
     .goods-content {
-        font-size: 12px;
+        font-size: 11px;
     }
     #store {
-        padding-left: 1px;
-        padding-right: 1px;
+        padding-left: 7px;
+        padding-right: 7px;
     }
 }
 
