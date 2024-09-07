@@ -39,7 +39,7 @@
                         return DB.collection('goods').doc(item).get().then((doc1) => {
                             if (doc1.exists) {
                                 storeContent += `
-                                    <div><a href="${item}">
+                                    <div><a href="${item} black">
                                         <img src="esset/${item}.png" alt="" width="100%">
                                         <h1 class="goods-title">${doc1.data()['name']}</h1>
                                         <h2 class="goods-price">${doc1.data()['price']}</h2>
@@ -73,7 +73,7 @@
 
     <!-- Media Section -->
     <div id="media-sub">
-        <h2 class="logo-text">GOODS</h2>
+        <h2 class="logo-text black" style="margin-top: 10px;">GOODS</h2>
         <div id="storeContent" class="goods-grid">
             <a href="test">
                 <img src="esset/test.png" alt="" width="100%">
