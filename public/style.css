@@ -43,18 +43,20 @@ a {
 }
 
 #media {
-    background-color: rgb(36, 26, 100);
+    background-color: rgb(242, 240, 255);
     margin: -8px;
     margin-top: -4px;
     padding: 50px;
     text-align: center;
 }
 
-#media-sub {
+#store {
     background-color: rgb(36, 26, 100);
     text-align: center;
     margin: -8px;
     margin-top: -4px;
+    font-family: 'SUIT-Regular';
+    color: rgb(0, 0, 0);
 }
 
 #project {
