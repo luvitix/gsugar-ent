@@ -55,6 +55,8 @@ a {
     text-align: center;
     margin: -8px;
     margin-top: -4px;
+    font-family: 'SUIT-Regular';
+    color: rgb(0, 0, 0);
 }
 
 .black {
