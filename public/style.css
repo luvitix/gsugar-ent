@@ -51,10 +51,11 @@ a {
 }
 
 #store {
-    background-color: rgb(242, 240, 255);
+    background-color: rgb(255, 255, 255);
     text-align: center;
     margin: -8px;
     margin-top: -4px;
+    padding-top: 50px;
     font-family: 'SUIT-Regular';
     color: rgb(0, 0, 0);
 }
