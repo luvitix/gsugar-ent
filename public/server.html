@@ -60,7 +60,7 @@
                       document.getElementById('goodsname').textContent = doc.data()['name'];
                       document.getElementById('description').innerHTML = doc.data()['description'];
                       document.getElementById('price').textContent = doc.data()['price'];
-                      document.getElementById('goodsimage').src = `esset/${id1}.png`;
+                      document.getElementById('goodsimage').src = `${doc.data()['img_link']}.png`;
                   } else {
                       console.log("No such document!");
                   }
