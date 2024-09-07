@@ -41,7 +41,7 @@
               .then((doc) => {
                   if (doc.exists) {
                       // Firestore에서 가져온 링크를 새 창으로 열기
-                      window.open(doc.data()['linkconnect'], '_blank');
+                      window.location.replace(doc.data()['linkconnect'], '_blank');
                   } else {
                       console.log("No such document!");
                   }
