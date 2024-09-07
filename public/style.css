@@ -59,7 +59,7 @@ a {
 
 #store {
     background-color: rgb(255, 255, 255);
-    text-align: center;
+    text-align: left;
     margin: -8px;
     margin-top: -4px;
     padding-top: 50px;
@@ -113,6 +113,10 @@ a {
 }
 
 .goods-price {
+    font-size: clamp(4px, 1.7vh, 1.7vh);
+}
+
+.goods-content {
     font-size: clamp(4px, 1.6vh, 1.6vh);
 }
 
@@ -212,11 +216,15 @@ a {
         gap: 10px;
     }
     .goods-title {
-        font-size: 17px;
+        font-size: 16px;
     }
     
     .goods-price {
-        font-size: 15px;
+        font-size: 14px;
+    }
+    
+    .goods-content {
+        font-size: 12px;
     }
     #store {
         padding-left: 1px;
