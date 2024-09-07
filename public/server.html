@@ -29,13 +29,14 @@
 
         var currentUrl = window.location.href;
         var id1 = currentUrl.substring(currentUrl.lastIndexOf('/') + 1);
+        var instagram_error = id1.split('?');
         window.onload = function () {
             load();
             
             test(id1);
         };
         // Firestore에서 링크 가져오기
-        function openMediaLink() {
+        function openMediaLink(id1) {
             DB.collection('goods').doc(id1)
               .get()
               .then((doc) => {
@@ -69,7 +70,8 @@
                   console.log("Error getting document:", error);
               });
         }
-        window.onload = openMediaLink();
+        window.onload = openMediaLink(id1);
+        window.onload = openMediaLink(instagram_error);
     </script>
 </head>
 <body>
