@@ -56,8 +56,11 @@ a {
     margin: -8px;
     margin-top: -4px;
     padding-top: 50px;
+    padding-left: 50px;
+    padding-right: 50px;
+    padding-bottom: 50px;
     font-family: 'SUIT-Regular';
-    color: rgb(0, 0, 0);
+    color: rgb(42, 42, 42);
 }
 
 .black {
@@ -99,7 +102,7 @@ a {
 }
 
 .goods-title {
-    font-size: clamp(7px, 2vh, 2vh);
+    font-size: clamp(7px, 1.9vh, 1.9vh);
 }
 
 .goods-price {
@@ -207,6 +210,10 @@ a {
     
     .goods-price {
         font-size: 15px;
+    }
+    #store {
+        padding-left: 1px;
+        padding-right: 1px;
     }
 }
 
