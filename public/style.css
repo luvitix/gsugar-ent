@@ -42,8 +42,15 @@ a {
 input {
     border-radius: 50px;
     padding: 7px;
-    font-size: 20px;
     font-family: 'Pretendard-Regular';
+}
+
+#nameInput {
+    font-size: 20px;
+}
+
+#instagramInput {
+    font-size: 20px;
 }
 
 #var {
@@ -211,6 +218,7 @@ input {
 .searching-button {
     border-radius: 50px;
     margin-left: 5px;
+    font-size: 20px;
 }
 
 #profile-photo {
@@ -270,12 +278,21 @@ input {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         gap: 5px;
+        width: 300px;
+        font-size: 10px;
     }
     
     .searching-button {
         height: auto;
         width: 87px;
         border-radius: 20px;
+        font-size: 16px;
+    }
+    #nameInput {
+        font-size: 16px;
+    }
+    #instagramInput {
+        font-size: 16px;
     }
     #profile-photo {
         width: 40%;
@@ -287,9 +304,6 @@ input {
     }
     .mobile-none {
         display: none;
-    }
-    #nameInput #instagramInput {
-        font-size: 10px;
     }
 }
 

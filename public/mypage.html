@@ -41,7 +41,7 @@
             var doc = await DB.collection('ticket').doc('userlist').get();
             var userlist = doc.data()['userlist']
             if (doc.exists) {
-                console.log(userlist)
+                // 데이터 획득
                 if (userlist.includes(id1) == true) {
                     DB.collection('ticket').doc(id1).get().then((doc1) => {
                     document.getElementById('nickname').textContent = `${id1}님 | @${doc1.data()['insta_id']}님`
@@ -59,7 +59,6 @@
 
                     // 모든 비동기 작업이 완료될 때까지 기다림
                     await Promise.all(promises);
-                    console.log(insta_id_list[0], id2)
                     if (insta_id_list.includes(id2) == true) {
                         DB.collection('ticket').doc(userlist[insta_id_list.indexOf(id2)]).get().then((doc3) => {
                         document.getElementById('nickname').textContent = `${userlist[insta_id_list.indexOf(id2)]}님 | ${doc3.data()['insta_id']}님`
@@ -117,7 +116,7 @@
                     <input type="text" id="nameInput" placeholder="가입한 이름으로 검색하기">
                     <input type="text" id="instagramInput" placeholder="인스타그램 아이디로 검색하기">
                 </div>
-                <button class="searching-button" onclick="myinfo()" style="font-size: 20px; padding: 8px;">검색하기</button>
+                <button class="searching-button" onclick="myinfo()" style="padding: 8px;">검색하기</button>
             </div> 
         </div>
         
@@ -150,10 +149,6 @@
 
     let vision = document.querySelectorAll('.vision-letter')
     console.log(vision)
-    observer.observe(vision[0]);
-    observer.observe(vision[1]);
-    observer.observe(vision[2]);
-    observer.observe(vision[3]);
 </script>
 
 </html>
