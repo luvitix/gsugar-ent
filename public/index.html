@@ -34,7 +34,7 @@
               .then((doc) => {
                   if (doc.exists) {
                       // Firestore에서 가져온 링크를 새 창으로 열기
-                      window.open(doc.data()['link'], '_blank');
+                      window.location.replace(doc.data()['link'], '_blank');
                   } else {
                       console.log("No such document!");
                   }
@@ -42,6 +42,9 @@
               .catch((error) => {
                   console.log("Error getting document:", error);
               });
+      }
+      function openStoreLink() {
+        window.location.replace("store.html");
       }
       // Firestore에서 링크 가져오기
       function openMediaContent() {
@@ -59,7 +62,21 @@
                   console.log("Error getting document:", error);
               });
       }
+      // Firestore에서 링크 가져오기
+    async function openGoodsContent() {
+        var control = await DB.collection('mediaLinks').doc('showgoods').get()
+        if (control.exists) {
+            document.getElementById('goods_description1').textContent = control.data()['description'][0];
+            document.getElementById('goods_description2').textContent = control.data()['description'][1];
+            document.getElementById('goods_img1').src = control.data()['img_link'][0];
+            document.getElementById('goods_img2').src = control.data()['img_link'][1];
+        } else {
+            console.log("No such document!");
+        }
+            
+      }
       window.onload = openMediaContent();
+      window.onload = openGoodsContent();
 
     </script>
 </head>
@@ -114,6 +131,29 @@
         </div>
     </div>
 
+    <div id="store" style="padding-left: 50px; padding-right: 50px; text-align: center;">
+        <h2 class="logo-text black">Store</h2>
+    
+        <div id="app" class="news-grid super-vision" width="100%" style="margin-top: 10px; align-items: center;">
+            
+            <div style="flex-direction: column;">
+                <img id="goods_img1" src="esset/angrycushion.png" alt="" width="80%" style="border-radius: 50px; background-color: #f6f6f6; padding: 20px;">
+                <p id="goods_description1" class="black">굳즈 1</p>
+            </div>
+            <div style="flex-direction: column;" class="mobile-none">
+                <img id="goods_img2" src="esset/angrycushion.png" alt="" width="80%" style="border-radius: 50px; background-color: #f6f6f6; padding: 20px;">
+                <p id="goods_description2" class="black">굳즈 2</p>
+            </div>
+            <div style="width: 100%; text-align: left">
+                <h1 class="vision-text black">각설탕엔터테인먼트 응원하고 굳즈 받는 방법</h1>
+                <p class="black">기획사 입점 문의 : gsugar0fficial@gmail.com</p>
+                <div style=" margin-top: 10px;">
+                    <a><button onclick="openStoreLink()" style="border-radius: 50px; font-size: 20px; padding: 8px;">스토어로 이동</button></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
     
 
     <!-- Contact Us Section (Unchanged) -->
@@ -130,6 +170,10 @@
     </div>
 </body>
 <script>
+    let vision = document.querySelectorAll('.vision-letter')
+    let store = document.querySelectorAll('.super-vision')
+    var repeater = 0
+
     let observer = new IntersectionObserver((e) => {
         console.log("확인")
         e.forEach((vision_letter) => {
@@ -142,12 +186,20 @@
         })
     });
 
-    let vision = document.querySelectorAll('.vision-letter')
-    console.log(vision)
+    let observer_store = new IntersectionObserver((e) => {
+        console.log("확인super")
+        e.forEach((vision_letter) => {
+            if (vision_letter.isIntersecting) {
+                vision_letter.target.style.opacity = 1;
+                vision_letter.target.style.transform = "translateX(0px)";
+
+            } else {}
+        })
+    });
+
     observer.observe(vision[0]);
     observer.observe(vision[1]);
-    observer.observe(vision[2]);
-    observer.observe(vision[3]);
+    observer_store.observe(store[0]);
 </script>
 
 </html>

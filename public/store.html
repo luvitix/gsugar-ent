@@ -64,6 +64,9 @@
                 console.log("Error getting document:", error);
             });
         }
+        function openMyPage() {
+            window.location.replace("mypage.html")
+        }
         window.onload = openMediaContent();
     </script>
 </head>
@@ -74,6 +77,7 @@
 
     <!-- Media Section -->
     <div id="store">
+        <div><button onclick="openMyPage()" style="float: right; font-size: 20px; padding: 8px;">MY PAGE</button></a></div>
         <h2 class="logo-text black">GOODS</h2>
         <div id="storeContent" class="goods-grid black" style="margin-top: 10px;">
             <a href="test">

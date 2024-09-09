@@ -14,6 +14,8 @@ app.get('/:id1', (req, res) => {
         dynamicHtmlPath = path.join(__dirname, 'public', 'funding.html');
     } else if (id1 == "store") {
         dynamicHtmlPath = path.join(__dirname, 'public', 'store.html');
+    } else if (id1 == "mypage") {
+        dynamicHtmlPath = path.join(__dirname, 'public', 'mypage.html');
     } else {
         dynamicHtmlPath = path.join(__dirname, 'public', 'server.html');
     }

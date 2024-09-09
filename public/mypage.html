@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="facebook-domain-verification" content="izww706vitlsjbxq2ue1hxfgugjy92" />
+    <title>GSUGAR ENTERTAINMENT</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="script" href="script.js">
+    <link rel="icon" href="favicon.ico">
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyCbg4hzNgHuHLPPf-p81tOR9NokHUkJEYU",
+            authDomain: "wav-page.firebaseapp.com",
+            projectId: "wav-page",
+            storageBucket: "wav-page.appspot.com",
+            messagingSenderId: "177402832992",
+            appId: "1:177402832992:web:f9e73201becffd901cfb05",
+            measurementId: "G-7LRKNDFK7B"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+
+
+        // Initialize Cloud Firestore and get a reference to the service
+        const DB = firebase.firestore();
+
+        function myinfo() {
+            // id로 요소를 가져와 값 추출
+            var name = document.getElementById('nameInput').value;
+            var instagram = document.getElementById('instagramInput').value;
+
+            // 콘솔에 출력
+            infoSearching(name, instagram)
+        }
+
+        // Firestore에서 정보 가져오기
+        async function infoSearching(id1, id2) {
+            var doc = await DB.collection('ticket').doc('userlist').get();
+            var userlist = doc.data()['userlist']
+            if (doc.exists) {
+                console.log(userlist)
+                if (userlist.includes(id1) == true) {
+                    DB.collection('ticket').doc(id1).get().then((doc1) => {
+                    document.getElementById('nickname').textContent = `${id1}님 | @${doc1.data()['insta_id']}님`
+                    document.getElementById('ticket').textContent = `보유한 티켓 : ${doc1.data()['ticket']}`
+                    });
+                } else if (id1 == "" || id2.length > 0) {
+                    const insta_id_list = []
+                    // 모든 비동기 작업을 처리하기 위한 배열
+                    const promises = userlist.map(async (user) => {
+                        const doc2 = await DB.collection('ticket').doc(user).get();
+                        if (doc2.exists) {
+                            insta_id_list.push(doc2.data()['insta_id']);
+                        }
+                    });
+
+                    // 모든 비동기 작업이 완료될 때까지 기다림
+                    await Promise.all(promises);
+                    console.log(insta_id_list[0], id2)
+                    if (insta_id_list.includes(id2) == true) {
+                        DB.collection('ticket').doc(userlist[insta_id_list.indexOf(id2)]).get().then((doc3) => {
+                        document.getElementById('nickname').textContent = `${userlist[insta_id_list.indexOf(id2)]}님 | ${doc3.data()['insta_id']}님`
+                        document.getElementById('ticket').textContent = `보유한 티켓 : ${doc3.data()['ticket']}`
+                        });
+                    } else {
+                        document.getElementById('nickname').textContent = `${id2}님은 참여 기록이 없어요`
+                        document.getElementById('ticket').textContent = `보유한 티켓 : 0`
+                    }
+                } else {
+                    document.getElementById('nickname').textContent = `${id1}님은 참여 기록이 없어요`
+                    document.getElementById('ticket').textContent = `보유한 티켓 : 0`
+                }
+            }
+                //     // 모든 비동기 작업을 처리할 Promise 배열 생성
+                //     var promises = goodslist.map((item) => {
+                //         return DB.collection('goods').doc(item).get().then((doc1) => {
+                //             if (doc1.exists) {
+                //                 storeContent += `
+                //                     <div><a href="${item}">
+                //                         <img src="${doc1.data()['img_link']}" alt="" width="100%">
+                //                         <h1 class="goods-title black">${doc1.data()['name']}</h1>
+                //                         <p class="goods-content black">${doc1.data()['description']}</p>
+                //                         <h2 class="goods-price black">${doc1.data()['price']}</h2>
+                //                     </a></div>`;
+                //             } else {
+                //                 console.log("No such document!");
+                //             }
+                //         });
+                //     });
+
+                //     // 모든 Promise가 완료된 후에 storeContent 적용
+                //     Promise.all(promises).then(() => {
+                //         document.getElementById('storeContent').innerHTML = storeContent;
+                //     });
+
+                // } else {
+                //     console.log("No such document!");
+                // }
+
+        }
+
+    </script>
+</head>
+<body>
+    <div id="var">
+        <a href="store.html"><h1 class="logo-text white">MY PAGE</h1></a>
+    </div>
+
+    <!-- Media Section -->
+    <div id="store">
+        <div class="container">
+            <div class="mypage-grid">
+                <div class="mobile-searching">
+                    <input type="text" id="nameInput" placeholder="가입한 이름으로 검색하기">
+                    <input type="text" id="instagramInput" placeholder="인스타그램 아이디로 검색하기">
+                </div>
+                <button class="searching-button" onclick="myinfo()" style="font-size: 20px; padding: 8px;">검색하기</button>
+            </div> 
+        </div>
+        
+        <div id="storeContent" class=" black" style="margin-top: 10px; text-align: center;">
+            <h2 class="logo-text black">내 정보</h2>
+            <img id="profile-photo" src="esset/profile.png" alt="">
+            <h1 id="nickname" class="vision-text">이름 | @인스타그램 아이디</h1>
+            <h2 id="ticket">보유한 티켓</h2>
+            </a>
+        </div>
+    </div>
+
+    <!-- Career Section -->
+    <div id="capyright">
+        <p class="white">© GSUGAR ENTERTAINMENT</p>
+    </div>
+</body>
+<script>
+    let observer = new IntersectionObserver((e) => {
+        console.log("확인")
+        e.forEach((vision_letter) => {
+            if (vision_letter.isIntersecting) {
+                vision_letter.target.style.opacity = 1;
+            } else {
+                vision_letter.target.style.opacity = 0;
+            }
+            
+        })
+    });
+
+    let vision = document.querySelectorAll('.vision-letter')
+    console.log(vision)
+    observer.observe(vision[0]);
+    observer.observe(vision[1]);
+    observer.observe(vision[2]);
+    observer.observe(vision[3]);
+</script>
+
+</html>

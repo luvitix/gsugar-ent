@@ -39,6 +39,13 @@ a {
     width: 100%; /* 부모 요소의 너비를 100%로 설정하여 가운데 정렬을 유지 */
 }
 
+input {
+    border-radius: 50px;
+    padding: 7px;
+    font-size: 20px;
+    font-family: 'Pretendard-Regular';
+}
+
 #var {
     background-color: rgb(14, 18, 32);
     margin: -8px;
@@ -148,6 +155,7 @@ a {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 10px;
+    justify-items: center;
 }
 
 .content-box {
@@ -183,11 +191,32 @@ a {
     transition: all 1s;
 }
 
+.super-vision {
+    opacity: 0;
+    transform: translateX(-60px);
+    transition: all 1s;
+}
+
 .goods-grid {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     gap: 10px;
 }
+
+.mypage-grid {
+    display: flex;
+    justify-content: center
+}
+
+.searching-button {
+    border-radius: 50px;
+    margin-left: 5px;
+}
+
+#profile-photo {
+    width: 15%;
+}
+
 
 @media (max-width: 900px) {
     .vision-grid {
@@ -233,6 +262,32 @@ a {
     #store {
         padding-left: 7px;
         padding-right: 7px;
+    }
+    .mobile-searching {
+        flex-direction: column;
+    }
+    .mypage-grid{
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 5px;
+        width: 350px;
+    }
+    
+    .searching-button {
+        height: auto;
+        width: 87px;
+        border-radius: 20px;
+    }
+    #profile-photo {
+        width: 40%;
+    }
+    .container {
+        display: flex;
+        justify-content: center;
+        text-align: center;
+    }
+    .mobile-none {
+        display: none;
     }
 }
 
