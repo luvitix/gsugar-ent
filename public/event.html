@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="facebook-domain-verification" content="izww706vitlsjbxq2ue1hxfgugjy92" />
+    <title>GSUGAR ENTERTAINMENT</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="script" href="script.js">
+    <link rel="icon" href="favicon.ico">
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyCbg4hzNgHuHLPPf-p81tOR9NokHUkJEYU",
+            authDomain: "wav-page.firebaseapp.com",
+            projectId: "wav-page",
+            storageBucket: "wav-page.appspot.com",
+            messagingSenderId: "177402832992",
+            appId: "1:177402832992:web:f9e73201becffd901cfb05",
+            measurementId: "G-7LRKNDFK7B"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+
+
+        // Initialize Cloud Firestore and get a reference to the service
+        const DB = firebase.firestore();
+    </script>
+</head>
+<body>
+    <div id="var">
+        <h1 class="logo-text white">EVENT LOUNGE</h1>
+    </div>
+    <div style="position: fixed; background-color: black; color: white; bottom: 0; width: 100%; margin: -8px; text-align: center; display: flex; height: 60px;">
+        <a href="../" class="white">메인<br>Main</a>
+        <a href="store" class="white">스토어<br>Store</a>
+        <a href="event" class="white" style="background-color: blueviolet;">이벤트<br>Event</a>
+        <a href="mypage" class="white">마이페이지<br>MyPage</a>
+    </div>
+    <div id="store">
+        <h2 class="logo-text black" style="height: 65vh;">아직 준비 중이에요!🥺</h2>
+
+    </div>
+        <!-- Career Section -->
+    <div id="capyright" style="margin-bottom: 60px;">
+        <p class="white">© GSUGAR ENTERTAINMENT</p>
+    </div>
+</body>
+</html>

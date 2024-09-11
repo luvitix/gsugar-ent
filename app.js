@@ -16,6 +16,8 @@ app.get('/:id1', (req, res) => {
         dynamicHtmlPath = path.join(__dirname, 'public', 'store.html');
     } else if (id1 == "mypage") {
         dynamicHtmlPath = path.join(__dirname, 'public', 'mypage.html');
+    } else if (id1 == "event") {
+        dynamicHtmlPath = path.join(__dirname, 'public', 'event.html');
     } else {
         dynamicHtmlPath = path.join(__dirname, 'public', 'server.html');
     }
@@ -32,6 +34,23 @@ app.get('/:id1', (req, res) => {
         res.status(500).send('Internal Server Error');
     }
 });
+
+// id2가 있는 경우 처리 (예: /event/192)
+app.get('/event/:id2', (req, res) => {
+    const id2 = req.params.id2;
+    const dynamicHtmlPath = path.join(__dirname, 'public', 'event_server.html');
+
+    try {
+        let data = fs.readFileSync(dynamicHtmlPath, 'utf8');
+        // id1을 event로 하드코딩하고, id2 동적 삽입
+        let dynamicHtml = data.replace(/{{id1}}/g, 'event').replace(/{{id2}}/g, id2);
+        res.send(dynamicHtml);
+    } catch (err) {
+        console.error('파일을 읽는 중 오류 발생:', err);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
