@@ -3,6 +3,12 @@
   publish = "public"
 
 [[redirects]]
+  from = "/event"
+  to = "/event.html"
+  status = 200
+  force = true
+
+[[redirects]]
   from = "/event/*"
   to = "/event_server.html"
   status = 200
