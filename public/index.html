@@ -43,9 +43,6 @@
                   console.log("Error getting document:", error);
               });
       }
-      function openStoreLink() {
-        window.location.replace("store.html");
-      }
       // Firestore에서 링크 가져오기
       function openMediaContent() {
           DB.collection('mediaLinks').doc('mediaButtonLink')
@@ -110,27 +107,12 @@
             <div class="white vision-left">
                 <h1 class="vision-text">K-POP을 바꿀 팬덤 플랫폼</h1>
                 <div style=" margin-top: 40px;">
-                    <a href="funding.html"><button style="border-style: solid; border-color: aliceblue; border-radius: 50px; font-size: 20px; padding: 8px;">프로젝트에 참가하기</button></a>
+                    <a href="funding"><button style="border-style: solid; border-color: aliceblue; border-radius: 50px; font-size: 20px; padding: 8px;">프로젝트에 참가하기</button></a>
                 </div>
             </div>
         </div>
     </div>
         
-    <div id="media">
-        <h2 class="logo-text white">MEDIA</h2>
-    
-        <div id="app" class="vision-grid" style="margin-top: 10px;">
-            
-            <img id="artimage" src="esset/pr_image.png" alt="" width="100%">
-            <div class="white vision-left">
-                <h1 id="arti" class="vision-text">1</h1>
-                <div style=" margin-top: 40px;">
-                    <a><button onclick="openMediaLink()" style="border-style: solid; border-color: aliceblue; border-radius: 50px; font-size: 20px; padding: 8px;">아티클 보러가기</button></a>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <div id="store" style="padding-left: 50px; padding-right: 50px; text-align: center;">
         <h2 class="logo-text black">Store</h2>
     
@@ -148,13 +130,26 @@
                 <h1 class="vision-text black">각설탕엔터테인먼트 응원하고 굳즈 받는 방법</h1>
                 <p class="black">기획사 입점 문의 : gsugar0fficial@gmail.com</p>
                 <div style=" margin-top: 10px;">
-                    <a><button onclick="openStoreLink()" style="border-radius: 50px; font-size: 20px; padding: 8px;">스토어로 이동</button></a>
+                    <a href="store"><button style="border-radius: 50px; font-size: 20px; padding: 8px;">스토어로 이동</button></a>
                 </div>
             </div>
         </div>
     </div>
 
+    <div id="media">
+        <h2 class="logo-text white">MEDIA</h2>
     
+        <div id="app" class="vision-grid" style="margin-top: 10px;">
+            
+            <img id="artimage" src="esset/pr_image.png" alt="" width="100%">
+            <div class="white vision-left">
+                <h1 id="arti" class="vision-text">1</h1>
+                <div style=" margin-top: 40px;">
+                    <a><button onclick="openMediaLink()" style="border-style: solid; border-color: aliceblue; border-radius: 50px; font-size: 20px; padding: 8px;">아티클 보러가기</button></a>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Contact Us Section (Unchanged) -->
     <div id="contact">

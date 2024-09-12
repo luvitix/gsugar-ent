@@ -8,6 +8,60 @@
     <link rel="stylesheet" href="style.css">
     <link rel="script" href="script.js">
     <link rel="icon" href="favicon.ico">
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyCbg4hzNgHuHLPPf-p81tOR9NokHUkJEYU",
+            authDomain: "wav-page.firebaseapp.com",
+            projectId: "wav-page",
+            storageBucket: "wav-page.appspot.com",
+            messagingSenderId: "177402832992",
+            appId: "1:177402832992:web:f9e73201becffd901cfb05",
+            measurementId: "G-7LRKNDFK7B"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+
+
+        // Initialize Cloud Firestore and get a reference to the service
+        const DB = firebase.firestore();
+
+      // Firestore에서 링크 가져오기
+      function openMediaLink() {
+          DB.collection('mediaLinks').doc('careerButtonLink')
+              .get()
+              .then((doc) => {
+                  if (doc.exists) {
+                      // Firestore에서 가져온 링크를 새 창으로 열기
+                      window.location.replace(doc.data()['link'], '_blank');
+                  } else {
+                      console.log("No such document!");
+                  }
+              })
+              .catch((error) => {
+                  console.log("Error getting document:", error);
+              });
+      }
+
+      // Firestore에서 링크 가져오기
+      function openMediaContent() {
+          DB.collection('mediaLinks').doc('careerButtonLink')
+              .get()
+              .then((doc) => {
+                  if (doc.exists) {
+                      // Firestore에서 가져온 링크를 새 창으로 열기
+                      document.getElementById('career_img').src = doc.data()['image'];
+                  } else {
+                      console.log("No such document!");
+                  }
+              })
+              .catch((error) => {
+                  console.log("Error getting document:", error);
+              });
+      }
+      window.onload = openMediaContent();
+    </script>
 </head>
 <body>
     <div id="var">
@@ -23,7 +77,7 @@
             <div class="white vision-left">
                 <h1 class="vision-text">K-POP을 바꿀 팬덤 플랫폼</h1>
                 <div style=" margin-top: 40px;">
-                    <a href="funding.html"><button style="border-style: solid; border-color: aliceblue; border-radius: 50px; font-size: 20px; padding: 8px;">프로젝트에 참가하기</button></a>
+                    <a href="https://www.instagram.com/p/C8RlqZBvV-o/"><button style="border-style: solid; border-color: aliceblue; border-radius: 50px; font-size: 20px; padding: 8px;">더 알아보기</button></a>
                 </div>
             </div>
         </div>
@@ -40,7 +94,7 @@
                 <h1 class="vision-text">굳즈 구입으로 도와주기</h1>
                 <p>굳즈 판매 금액은 직원 월급와 앱 개발 및 마케팅 비용으로 사용됩니다.</p>
                 <div style=" margin-top: 40px;">
-                    <a href="store.html"><button style="border-style: solid; border-color: aliceblue; border-radius: 50px; font-size: 20px; padding: 8px;">스토어로 이동</button></a>
+                    <a href="store"><button style="border-style: solid; border-color: aliceblue; border-radius: 50px; font-size: 20px; padding: 8px;">스토어로 이동</button></a>
                 </div>
         </div></div>
         <p style="border-style: solid; border-left: none; border-right: none;"></p>
@@ -51,15 +105,31 @@
                 <h1 class="vision-text">크라우드펀딩</h1>
                 <p>준비 중입니다.</p>
                 <div style=" margin-top: 40px;">
-                    <a href="funding.html"><button style="border-style: solid; border-color: aliceblue; border-radius: 50px; font-size: 20px; padding: 8px;">펀딩하기</button></a>
+                    <a href="funding"><button style="border-style: solid; border-color: aliceblue; border-radius: 50px; font-size: 20px; padding: 8px;">펀딩하기</button></a>
                 </div>
         </div></div>
             
         </div>
+  
+    <!-- Career Section -->
+    <div id="career">
+        <h2 class="logo-text white">CAREER</h2>
+        <p class="white">GSUGAR ENTERTAINMENT의 팬 플랫폼을 직접 만들어보세요.</p>
+        <div id="app" class="vision-grid" style="margin-top: 10px;">
+            
+            <img id="career_img" src="esset/pr_image.png" alt="" width="100%">
+            <div class="white vision-left">
+                <h1 id="arti" class="vision-text">Product Owner 채용 중</h1>
+                <p>우대 사항1 : 다양한 아이돌 덕질 경험이 있는 분<br>우대 사항2 : 웹/앱 등 IT개발 경험이 있는 분</p>
+                <div style=" margin-top: 30px;">
+                    <a><button onclick="openMediaLink()" style="border-style: solid; border-color: aliceblue; border-radius: 50px; font-size: 20px; padding: 8px;">채용 공고</button></a>
+                </div>
+            </div>
+        </div>
     </div>
 
 
-    <!-- Career Section -->
+    <!-- Section -->
     <div id="capyright">
         <p class="white">© GSUGAR ENTERTAINMENT</p>
     </div>
@@ -79,9 +149,5 @@
 
     let vision = document.querySelectorAll('.vision-letter')
     console.log(vision)
-    observer.observe(vision[0]);
-    observer.observe(vision[1]);
-    observer.observe(vision[2]);
-    observer.observe(vision[3]);
 </script>
 </html>
