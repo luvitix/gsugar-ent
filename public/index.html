@@ -51,6 +51,7 @@
                   if (doc.exists) {
                       // Firestore에서 가져온 링크를 새 창으로 열기
                       document.getElementById('arti').textContent = doc.data()['media'];
+                      document.getElementById('artimage').src = doc.data()['image'];
                   } else {
                       console.log("No such document!");
                   }
