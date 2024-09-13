@@ -244,6 +244,9 @@ input {
     align-items: center;
     margin: 8px;
 }
+.event_button {
+    margin-left: 8px;
+}
 
 
 @media (max-width: 900px) {
@@ -336,6 +339,9 @@ input {
     }
     .event_title {
         font-size: 24px;
+    }
+    .event_button {
+        margin: 0;
     }
 }
 
