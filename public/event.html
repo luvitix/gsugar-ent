@@ -32,6 +32,7 @@
                 if (doc.exists) {
                     // Firestore에서 가져와서 HTML만들기
                     var event_list = doc.data()['event_list']
+                    var event_end = doc.data()['event_end']
                     var event_contents = ""
                     // 모든 비동기 작업을 처리할 Promise 배열 생성
                     var promises = event_list.map((item) => {
@@ -54,6 +55,56 @@
                     // 모든 Promise가 완료된 후에 storeContent 적용
                     Promise.all(promises).then(() => {
                         document.getElementById('event_tag').innerHTML = event_contents;
+                        document.getElementById('event_list_now').innerHTML = `
+                        <div style="margin: 8px; text-align: center; display: flex; ">
+                            <h2 class="event_select" style=" color: white; background-color: blueviolet;">진행중 ( ${event_list.length} )</h2>
+                            <h2 class="event_select" onclick="openEndEvent()">종료 ( ${event_end.length} )</h2>
+                        </div>`
+                    });
+
+                } else {
+                    console.log("No such document!");
+                }
+            })
+            .catch((error) => {
+                console.log("Error getting document:", error);
+            });
+        }
+
+        // Firestore에서 정보 가져오기
+        function openEndEvent() {
+            DB.collection('mediaLinks').doc('showEvent').get().then((doc) => {
+                if (doc.exists) {
+                    // Firestore에서 가져와서 HTML만들기
+                    var event_list = doc.data()['event_list']
+                    var event_end = doc.data()['event_end']
+                    var event_contents = ""
+                    // 모든 비동기 작업을 처리할 Promise 배열 생성
+                    var promises = event_end.map((item) => {
+                        return DB.collection('event').doc(item).get().then((doc1) => {
+                            if (doc1.exists) {
+                                event_contents += `
+                                    <div id="event_tag" class="event_control" style="background-color: #f6f6f6;">
+                                        <img class="event_image" src="${doc1.data()['img_link']}" alt="">
+                                        <a href="/event/${item}" class="event_button">
+                                            <h1 class="event_title">${doc1.data()['title']}</h1>
+                                            <p>주최 : ${doc1.data()['host']}</p>
+                                        </a>
+                                    </div>`;
+                            } else {
+                                console.log("No such document!");
+                            }
+                        });
+                    });
+
+                    // 모든 Promise가 완료된 후에 storeContent 적용
+                    Promise.all(promises).then(() => {
+                        document.getElementById('event_tag').innerHTML = event_contents;
+                        document.getElementById('event_list_now').innerHTML = `
+                        <div style="margin: 8px; text-align: center; display: flex; ">
+                            <h2 class="event_select" onclick="openMediaContent()">진행중 ( ${event_list.length} )</h2>
+                            <h2 class="event_select" style="color: white; background-color: blueviolet;">종료 ( ${event_end.length} )</h2>
+                        </div>`
                     });
 
                 } else {
@@ -69,7 +120,7 @@
 </head>
 <body>
     <div id="var">
-        <h1 class="logo-text white">EVENT LOUNGE</h1>
+        <h1 class="logo-text white">EVENT</h1>
     </div>
     <div style="position: fixed; background-color: black; color: white; bottom: 0; width: 100%; margin: -8px; text-align: center; display: flex; height: 70px;">
         <a href="../" class="whiteNpadding">메인<br>Main</a>
@@ -78,7 +129,13 @@
         <a href="mypage" class="whiteNpadding">마이페이지<br>MyPage</a>
     </div>
     <div id="store">
-        <h2 class="logo-text black">아직 준비 중이에요!🥺</h2>
+        <!-- <h2 class="logo-text black">아직 준비 중이에요!🥺</h2> -->
+        <div id="event_list_now">
+            <div style="color: white; margin: 8px; text-align: center; display: flex; ">
+                <button style="background-color: black; display: inline-block; width: 100%; font-size: 18px;">진행중<br>( 517,523 )</a>
+                <button style="background-color: blueviolet; display: inline-block; width: 100%; font-size: 18px;">종료<br>( 21,146,489 )</a>
+            </div>
+        </div>
         <div id="event_tag">
             <div class="event_control" style="background-color: #f6f6f6;">
                 <img class="event_image" src="https://mblogthumb-phinf.pstatic.net/MjAyNDA5MTRfMTg4/MDAxNzI2MjM5OTAwOTI2.85rhl9Vt7vHbHQ2Sn-rYtkPJ6IkTc92mTepjPulFH0sg.DDdLL8JsAxAHJbg2WkRoPgcc6_RcUCV_-LshrHGXCTwg.PNG/%25EC%25B6%2594%25EC%2584%259D.png?type=w966" alt="">
