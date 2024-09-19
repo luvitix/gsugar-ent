@@ -35,7 +35,7 @@
                     var event_end = doc.data()['event_end']
                     var event_contents = ""
                     // 모든 비동기 작업을 처리할 Promise 배열 생성
-                    var promises = event_list.map((item) => {
+                    var promises = event_list.reverse().map((item) => {
                         return DB.collection('event').doc(item).get().then((doc1) => {
                             if (doc1.exists) {
                                 event_contents += `

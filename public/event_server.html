@@ -23,9 +23,26 @@
         // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
 
-
         // Initialize Cloud Firestore and get a reference to the service
         const DB = firebase.firestore();
+
+        var currentUrl = window.location.href;
+        var id2 = currentUrl.substring(currentUrl.lastIndexOf('/') + 1);
+        console.log(id2)
+
+        //이벤트 세부사항을 불러오는 함수
+        async function openMediaContent() {
+            event_detail = await DB.collection('event').doc(id2).get()
+            
+            document.getElementById('event_image_id').src = event_detail.data()['img_link'];
+            document.getElementById('event_title_id').textContent = event_detail.data()['title'];
+            document.getElementById('event_host').textContent = `주최 : ${event_detail.data()['host']}`;
+            document.getElementById('event_period').textContent = event_detail.data()['period'];
+            document.getElementById('event_reward').textContent = event_detail.data()['reward'];
+            document.getElementById('event_method').innerHTML = event_detail.data()['method'];
+            document.getElementById('event_alert').textContent = event_detail.data()['alert'];
+        }
+        window.onload = openMediaContent()
     </script>
 </head>
 <body>
@@ -37,32 +54,36 @@
     <div id="store">
         <div id="event_tag">
             <div class="event_control" style="background-color: #f6f6f6;">
-                <img id="" class="event_image" src="https://mblogthumb-phinf.pstatic.net/MjAyNDA5MTRfMTg4/MDAxNzI2MjM5OTAwOTI2.85rhl9Vt7vHbHQ2Sn-rYtkPJ6IkTc92mTepjPulFH0sg.DDdLL8JsAxAHJbg2WkRoPgcc6_RcUCV_-LshrHGXCTwg.PNG/%25EC%25B6%2594%25EC%2584%259D.png?type=w966" alt="">
+                <img id="event_image_id" class="event_image" src="../esset/error.png" alt="">
                 <div style="margin-left: 8px;">
-                    <h1 class="event_title">추석 기념 문화상품권 이벤트</h1>
-                    <p>주최 : GSUGAR Ent.</p>
+                    <h1 id="event_title_id" class="event_title">추석 기념 문화상품권 이벤트</h1>
+                    <p id="event_host">주최 : GSUGAR Ent.</p>
                 </div>
             </div>
             <div class="event_notice" style="background-color: #f6f6f6;">
                 <div class="event_detail">
                     <h1 class="event_title" style="width: 170px; text-align: center;">응모 기간</h1>
-                    <p>2024년 9월 9일 ~ 2024년 10월 9일 23:50 PM</p>
+                    <p id="event_period">2024년 9월 10일 ~ 2024년 10월 10일 23:50 PM</p>
                 </div>
                 <div class="event_detail">
                     <h1 class="event_title" style="width: 170px; text-align: center;">응모 방법</h1>
-                    <p>각설탕엔터테인먼트 굳즈 구입 및 컨텐츠 참여로 티켓 획득 후 네이버폼으로 응모할 티켓 개수 입력 (*수정 가능)<br>링크 준비 중</p>
+                    <p id="event_method">각설탕엔터테인먼트 굳즈 구입 및 컨텐츠 참여로 티켓 획득 후 네이버폼으로 응모할 티켓 개수 입력 (*수정 가능)<br>링크 준비 중</p>
+                </div>
+                <div class="event_detail">
+                    <h1 class="event_title" style="width: 170px; text-align: center;">증정 상품</h1>
+                    <p id="event_reward">문화상품권 100,000원 권</p>
                 </div>
                 <div class="event_detail">
                     <h1 class="event_title" style="width: 170px; text-align: center;">티켓 획득처</h1>
-                    <p>각설탕스토어 : gsugar-ent.netlify.app/store<br>(구매 후 인스타그램 @gsugar_entertainment로 인증샷 전송)</p>
+                    <p id="event_ticket">각설탕스토어 : gsugar-ent.netlify.app/store<br>(구매 후 인스타그램 @gsugar_entertainment로 인증샷 전송)</p>
                 </div>
                 <div class="event_detail">
                     <h1 class="event_title" style="width: 170px; text-align: center;">당첨자 발표</h1>
-                    <p>2024년 10월 10일<br>(인스타그램 @gsugar_entertainment에서 발표)</p>
+                    <p id="event_alert">2024년 10월 11일<br>(인스타그램 @gsugar_entertainment에서 발표)</p>
                 </div>
                 <div class="event_detail">
                     <h1 class="event_title" style="width: 170px; text-align: center;">문의</h1>
-                    <p>인스타그램 @gsugar_entertainment DM을 통해 궁금한 내용 혹은 피드백을 주시면 감사하겠습니다!</p>
+                    <p id="event_question">인스타그램 @gsugar_entertainment DM을 통해 궁금한 내용 혹은 피드백을 주시면 감사하겠습니다!</p>
                 </div>
             </div>
             <div></div>
