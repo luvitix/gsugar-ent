@@ -259,7 +259,16 @@ input {
     color: blueviolet;
     background-color: #f6f6f6;
 }
-
+.event_notice {
+    display: flex;
+    flex-direction: column;
+    margin: 8px;
+}
+.event_detail {
+    display: flex;
+    align-items: center;
+    margin-left: 8px;
+}
 
 @media (max-width: 900px) {
     .vision-grid {
@@ -353,6 +362,11 @@ input {
         font-size: 24px;
     }
     .event_button {
+        margin: 0;
+    }
+    .event_detail {
+        display: flex;
+        flex-direction: column;
         margin: 0;
     }
 }
