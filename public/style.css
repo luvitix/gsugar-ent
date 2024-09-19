@@ -269,6 +269,19 @@ input {
     align-items: center;
     margin-left: 8px;
 }
+#buy_button {
+    background-color: blueviolet;
+    color: #f6f6f6;
+    border-radius: 10px; 
+    font-size: 20px; 
+    padding: 8px; 
+    width: 100%;
+    text-align: center;
+}
+#buy_button:hover {
+    cursor: pointer;
+    background-color: black;
+}
 
 @media (max-width: 900px) {
     .vision-grid {
