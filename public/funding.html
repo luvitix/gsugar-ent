@@ -45,6 +45,23 @@
       }
 
       // Firestore에서 링크 가져오기
+      function openMediaLink2() {
+          DB.collection('mediaLinks').doc('platformButtonLink')
+              .get()
+              .then((doc) => {
+                  if (doc.exists) {
+                      // Firestore에서 가져온 링크를 새 창으로 열기
+                      window.location.replace(doc.data()['link'], '_blank');
+                  } else {
+                      console.log("No such document!");
+                  }
+              })
+              .catch((error) => {
+                  console.log("Error getting document:", error);
+              });
+      }
+
+      // Firestore에서 링크 가져오기
       function openMediaContent() {
           DB.collection('mediaLinks').doc('careerButtonLink')
               .get()
@@ -77,7 +94,7 @@
             <div class="white vision-left">
                 <h1 class="vision-text">K-POP을 바꿀 팬덤 플랫폼</h1>
                 <div style=" margin-top: 40px;">
-                    <a href="https://www.instagram.com/p/C8RlqZBvV-o/"><button style="border-style: solid; border-color: aliceblue; border-radius: 50px; font-size: 20px; padding: 8px;">더 알아보기</button></a>
+                    <a><button onclick="openMediaLink2()" style="border-style: solid; border-color: aliceblue; border-radius: 50px; font-size: 20px; padding: 8px;">더 알아보기</button></a>
                 </div>
             </div>
         </div>
