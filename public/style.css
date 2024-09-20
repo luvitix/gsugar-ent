@@ -283,6 +283,22 @@ input {
     background-color: black;
 }
 
+.login_button_class {
+    background-color: blueviolet;
+    color: #f6f6f6;
+    border-radius: 10px; 
+    font-size: 20px; 
+    padding: 8px;
+    margin: 5px; 
+    width: 60%;
+    text-align: center;
+}
+
+.login_button_class:hover {
+    cursor: pointer;
+    background-color: black;
+}
+
 @media (max-width: 900px) {
     .vision-grid {
         grid-template-columns: repeat(1, 1fr);
@@ -381,6 +397,15 @@ input {
         display: flex;
         flex-direction: column;
         margin: 0;
+    }
+    #buy_button {
+        position: fixed;
+        bottom: 0;
+        margin: 8px;
+        margin-bottom: 16px;
+        font-size: 24px;
+        height: 40px;
+        align-content: center;
     }
 }
 

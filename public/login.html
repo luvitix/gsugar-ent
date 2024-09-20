@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="facebook-domain-verification" content="izww706vitlsjbxq2ue1hxfgugjy92" />
+    <title>GSUGAR ENTERTAINMENT</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="script" href="script.js">
+    <link rel="icon" href="favicon.ico">
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <script>
+        function loginInputOpen(type) {
+            window.location.replace(type)
+        }
+
+    </script>
+</head>
+<body>
+    <div id="var">
+        <a href="store.html"><h1 class="logo-text white">MY PAGE</h1></a>
+    </div>
+
+    <!-- Media Section -->
+    <div id="store">
+        
+        <div id="storeContent" class=" black" style="margin-top: 10px; text-align: center; display: flex; flex-direction: column; align-items: center;">
+            <img id="profile-photo" src="esset/profile.png" alt="">
+            <a class="login_button_class" onclick="loginInputOpen('https:/\/naver.me/GkRIclxQ')" style="color: #f6f6f6;">로그인</a>
+            <a class="login_button_class" onclick="loginInputOpen('https:/\/naver.me/FSwxkgxi')" style="color: #f6f6f6;">기획사/아티스트 로그인</a>
+        </div>
+    </div>
+
+    <!-- Career Section -->
+    <div id="capyright">
+        <p class="white">© GSUGAR ENTERTAINMENT</p>
+    </div>
+
+</html>

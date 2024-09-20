@@ -18,6 +18,8 @@ app.get('/:id1', (req, res) => {
         dynamicHtmlPath = path.join(__dirname, 'public', 'mypage.html');
     } else if (id1 == "event") {
         dynamicHtmlPath = path.join(__dirname, 'public', 'event.html');
+    } else if (id1 == "login") {
+        dynamicHtmlPath = path.join(__dirname, 'public', 'login.html');
     } else {
         dynamicHtmlPath = path.join(__dirname, 'public', 'server.html');
     }

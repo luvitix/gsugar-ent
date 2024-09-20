@@ -62,6 +62,9 @@
                       document.getElementById('description').innerHTML = doc.data()['description'];
                       document.getElementById('price').textContent = doc.data()['price'];
                       document.getElementById('goodsimage').src = `${doc.data()['img_link']}`;
+                      document.getElementById('extra_title').textContent = `${doc.data()['extra_title']}`;
+                      document.getElementById('extra_description').textContent = `${doc.data()['extra_description']}`;
+                      document.getElementById('extra_description_img').src = `${doc.data()['extra_img_link']}`;
                   } else {
                       console.log("No such document!");
                   }
@@ -88,10 +91,16 @@
                 <h1 id="goodsname" class="vision-text">굳즈 이름</h1>
                 <p id="description">설명</p>
                 <h2 id="price">가격</h2>
-                <div style=" margin-top: 40px;">
-                    <div id="buy_button" onclick="openMediaLink(id1)" style="color: #f6f6f6;">구매하기</button>
+                <div style=" margin-top: 40px; display: flex; justify-content: center;">
+                    <div id="buy_button" onclick="openMediaLink(id1)" style="color: #f6f6f6; width: 80%;">구매하기</div>
                 </div>
             </div>
+        </div>
+        <div class="event_notice" style="background-color: #f6f6f6;">
+            <h1 class="event_title" style="width: 100%; text-align: center;">세부사항</h1>
+            <h3 id="extra_title"></h3>
+            <p id="extra_description" style="margin-top: -10px;"></p>
+            <img id="extra_description_img" src="" alt="">
         </div>
     </div> 
 
