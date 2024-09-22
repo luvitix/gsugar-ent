@@ -82,7 +82,7 @@
                     // 모든 비동기 작업을 처리할 Promise 배열 생성
                     var promises = event_end.map((item) => {
                         return DB.collection('event').doc(item).get().then((doc1) => {
-                            if (doc1.exists) {
+                            if (doc1.exists) { //
                                 event_contents += `
                                     <div id="event_tag" class="event_control" style="background-color: #f6f6f6;">
                                         <a href="/event/${item}" class="event_button">
