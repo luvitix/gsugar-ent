@@ -41,6 +41,13 @@
             document.getElementById('event_reward').textContent = event_detail.data()['reward'];
             document.getElementById('event_method').innerHTML = event_detail.data()['method'];
             document.getElementById('event_alert').textContent = event_detail.data()['alert'];
+            document.getElementById('extra_title').textContent = `${event_detail.data()['extra_title']}`;
+            document.getElementById('extra_description').innerHTML = `${event_detail.data()['extra_description']}`;
+            var extra_img = ""
+            for (var i = 0; i < event_detail.data()['extra_img_link'].length; i++) {
+                extra_img += `<img src="${event_detail.data()['extra_img_link'][i]}" class="extra_img">`
+            }
+            document.getElementById('extra_description_img').innerHTML = extra_img;
         }
         window.onload = openMediaContent()
     </script>
@@ -50,7 +57,7 @@
         <h1 style="position: absolute; left: 0;"><a href="../event" class="white">◁ </a></h1>
         <h1 class="logo-text white" style=" text-align: center;">EVENT 상세보기</h1>
     </div>
-    <div style="background-color: #f6f6f6; margin: -8px; padding-top: 10vh; height: 13vh; text-align: center; font-size: 32px;"> 공사 중입니다🏗️</div>
+    
     <div id="store">
         <div id="event_tag">
             <div class="event_control" style="background-color: #f6f6f6;">
@@ -88,8 +95,9 @@
             </div>
             <div class="event_notice" style="background-color: #f6f6f6;">
                 <h1 class="event_title" style="width: 100%; text-align: center;">세부사항</h1>
-                <p id="extra_description"></p>
-                <img id="extra_description_img" src="" alt="">
+                <h3 id="extra_title"></h3>
+                <p id="extra_description" style="margin-top: -10px;"></p>
+                <div id="extra_description_img"></div>
             </div>
         </div>
     </div>
