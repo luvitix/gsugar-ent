@@ -53,7 +53,7 @@
         }
             // Firestore에서 정보 가져오기
         function openMediaContent() {
-          DB.collection('goods').doc(id1)
+        DB.collection('goods').doc(id1)
               .get()
               .then((doc) => {
                   if (doc.exists) {
@@ -64,7 +64,11 @@
                       document.getElementById('goodsimage').src = `${doc.data()['img_link']}`;
                       document.getElementById('extra_title').textContent = `${doc.data()['extra_title']}`;
                       document.getElementById('extra_description').textContent = `${doc.data()['extra_description']}`;
-                      document.getElementById('extra_description_img').src = `${doc.data()['extra_img_link']}`;
+                      var extra_img = ""
+                      for (var i = 0; i < doc.data()['extra_img_link'].length; i++) {
+                        extra_img += `<img src="${doc.data()['extra_img_link'][i]}" class="extra_img">`
+                      }
+                      document.getElementById('extra_description_img').innerHTML = extra_img;
                   } else {
                       console.log("No such document!");
                   }
@@ -96,11 +100,11 @@
                 </div>
             </div>
         </div>
-        <div class="event_notice" style="background-color: #f6f6f6;">
+        <div class="event_notice" style="background-color: #f6f6f6; margin: 0; padding: 8px;">
             <h1 class="event_title" style="width: 100%; text-align: center;">세부사항</h1>
             <h3 id="extra_title"></h3>
             <p id="extra_description" style="margin-top: -10px;"></p>
-            <img id="extra_description_img" src="" alt="">
+            <div id="extra_description_img"></div>
         </div>
     </div> 
 

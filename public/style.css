@@ -298,6 +298,12 @@ input {
     cursor: pointer;
     background-color: black;
 }
+.extra_img {
+    width: 50%;
+    display: block;  /* 이미지가 block 요소처럼 동작 */
+    margin: 0 auto;  /* 가로 가운데 정렬 */
+    text-align: center;  /* 이미지 안의 텍스트가 아니라, 이미지를 가운데 정렬 */
+}
 
 @media (max-width: 900px) {
     .vision-grid {
@@ -406,6 +412,10 @@ input {
         font-size: 24px;
         height: 40px;
         align-content: center;
+    }
+    .extra_img {
+        width: 100%;
+        text-align: center;
     }
 }
 
