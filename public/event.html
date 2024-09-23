@@ -41,8 +41,10 @@
                                 event_contents += `
                                     <div id="event_tag" class="event_control" style="background-color: #f6f6f6;">
                                         
+                                        <a href="/event/${item}" class="event_image">
+                                            <img src="${doc1.data()['img_link']}" alt="" width="100%">
+                                        </a>
                                         <a href="/event/${item}" class="event_button">
-                                            <img class="event_image" src="${doc1.data()['img_link']}" alt="">
                                             <h1 class="event_title">${doc1.data()['title']}</h1>
                                             <p>주최 : ${doc1.data()['host']}</p>
                                         </a>
