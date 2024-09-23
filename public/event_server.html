@@ -27,7 +27,8 @@
         const DB = firebase.firestore();
 
         var currentUrl = window.location.href;
-        var id2 = currentUrl.substring(currentUrl.lastIndexOf('/') + 1);
+        var id2_ready = currentUrl.substring(currentUrl.lastIndexOf('/') + 1);
+        var id2 = id1_ready.substring(0, 10);
         console.log(id2)
 
         //이벤트 세부사항을 불러오는 함수
