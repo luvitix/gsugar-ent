@@ -43,23 +43,45 @@
                   console.log("Error getting document:", error);
               });
       }
-      // Firestore에서 링크 가져오기
-      function openMediaContent() {
-          DB.collection('mediaLinks').doc('mediaButtonLink')
-              .get()
-              .then((doc) => {
-                  if (doc.exists) {
-                      // Firestore에서 가져온 링크를 새 창으로 열기
-                      document.getElementById('arti').textContent = doc.data()['media'];
-                      document.getElementById('artimage').src = doc.data()['image'];
-                  } else {
-                      console.log("No such document!");
-                  }
-              })
-              .catch((error) => {
-                  console.log("Error getting document:", error);
-              });
-      }
+        // Firestore에서 정보 가져오기
+        function openMediaContent() {
+            DB.collection('mediaLinks').doc('mediaButtonLink').get().then((doc) => {
+                if (doc.exists) {
+                    // Firestore에서 가져와서 HTML만들기
+                    var medialist = doc.data()['list']
+                    var storeContent = ""
+                    // 모든 비동기 작업을 처리할 Promise 배열 생성
+                    var promises = medialist.reverse().map((item) => {
+                        return DB.collection('media').doc(item).get().then((doc1) => {
+                            if (doc1.exists) {
+                                storeContent += `
+                                <div class="white">
+                                    <img id="artimage" src="${doc1.data()['image']}" alt="" width="100%">
+                                    <h1 id="arti" class="vision-text">${doc1.data()['media']}</h1>
+                                    <div>
+                                        <a href=${doc1.data()['link']}><button style="border-style: solid; border-color: aliceblue; border-radius: 50px; font-size: 20px; padding: 8px;">아티클 보러가기</button></a>
+                                    </div>
+                                </div>`;
+                            } else {
+                                console.log("No such document!");
+                            }
+                        });
+                    });
+
+                    // 모든 Promise가 완료된 후에 storeContent 적용
+                    Promise.all(promises).then(() => {
+                        document.getElementsByClassName('news-grid')[1].innerHTML = storeContent;
+                    });
+
+                } else {
+                    console.log("No such document!");
+                }
+            })
+            .catch((error) => {
+                console.log("Error getting document:", error);
+            });
+        }
+      
       // Firestore에서 링크 가져오기
     async function openGoodsContent() {
         var control = await DB.collection('mediaLinks').doc('showgoods').get()
@@ -140,12 +162,11 @@
     <div id="media">
         <h2 class="logo-text white">MEDIA</h2>
     
-        <div id="app" class="vision-grid" style="margin-top: 10px;">
-            
-            <img id="artimage" src="esset/pr_image.png" alt="" width="100%">
-            <div class="white vision-left">
+        <div id="app" class="news-grid" style="margin-top: 10px;">
+            <div class="white">
+                <img id="artimage" src="esset/pr_image.png" alt="" width="100%">
                 <h1 id="arti" class="vision-text">1</h1>
-                <div style=" margin-top: 40px;">
+                <div>
                     <a><button onclick="openMediaLink()" style="border-style: solid; border-color: aliceblue; border-radius: 50px; font-size: 20px; padding: 8px;">아티클 보러가기</button></a>
                 </div>
             </div>
