@@ -26,6 +26,30 @@
 
         // Initialize Cloud Firestore and get a reference to the service
         const DB = firebase.firestore();
+
+        function myinfo() {
+        // Get the value from the input field
+        const name = document.getElementById('nameInput').value;
+
+        // Check if input is not empty
+        if (name.trim() !== "") {
+            // Add a new document with the input value to Firestore
+            DB.collection("supporters").add({
+                name: name,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp() // Add a timestamp
+            })
+            .then(() => {
+                alert("응원해주셔서 감사합니다!");
+                document.getElementById('nameInput').value = ""; // Clear the input
+            })
+            .catch((error) => {
+                console.error("Error writing document: ", error);
+            });
+        } else {
+            alert("응원하는 분의 성함을 입력해주세요!");
+        }
+    }
+
     </script>
 </head>
 <body>
@@ -64,6 +88,11 @@
         <h3>작은 로드맵</h3>
         <p>인스타그램(@gsugar_entertainment) 혹은 사내 연락망에 공유</p>
         <p>상시 진행 : 기획사 관계자 인터뷰를 통해 기획사 니즈 파악하기, SNS 및 커뮤니티 활동을 통해 팬들의 니즈 파악하기</p>
+    </div>
+
+    <div id="project">
+        <input type="text" id="nameInput" placeholder="응원하는 사람 성함">
+        <button class="searching-button" onclick="myinfo()" style="padding: 8px;">응원하기</button>
     </div>
 
     <!-- Contact Us Section (Unchanged) -->
