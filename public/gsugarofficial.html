@@ -28,28 +28,60 @@
         const DB = firebase.firestore();
 
         function myinfo() {
-        // Get the value from the input field
-        const name = document.getElementById('nameInput').value;
+            // Get the value from the input field
+            const name = document.getElementById('nameInput').value;
 
-        // Check if input is not empty
-        if (name.trim() !== "") {
-            // Add a new document with the input value to Firestore
-            DB.collection("supporters").add({
-                name: name,
-                timestamp: firebase.firestore.FieldValue.serverTimestamp() // Add a timestamp
-            })
-            .then(() => {
-                alert("응원해주셔서 감사합니다!");
-                document.getElementById('nameInput').value = ""; // Clear the input
-            })
-            .catch((error) => {
-                console.error("Error writing document: ", error);
-            });
-        } else {
-            alert("응원하는 분의 성함을 입력해주세요!");
+            // Check if input is not empty
+            if (name.trim() !== "") {
+                // Add a new document with the input value to Firestore
+                DB.collection("supporters").add({
+                    name: name,
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp() // Add a timestamp
+                })
+                .then(() => {
+                    alert("응원해주셔서 감사합니다!");
+                    document.getElementById('nameInput').value = ""; // Clear the input
+                })
+                .catch((error) => {
+                    console.error("Error writing document: ", error);
+                });
+            } else {
+                alert("응원하는 분의 성함을 입력해주세요!");
+            }
         }
-    }
+        // Firestore에서 정보 가져오기
+        async function openMediaContent() {
+            const doc = await DB.collection('company').doc('detail').get()
+            const doc1 = await DB.collection('company').doc('stocks').get()
+            const doc2 = await DB.collection('company').doc('cash').get()
+                if (doc.exists) {
+                    // Firestore에서 가져와서 HTML만들기
+                    document.getElementById('team').innerHTML = doc.data()['1team'];
+                    document.getElementById('money').innerHTML = doc.data()['2money'];
+                    document.getElementById('project_').innerHTML = doc.data()['3project'];
+                    document.getElementById('level').innerHTML = doc.data()['4level'];
+                    document.getElementById('cash').innerHTML = doc2.data()['cash']
+                    var stocks = doc1.data()['list']
+                    var stockslist = ""
+                    // 모든 비동기 작업을 처리할 Promise 배열 생성
+                    var promises = stocks.map((item) => {
+                        if (doc1.exists) {
+                                stockslist += `${doc1.data()[item]}`;
+                        } else {
+                            console.log("No such document!");
+                        }
+                    });
 
+                    // 모든 Promise가 완료된 후에 storeContent 적용
+                    Promise.all(promises).then(() => {
+                        document.getElementById('finance').innerHTML = stockslist;
+                    });
+                } else {
+                    console.log("No such document!");
+                }
+            
+        }
+        window.onload = openMediaContent();
     </script>
 </head>
 <body>
@@ -62,29 +94,34 @@
         <h2 class="logo-text black">각설탕엔터테인먼트 개요</h2>
         <p>한글명 : 각설탕엔터테인먼트</p>
         <p>영문명 : GSUGAR Ent.</p>
-        <p>팀원 : 1명 (풀타임 1명, 파트타임 0명, 잠정 휴직 : 1명)</p>
-        <p>보유 자금 : 3,567,903원</p>
-        <p>진행 프로젝트 (1개) : 모든 K-POP 팬들의 행복을 위한 팬덤 플랫폼</p>
-        <p>현재 단계 : 엔젤/시드 이전</p>
+        <p id="team">팀원 : 1명 (풀타임 1명, 파트타임 0명)</p>
+        <p>(휴직 중인 팀원은 표기하지 않았습니다)</p>
+        <p id="money">보유 자금 : 3,567,903원</p>
+        <p id="project_">진행 프로젝트 (1개) : 모든 K-POP 팬들의 행복을 위한 팬덤 플랫폼</p>
+        <p id="level">현재 단계 : 엔젤/시드 이전</p>
     </div>
         
     <div id="store">
         <h2 class="logo-text black">로드맵</h2>
-        <h3>큰 로드맵</h3>
-        <p>엔젤/시드 단계 : MVP테스트하기 및 사업 검증 마치기</p>
-        <p>시리즈A 단계 : 음반사 사이트 제작 및 아티스트 입점 시키기</p>
-        <p>시리즈B 단계 : 팬덤 플랫폼 앱 런칭하기</p>
-        <p>시리즈C 단계 : 라이브, 프라이빗 메세지 등 초기 단계에 못 했던 기능들 채워 격차 벌리기</p>
-        <p>시리즈D 단계 : 1등이 되기 위한 노력과 KOSPI에 상장하기</p>
-        <p>IPO 이후 단계 : 주주환원 정책과 성장을 통해 KOSPI 시가총액 기준 최소 10위권에 들어 코리아 디스카운트 해소에 이바지하기</p>
-        <h3>중간 로드맵</h3>
-        <p>상시 진행 : 기획사 관계자 인터뷰를 통해 기획사 니즈 파악하기, SNS 및 커뮤니티 활동을 통해 팬들의 니즈 파악하기, 아티스트 입점시키기</p>
-        <p>2025년 : PG사 연동을 위한 크라우드 펀딩 진행하기, 음반사 사이트 완성하기 (티켓 시스템, Shop 기능, 이벤트 기능, 관리자 페이지 런칭), 팀원 구하기 (2명), 시드 투자 유치하기 (법인 설립), 유통사 미팅하기, 아티스트 한 팀 이상 입점시키기, 팬덤 플랫폼 이름 짓기</p>
-        <p>2026년 : 컬렉션 기능 런칭하기, 대형 기획사 아이돌 입점시키기, 커뮤니티 기능 런칭하기, 팬덤 플랫폼 앱 제작을 위한 크라우드 펀딩 진행하기, 프라이빗 메세지 기능 구현 혹은 관련 기업과 협업하기, 시리즈A 투자 유치하기</p>
-        <p>2027년 : 팬덤 플랫폼 앱 런칭하기, 아티스트 멤버쉽 기능 런칭하기, 티켓 시스템 옵션을 관리자 페이지에서 조정할 수 있게 시스템화하기, 티켓팅 업체 미팅하기, 시리즈B 투자 유치하기</p>
-        <p>2028년 : 콘서트 티켓팅 기능 런칭하기, 라이브 스트리밍 기능 런칭하기, 시리즈C 투자 유치하기</p>
-        <p>2029년 : 음원 스트리밍 및 디지털 앨범 기능 런칭하기, 아이돌 자체제작 컨텐츠 라운지(=아이돌판 유튜브) 기능 런칭하기</p>
-        <p>2030년 이후 : 더 큰 성장을 위해 KOSPI에 유가증권 상장시키기, 배당성향 50% 이상 유지하기</p>
+        <div id="bigroad">
+            <h3>큰 로드맵</h3>
+            <p>엔젤/시드 단계 : MVP테스트하기 및 사업 검증 마치기</p>
+            <p>시리즈A 단계 : 음반사 사이트 제작 및 아티스트 입점 시키기</p>
+            <p>시리즈B 단계 : 팬덤 플랫폼 앱 런칭하기</p>
+            <p>시리즈C 단계 : 라이브, 프라이빗 메세지 등 초기 단계에 못 했던 기능들 채워 격차 벌리기</p>
+            <p>시리즈D 단계 : 1등이 되기 위한 노력과 KOSPI에 상장하기</p>
+            <p>IPO 이후 단계 : 주주환원 정책과 성장을 통해 KOSPI 시가총액 기준 최소 10위권에 들어 코리아 디스카운트 해소에 이바지하기</p>
+        </div>
+        <div id="middleroad">
+            <h3>중간 로드맵</h3>
+            <p>상시 진행 : 기획사 관계자 인터뷰를 통해 기획사 니즈 파악하기, SNS 및 커뮤니티 활동을 통해 팬들의 니즈 파악하기, 아티스트 입점시키기</p>
+            <p>2025년 : PG사 연동을 위한 크라우드 펀딩 진행하기, 음반사 사이트 완성하기 (티켓 시스템, Shop 기능, 이벤트 기능, 관리자 페이지 런칭), 팀원 구하기 (2명), 시드 투자 유치하기 (법인 설립), 유통사 미팅하기, 아티스트 한 팀 이상 입점시키기, 팬덤 플랫폼 이름 짓기</p>
+            <p>2026년 : 컬렉션 기능 런칭하기, 대형 기획사 아이돌 입점시키기, 커뮤니티 기능 런칭하기, 팬덤 플랫폼 앱 제작을 위한 크라우드 펀딩 진행하기, 프라이빗 메세지 기능 구현 혹은 관련 기업과 협업하기, 시리즈A 투자 유치하기</p>
+            <p>2027년 : 팬덤 플랫폼 앱 런칭하기, 아티스트 멤버쉽 기능 런칭하기, 티켓 시스템 옵션을 관리자 페이지에서 조정할 수 있게 시스템화하기, 티켓팅 업체 미팅하기, 시리즈B 투자 유치하기</p>
+            <p>2028년 : 콘서트 티켓팅 기능 런칭하기, 라이브 스트리밍 기능 런칭하기, 시리즈C 투자 유치하기</p>
+            <p>2029년 : 음원 스트리밍 및 디지털 앨범 기능 런칭하기, 아이돌 자체제작 컨텐츠 라운지(=아이돌판 유튜브) 기능 런칭하기</p>
+            <p>2030년 이후 : 더 큰 성장을 위해 KOSPI에 유가증권 상장시키기, 배당성향 50% 이상 유지하기</p>
+        </div>
         <h3>작은 로드맵</h3>
         <p>인스타그램(@gsugar_entertainment) 혹은 사내 연락망에 공유</p>
         <p>상시 진행 : 기획사 관계자 인터뷰를 통해 기획사 니즈 파악하기, SNS 및 커뮤니티 활동을 통해 팬들의 니즈 파악하기</p>
@@ -94,6 +131,37 @@
         <input type="text" id="nameInput" placeholder="응원하는 사람 성함">
         <button class="searching-button" onclick="myinfo()" style="padding: 8px;">응원하기</button>
     </div>
+
+    <div id="store">
+        <h2 class="logo-text black">팀원 세부사항</h2>
+    </div>
+
+    <div id="store">
+        <h2 class="logo-text black">업무 기록</h2>
+        <div id="workrecord">
+            <h3>내역 (2024. 10. 06. 이후)</h3>
+            <p class="black" style="background-color: #f6f6f6; padding: 8px; border-radius: 15px;"> 2024년 10월 08일 02:13 각설탕엔터 투명성 페이지(gsugar-ent.netlify.app/gsugarofficial) DB 1차 연동 (각설탕엔터테인먼트 개요, 자금 세부사항 일부) 및 자금 세부사항 일부 완성 (현금성 자산, 금융 자산 기록)</p>
+        </div>
+    </div>
+
+    <div id="store">
+        <h2 class="logo-text black">자금 세부사항</h2>
+        <p>(7일에 한번씩 업데이트)</p>
+        <h3 id="cash">현금성 자산 : 72,815원</h3>
+        <div id="finance">
+            <h3>금융 자산 : 3,448,358원</h3>
+            <p>맥도날드 (주식) : 5.09794주 (매수금액 : 1,994,951원 / 평가금액 : 2,053,806원)</p>
+            <p>프록터 앤드 갬블 (주식) : 2주 (매수금액 : 395,636원 / 평가금액 : 449,588원)</p>
+            <p>코카콜라 (주식) : 0.14주 (매수금액 : 10,154원 / 평가금액 : 13,094원)</p>
+            <p>대신증권2우B (주식) : 25주 (매수금액 : 413,492원 / 평가금액 : 370,750원)</p>
+            <p>맥쿼리인프라 (주식) : 48주 (매수금액 : 622,212원 / 평가금액 : 561,120원)</p>
+        </div>
+        <div id="spendlist">
+            <h3>내역 (2024. 10. 06. 이후)</h3>
+            <p class="black" style="background-color: #f6f6f6; padding: 8px; border-radius: 15px;">2024년 10월 07일 14:33 인스타그램 광고 비용 | -58,980원</p>
+        </div>
+    </div>
+    
 
     <!-- Contact Us Section (Unchanged) -->
     <div id="contact">
