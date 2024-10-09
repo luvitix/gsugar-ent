@@ -55,6 +55,7 @@
             const doc1 = await DB.collection('company').doc('stocks').get()
             const doc2 = await DB.collection('company').doc('cash').get()
             const doc3 = await DB.collection('company').doc('work').get()
+            const doc4 = await DB.collection('company').doc('team').get()
                 if (doc.exists) {
                     // Firestore에서 가져와서 HTML만들기
                     document.getElementById('team').innerHTML = doc.data()['1team'];
@@ -94,6 +95,24 @@
                         document.getElementById('workrecord').innerHTML = 
                         `<h3>내역 (2024. 10. 06. 이후)</h3>
                         ${worklist}`;
+                    });
+
+                    var team_ = doc4.data()['history']
+                    var team_history = ""
+                    // 모든 비동기 작업을 처리할 Promise 배열 생성
+                    var promises2 = team_.reverse().map((item) => {
+                        if (doc4.exists) {
+                                team_history += `<p class="black" style="background-color: #f6f6f6; padding: 8px; border-radius: 15px;">${doc4.data()[item]}</p>`;
+                        } else {
+                            console.log("No such document!");
+                        }
+                    });
+
+                    // 모든 Promise가 완료된 후에 storeContent 적용
+                    Promise.all(promises2).then(() => {
+                        document.getElementById('workrecord').innerHTML = 
+                        `<h3>입사 및 퇴사 기록</h3>
+                        ${team_history}`;
                     });
                 } else {
                     console.log("No such document!");
@@ -153,6 +172,14 @@
 
     <div id="store">
         <h2 class="logo-text black">팀원 세부사항</h2>
+        <div id="teamhistory">
+            <h3>입사 및 퇴사 기록</h3>
+            <p class="black" style="background-color: #f6f6f6; padding: 8px; border-radius: 15px;"> 2024년 10월 04일 16:39 주주간 계약서 vesting 옵션에 따라 일부 관계자(김무민, 호규) 지분 소멸 (발표 : 각설탕엔터테인먼트)</p>
+            <p class="black" style="background-color: #f6f6f6; padding: 8px; border-radius: 15px;"> 2024년 10월 04일 16:38 호규 Product Owner 잠정 휴직 결정 (발표 : 각설탕)</p>
+            <p class="black" style="background-color: #f6f6f6; padding: 8px; border-radius: 15px;"> 2024년 9월 29일 16:56 김무민 Product Owner 퇴사 (발표 : 김무민)</p>
+            <p class="black" style="background-color: #f6f6f6; padding: 8px; border-radius: 15px;"> 2024년 9월 29일 14:40 김무민 Product Owner 업무 불능상태 판정 (발표 : 각설탕)</p>
+            <p class="black" style="background-color: #f6f6f6; padding: 8px; border-radius: 15px;"> 2024년 9월 03일 21:56 호규 Product Owner 합류 (발표 : 각설탕, 호규)</p>
+        </div>
     </div>
 
     <div id="store">
