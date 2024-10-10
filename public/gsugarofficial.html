@@ -51,79 +51,48 @@
         }
         // Firestore에서 정보 가져오기
         async function openMediaContent() {
-            const doc = await DB.collection('company').doc('detail').get()
-            const doc1 = await DB.collection('company').doc('stocks').get()
-            const doc2 = await DB.collection('company').doc('cash').get()
-            const doc3 = await DB.collection('company').doc('work').get()
-            const doc4 = await DB.collection('company').doc('team').get()
-                if (doc.exists) {
-                    // Firestore에서 가져와서 HTML만들기
-                    document.getElementById('team').innerHTML = doc.data()['1team'];
-                    document.getElementById('money').innerHTML = doc.data()['2money'];
-                    document.getElementById('project_').innerHTML = doc.data()['3project'];
-                    document.getElementById('level').innerHTML = doc.data()['4level'];
-                    document.getElementById('cash').innerHTML = doc2.data()['cash']
-                    var stocks = doc1.data()['list']
-                    var stockslist = ""
-                    // 모든 비동기 작업을 처리할 Promise 배열 생성
-                    var promises = stocks.map((item) => {
-                        if (doc1.exists) {
-                                stockslist += `${doc1.data()[item]}`;
-                        } else {
-                            console.log("No such document!");
-                        }
-                    });
+            const [doc, doc1, doc2, doc3, doc4] = await Promise.all([
+                DB.collection('company').doc('detail').get(),
+                DB.collection('company').doc('stocks').get(),
+                DB.collection('company').doc('cash').get(),
+                DB.collection('company').doc('work').get(),
+                DB.collection('company').doc('team').get()
+            ]);
 
-                    // 모든 Promise가 완료된 후에 storeContent 적용
-                    Promise.all(promises).then(() => {
-                        document.getElementById('finance').innerHTML = stockslist;
-                    });
+            if (!doc.exists || !doc1.exists || !doc2.exists || !doc3.exists || !doc4.exists) {
+                console.log("No such document!");
+                return;
+            }
 
-                    var works = doc3.data()['worklist']
-                    var worklist = ""
-                    // 모든 비동기 작업을 처리할 Promise 배열 생성
-                    var promises1 = works.reverse().map((item) => {
-                        if (doc1.exists) {
-                                worklist += `<p class="black" style="background-color: #f6f6f6; padding: 8px; border-radius: 15px;">${doc3.data()[item]}</p>`;
-                        } else {
-                            console.log("No such document!");
-                        }
-                    });
+            // Firestore에서 가져온 데이터로 HTML 업데이트
+            document.getElementById('team').innerHTML = doc.data()['1team'];
+            document.getElementById('money').innerHTML = doc.data()['2money'];
+            document.getElementById('project_').innerHTML = doc.data()['3project'];
+            document.getElementById('level').innerHTML = doc.data()['4level'];
+            document.getElementById('cash').innerHTML = doc2.data()['cash'];
 
-                    // 모든 Promise가 완료된 후에 storeContent 적용
-                    Promise.all(promises1).then(() => {
-                        document.getElementById('workrecord').innerHTML = 
-                        `<h3>내역 (2024. 10. 06. 이후)</h3>
-                        ${worklist}`;
-                    });
+            // stocks 처리
+            let stockslist = doc1.data()['list'].map(item => doc1.data()[item]).join('');
+            document.getElementById('finance').innerHTML = stockslist;
 
-                    var team_ = doc4.data()['history']
-                    var team_history = ""
-                    // 모든 비동기 작업을 처리할 Promise 배열 생성
-                    var promises2 = team_.reverse().map((item) => {
-                        if (doc4.exists) {
-                                team_history += `<p class="black" style="background-color: #f6f6f6; padding: 8px; border-radius: 15px;">${doc4.data()[item]}</p>`;
-                        } else {
-                            console.log("No such document!");
-                        }
-                    });
+            // worklist 처리
+            let worklist = doc3.data()['worklist'].reverse().map(item => 
+                `<p class="black" style="background-color: #f6f6f6; padding: 8px; border-radius: 15px;">${doc3.data()[item]}</p>`
+            ).join('');
+            document.getElementById('workrecord').innerHTML = `<h3>내역 (2024. 10. 06. 이후)</h3>${worklist}`;
 
-                    // 모든 Promise가 완료된 후에 storeContent 적용
-                    Promise.all(promises2).then(() => {
-                        document.getElementById('teamhistory').innerHTML = 
-                        `<h3>입사 및 퇴사 기록</h3>
-                        ${team_history}`;
-                    });
-                } else {
-                    console.log("No such document!");
-                }
-            
+            // team history 처리
+            let team_history = doc4.data()['history'].reverse().map(item => 
+                `<p class="black" style="background-color: #f6f6f6; padding: 8px; border-radius: 15px;">${doc4.data()[item]}</p>`
+            ).join('');
+            document.getElementById('teamhistory').innerHTML = `<h3>입사 및 퇴사 기록</h3>${team_history}`;
         }
         window.onload = openMediaContent();
     </script>
 </head>
 <body>
-    <div id="var">
+    <div id="var" style="display: flex; align-items: center; justify-content: center; position: relative;">
+        <h1 style="position: absolute; left: 0;"><a href="../" class="white">◁ </a></h1>
         <a href="../"><h1 class="logo-text white">GSUGAR Ent.</h1></a>
     </div>
 

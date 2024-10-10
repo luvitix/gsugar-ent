@@ -1,0 +1,36 @@
+#testbed {
+    width: 497px; 
+    height: 100vh; 
+    background-color: rgb(255, 255, 255);
+    margin: -8px;
+}
+
+#var_line {
+    width: 497px;
+}
+
+#body_line {
+    height: 85vh;
+}
+
+#button_line {
+    width: 497px;
+}
+
+
+@media (max-width: 900px) {
+    #testbed {
+        width: 100vw;
+        height: 100vh;
+    }
+    #var_line {
+        width: 100%;
+    }
+    #body_line {
+        height: 84vh;
+    }
+
+    #button_line {
+        width: 100%;
+    }
+}
