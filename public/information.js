@@ -55,3 +55,36 @@ async function test(id1) {
         console.error("예외가 발생했습니다:", error);
     }
 }
+
+function bottom_button_style(key) {
+    // 모든 버튼 요소를 가져옵니다.
+    const buttons = document.querySelectorAll(".bottom_button");
+
+    // 반복문을 통해 모든 버튼의 스타일을 설정합니다.
+    buttons.forEach((button, index) => {
+        if (index === key) {
+            // 클릭한 버튼의 배경을 보라색으로 설정
+            button.style.backgroundColor = "blueviolet";
+        } else {
+            // 나머지 버튼은 검정색으로 설정
+            button.style.backgroundColor = "black";
+        }
+    });
+
+    // 모든 탭을 숨깁니다.
+    const tabs = {
+        0: document.getElementById("home_tab"),
+        1: document.getElementById("collection_tab"),
+        2: document.getElementById("shop_tab"),
+        3: document.getElementById("event_tab")
+    };
+
+    // 모든 탭을 숨기고, 클릭한 탭만 보이도록 설정합니다.
+    Object.keys(tabs).forEach(index => {
+        if (index == key) {
+            tabs[index].style.display = "block";
+        } else {
+            tabs[index].style.display = "none";
+        }
+    });
+}

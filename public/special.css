@@ -1,12 +1,12 @@
 #testbed {
-    width: 497px; 
+    width: 56.3vh; 
     height: 100vh; 
     background-color: rgb(255, 255, 255);
     margin: -8px;
 }
 
 #var_line {
-    width: 497px;
+    width: 56.3vh
 }
 
 #body_line {
@@ -14,9 +14,17 @@
 }
 
 #button_line {
-    width: 497px;
+    width: 56.3vh
 }
 
+.hovering {
+    background-color: blueviolet;
+}
+
+.hovering:hover {
+    background-color: black;
+    cursor: pointer;
+}
 
 @media (max-width: 900px) {
     #testbed {

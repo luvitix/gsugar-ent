@@ -7,7 +7,7 @@
     <title>GSUGAR ENTERTAINMENT</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="special.css">
-    <link rel="script" href="script.js">
+    <script src="information.js"></script>
     <link rel="icon" href="favicon.ico">
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
@@ -93,6 +93,7 @@
         document.getElementById("capyright").style.display = 'block'
       }
       window.onload = openMediaContent();
+      
     </script>
 </head>
 <body>
@@ -101,7 +102,7 @@
     </div>
     <div style="width: 100%; display: flex; justify-content: center;">
         <div id="testbed" style="display: none; background-color: white;">
-            <div id="var_line" style="position: fixed; background-color: rgb(14, 18, 32); color: white; top: 0; text-align: center; display: flex; height: 70px;">
+            <div id="var_line" style="position: fixed; background-color: rgb(14, 18, 32); color: white; top: 0; text-align: center; display: flex; height: 80px;">
                 <h1 class="white" onclick="closeSpecial()">◁</h1>
                 <h1 class="white">GSUGAR</h1>
                 <div style="margin-left: auto; display: flex;">
@@ -115,14 +116,47 @@
                     </div>
                 </div>
             </div>
-            <div style="margin-top: 75px;">
-                준비 중 입니다!
+            <div id="home_tab" style="margin-top: 88px;">
+                <div style="margin: 8px; padding: 8px; background-color: #f6f6f6; border-radius: 15px; height: auto;">
+                    <h2 style="margin: 0;" class="black">ARTIST MESSAGE</h2>
+                    <div style="padding: 8px; background-color: white; border-radius: 15px; height: auto; display: flex;">
+                        <img src="esset/newsugar.png" alt="" width="20%" style="border-radius: 35px;">
+                        <div style="display: flex; flex-direction: column; margin-left: 5px; justify-content: center;">
+                            <h4 style="color: blueviolet; margin: 0;" class="black">설탕이</h4>
+                            <p style="margin: 0;" class="black">오늘 내 포카 나온당!🌌</p>
+                        </div>
+                        <div style="display: flex; flex-direction: column; justify-content: center; margin-left: auto;">
+                            <div style="background-color: #DD285C; border-radius: 30px; width: 30px; height: 30px; text-align: center; display: flex; flex-direction: column; justify-content: center;" class="white">9+</div>
+                        </div>
+                    </div>
+                    <div class="hovering" style="padding: 8px; border-radius: 15px; height: auto; display: flex; justify-content: center; align-items: center;">
+                        <div class="white" style="text-align: center;">더보기</div>
+                    </div>
+                </div>
+                <div style="margin: 8px; padding: 8px; background-color: #f6f6f6; border-radius: 15px; height: auto;">
+                    <h2 style="margin: 0;" class="black">ARTIST CONTENT</h2>
+                    <div style="padding: 8px; background-color: white; border-radius: 15px; height: auto; display: flex;">
+                        준비 중이에요~~!
+                    </div>
+                </div>
+                <div style="margin: 8px; padding: 8px; background-color: #f6f6f6; border-radius: 15px; height: auto;">
+                    <h2 style="margin: 0;" class="black">COMMUNITY</h2>
+                </div>
+            </div>
+            <div id="collection_tab" style="margin-top: 88px; display: none;">
+                <div style="margin: 8px; background-color: #f6f6f6; border-radius: 15px; height: 50px;">준비 중이에용~</div>
+            </div>
+            <div id="shop_tab" style="margin-top: 88px; display: none;">
+                <div style="margin: 8px; background-color: #f6f6f6; border-radius: 15px; height: 50px;">공사 중이지요~</div>
+            </div>
+            <div id="event_tab" style="margin-top: 88px; display: none;">
+                <div style="margin: 8px; background-color: #f6f6f6; border-radius: 15px; height: 50px;">각설탕엔터에 관심이 많군요😍</div>
             </div>
             <div id="button_line" style="position: fixed; background-color: black; color: white; bottom: 0; text-align: center; display: flex; height: 70px;">
-                <a onclick="" class="whiteNpadding bottom_button" style="background-color: blueviolet;">홈<br>Home</a>
-                <a onclick="" class="whiteNpadding bottom_button">수집품<br>Collection</a>
-                <a onclick="" class="whiteNpadding bottom_button">상점<br>Shop</a>
-                <a onclick="" class="whiteNpadding bottom_button">이벤트<br>Event</a>
+                <a onclick="bottom_button_style(0)" class="whiteNpadding bottom_button" style="background-color: blueviolet;">홈<br>Home</a>
+                <a onclick="bottom_button_style(1)" class="whiteNpadding bottom_button">수집품<br>Collection</a>
+                <a onclick="bottom_button_style(2)" class="whiteNpadding bottom_button">상점<br>Shop</a>
+                <a onclick="bottom_button_style(3)" class="whiteNpadding bottom_button">이벤트<br>Event</a>
             </div>
         </div>
     </div>
