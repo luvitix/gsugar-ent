@@ -35,6 +35,68 @@
             
             test(id1);
         };
+
+        function iwantthis() {
+            // Firestore의 goods 컬렉션에서 id1이라는 문서를 참조합니다.
+            DB.collection('goods').doc(id1).update({
+                // want 필드를 1 증가시킵니다.
+                want: firebase.firestore.FieldValue.increment(1)
+            })
+            .then(() => {
+                console.log("Successfully incremented 'want' field.");
+            })
+            .catch((error) => {
+                console.error("Error updating document: ", error);
+            });
+        }
+
+        //shop구성 결정 함수
+        function design_module(key) {
+            if (key == "sale") {
+                document.getElementById('store').innerHTML =
+                `<div id="app" class="vision-grid" style="margin-top: 10px;">
+            
+                    <img id="goodsimage" src="esset/{{id1}}.png" alt="" width="100%">
+                    <div class="black vision-left">
+                        <h1 id="goodsname" class="vision-text">굳즈 이름</h1>
+                        <p id="description">설명</p>
+                        <h2 id="price">가격</h2>
+                        <div style=" margin-top: 40px; display: flex; justify-content: center;">
+                            <div id="buy_button" onclick="openMediaLink(id1)" style="color: #f6f6f6; width: 80%;">구매하기</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="event_notice" style="background-color: #f6f6f6; margin: 0; padding: 8px;">
+                    <h1 class="event_title" style="width: 100%; text-align: center;">세부사항</h1>
+                    <h3 id="extra_title"></h3>
+                    <p id="extra_description" style="margin-top: -10px;"></p>
+                    <div id="extra_description_img"></div>
+                </div>`
+            } else if (key == "fund") {
+                document.getElementById('store').innerHTML =
+                `<div id="app" class="vision-grid" style="margin-top: 10px;">
+            
+                    <img id="goodsimage" src="esset/{{id1}}.png" alt="" width="100%">
+                    <div class="black vision-left">
+                        <h1 id="goodsname" class="vision-text">굳즈 이름</h1>
+                        <p id="description">설명</p>
+                        <h2 id="price">가격</h2>
+                        <div style=" margin-top: 40px; display: flex; justify-content: center;">
+                            <div id="buy_button" onclick="iwantthis(id1)" style="color: #f6f6f6; width: 80%;">오픈 원해요!</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="event_notice" style="background-color: #f6f6f6; margin: 0; padding: 8px;">
+                    <h1 class="event_title" style="width: 100%; text-align: center;">세부사항</h1>
+                    <h3 id="extra_title"></h3>
+                    <p id="extra_description" style="margin-top: -10px;"></p>
+                    <div id="extra_description_img"></div>
+                </div>`
+            }
+        }
+
+
+
         // Firestore에서 링크 가져오기
         function openMediaLink(id1) {
             DB.collection('goods').doc(id1)
@@ -54,28 +116,29 @@
             // Firestore에서 정보 가져오기
         function openMediaContent() {
         DB.collection('goods').doc(id1)
-              .get()
-              .then((doc) => {
-                  if (doc.exists) {
-                      // Firestore에서 가져온 링크를 새 창으로 열기
-                      document.getElementById('goodsname').textContent = doc.data()['name'];
-                      document.getElementById('description').innerHTML = doc.data()['description'];
-                      document.getElementById('price').textContent = doc.data()['price'];
-                      document.getElementById('goodsimage').src = `${doc.data()['img_link']}`;
-                      document.getElementById('extra_title').textContent = `${doc.data()['extra_title']}`;
-                      document.getElementById('extra_description').textContent = `${doc.data()['extra_description']}`;
-                      var extra_img = ""
-                      for (var i = 0; i < doc.data()['extra_img_link'].length; i++) {
+            .get()
+            .then((doc) => {
+                if (doc.exists) {
+                    design_module(doc.data()['design_key'])
+                    // Firestore에서 가져온 링크를 새 창으로 열기
+                    document.getElementById('goodsname').textContent = doc.data()['name'];
+                    document.getElementById('description').innerHTML = doc.data()['description'];
+                    document.getElementById('price').textContent = doc.data()['price'];
+                    document.getElementById('goodsimage').src = `${doc.data()['img_link']}`;
+                    document.getElementById('extra_title').textContent = `${doc.data()['extra_title']}`;
+                    document.getElementById('extra_description').textContent = `${doc.data()['extra_description']}`;
+                    var extra_img = ""
+                    for (var i = 0; i < doc.data()['extra_img_link'].length; i++) {
                         extra_img += `<img src="${doc.data()['extra_img_link'][i]}" class="extra_img">`
-                      }
-                      document.getElementById('extra_description_img').innerHTML = extra_img;
-                  } else {
-                      console.log("No such document!");
-                  }
-              })
-              .catch((error) => {
-                  console.log("Error getting document:", error);
-              });
+                    }
+                    document.getElementById('extra_description_img').innerHTML = extra_img;
+                } else {
+                    console.log("No such document!");
+                }
+            })
+            .catch((error) => {
+                console.log("Error getting document:", error);
+            });
         }
         // window.onload = openMediaLink(instagram_error);
         // window.onload = openMediaLink(id1);
