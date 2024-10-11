@@ -88,3 +88,24 @@ function bottom_button_style(key) {
         }
     });
 }
+
+var key_value = 0
+
+function click_the_button (e) {
+    var like_text = document.querySelectorAll('.like_button')[e].textContent;
+    console.log(like_text.split(' '))
+    var like_count = Number(like_text.split(' ')[1]);
+    if (key_value == 0) {
+        like_count += 1
+        key_value = 1
+        document.querySelectorAll('.like_button')[e].textContent = `👍 ${like_count}`
+        document.querySelectorAll('.like_button')[e].style.color = "blueviolet"
+        document.querySelectorAll('.like_button')[e].style.borderColor = "blueviolet"
+    } else if (key_value == 1) {
+        like_count -= 1
+        key_value = 0
+        document.querySelectorAll('.like_button')[e].textContent = `👍 ${like_count}`
+        document.querySelectorAll('.like_button')[e].style.color = "black"
+        document.querySelectorAll('.like_button')[e].style.borderColor = "black"
+    }
+}

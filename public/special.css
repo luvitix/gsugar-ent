@@ -26,6 +26,26 @@
     cursor: pointer;
 }
 
+.white_button {
+    border-style: solid; 
+    border-radius: 13px; 
+    border-width: 1px; 
+    font-size: 18px; 
+    width: auto; 
+    height: 30px; 
+    align-items: center; 
+    display: flex;
+     
+    background-color: white;
+    color: black;
+    border-color: black;
+}
+
+.white_button:hover {
+    color: blueviolet;
+    border-color: blueviolet;
+}
+
 @media (max-width: 900px) {
     #testbed {
         width: 100vw;
