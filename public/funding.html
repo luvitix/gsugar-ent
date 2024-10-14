@@ -175,7 +175,7 @@
                     App Supporter : GSUGAR ENTERTAINMENT(Artist Message, Artist Content, Coummunity)
                 </div>
             </div>
-            <div id="collection_tab" style="margin-top: 88px; display: none;">
+            <div id="collection_tab" style="margin-top: 88px; display: none; background-color: white;">
                 <div style="margin: 8px; padding: 8px; background-color: #f6f6f6; border-radius: 15px; height: auto; display: flex;">
                     <img src="esset/testbed_album_1.png" alt="" width="35%">
                     <div style="display: flex; flex-direction: column; margin-left: 5px; justify-content: center; width: 100%;">
@@ -192,11 +192,85 @@
                     </div>
                 </div>
             </div>
-            <div id="shop_tab" style="margin-top: 88px; display: none;">
-                <div style="margin: 8px; background-color: #f6f6f6; border-radius: 15px; height: 50px;">준비 중 입니다</div>
+            <div id="shop_tab" style="margin-top: 88px; display: none; background-color: white;">
+                <div id="storeContent" class="testshop-grid black" style="margin: 8px;">
+                    <a>
+                        <div style="background-color: #f6f6f6; text-align: center; display: flex; justify-content: center; align-items: center; aspect-ratio: 1 / 1; width: 100%;">
+                            <img src="esset/testbed_album_1.png" alt="각설탕 미니 1집 앨범 SF ver." style="width: 80%; height: auto;">
+                        </div>
+                        <h1 class="testshop_name black">[미니 1집] Sugar Fantasy SF ver.</h1>
+                        <h2 class="testshop_price black">17,800원</h2>
+                    </a>
+                    <a>
+                        <div style="background-color: #f6f6f6; text-align: center; display: flex; justify-content: center; align-items: center; aspect-ratio: 1 / 1; width: 100%;">
+                            <img src="esset/testbed_album_1_2.png" alt="각설탕 미니 1집 앨범 Space Fantasy ver." style="width: 80%; height: auto;">
+                        </div>
+                        <h1 class="testshop_name black">[미니 1집] Sugar Fantasy Space Fantasy ver.</h1>
+                        <h2 class="testshop_price black">17,800원</h2>
+                    </a>
+                    <a>
+                        <div style="background-color: #f6f6f6; text-align: center; display: flex; justify-content: center; align-items: center; aspect-ratio: 1 / 1; width: 100%;">
+                            <img src="esset/testbed_album_1_3.png" alt="각설탕 미니 1집 앨범 Sugar Funny ver." style="width: 80%; height: auto;">
+                        </div>
+                        <h1 class="testshop_name black">[미니 1집] Sugar Fantasy Sugar Funny ver.</h1>
+                        <h2 class="testshop_price black">17,800원</h2>
+                    </a>
+                    <a>
+                        <div style="background-color: #f6f6f6; text-align: center; display: flex; justify-content: center; align-items: center; aspect-ratio: 1 / 1; width: 100%;">
+                            <img src="esset/photocard.png" alt="설탕이 우주여행 포토카드🌌" style="width: 100%; height: auto;">
+                        </div>
+                        <h1 class="testshop_name black">설탕이 우주여행 포토카드🌌</h1>
+                        <h2 class="testshop_price black">4,500원 ~ 7,000원</h2>
+                    </a>
+                </div>
+                <div style="margin-left: 8px; font-size: 12px; padding-bottom: 75px;" class="black">
+                    Artist Agency : GSUGAR LABLES<br>
+                    Distributor : GSUGAR ENTERTAINMENT
+                </div>
             </div>
-            <div id="event_tab" style="margin-top: 88px; display: none;">
-                <div style="margin: 8px; background-color: #f6f6f6; border-radius: 15px; height: 50px;">준비 중 입니다</div>
+            <div id="event_tab" style="margin-top: 88px; display: none; background-color: white;">
+                <div style="margin: 8px;">
+                    <div style="text-align: center; display: flex;">
+                        <h2 class="event_control black" style=" color: white; background-color: blueviolet;">진행중 ( 3 )</h2>
+                        <h2 class="event_control black" onclick="openEndEvent()">종료 ( 0 )</h2>
+                    </div>
+                    <div style="background-color: #f6f6f6; border-radius: 15px; height: auto;">
+                        <div style="padding: 8px; background-color: white; border-radius: 15px; height: auto; display: flex; flex-direction: column;">
+                            <img src="esset/event_1.png" alt="" width="100%">
+                            <h3 class="black">미니 1집 Sugar Fantasy 출시 기념 대면 팬사인회 이벤트</h3>
+                            <p class="black" style="margin: 0;">3024. 10. 14 ~ 3024. 10. 21</p>
+                        </div>
+                        <div class="hovering" style="padding: 8px; border-radius: 15px; height: auto; display: flex; justify-content: center; align-items: center;">
+                            <div class="white" style="text-align: center;">더보기</div>
+                        </div>
+                    </div>
+                    <div style="background-color: #f6f6f6; border-radius: 15px; height: auto;">
+                        <div style="padding: 8px; background-color: white; border-radius: 15px; height: auto; display: flex; flex-direction: column;">
+                            <img src="esset/event_1.png" alt="" width="100%">
+                            <h3 class="black">미니 1집 Sugar Fantasy 출시 기념 영상통화 팬사인회 이벤트</h3>
+                            <p class="black" style="margin: 0;">3024. 10. 14 ~ 3024. 10. 21</p>
+                        </div>
+                        <div class="hovering" style="padding: 8px; border-radius: 15px; height: auto; display: flex; justify-content: center; align-items: center;">
+                            <div class="white" style="text-align: center;">더보기</div>
+                        </div>
+                        
+                    </div>
+                    <div style="background-color: #f6f6f6; border-radius: 15px; height: auto;">
+                        <div style="padding: 8px; background-color: white; border-radius: 15px; height: auto; display: flex; flex-direction: column;">
+                            <img src="esset/event_3.png" alt="" width="100%">
+                            <h3 class="black">미니 1집 Sugar Fantasy 출시 기념 티켓 2배 제공 이벤트</h3>
+                            <p class="black" style="margin: 0;">3024. 10. 14 ~ 3024. 10. 21</p>
+                        </div>
+                        <div class="hovering" style="padding: 8px; border-radius: 15px; height: auto; display: flex; justify-content: center; align-items: center;">
+                            <div class="white" style="text-align: center;">더보기</div>
+                        </div>
+                        
+                    </div>
+                </div>
+                
+                <div style="margin-left: 8px; font-size: 12px; padding-bottom: 75px;" class="black">
+                    Event Host : GSUGAR LABLES
+                </div>
             </div>
             <div id="button_line" style="position: fixed; background-color: black; color: white; bottom: 0; text-align: center; display: flex; height: 70px;">
                 <a onclick="bottom_button_style(0)" class="whiteNpadding bottom_button" style="background-color: blueviolet;">홈<br>Home</a>

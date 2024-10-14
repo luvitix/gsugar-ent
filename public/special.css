@@ -46,6 +46,32 @@
     border-color: blueviolet;
 }
 
+.testshop-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
+
+.testshop_name {
+    font-size: 15px;
+}
+
+.testshop_price {
+    font-size: 13px;
+}
+
+.event_control {
+    display: inline-block; 
+    width: 100%; 
+    font-size: 18px;
+    padding: 8px;
+}
+.event_control:hover {
+    cursor: pointer;
+    color: blueviolet;
+    background-color: #f6f6f6;
+}
+
 @media (max-width: 900px) {
     #testbed {
         width: 100vw;
