@@ -56,6 +56,8 @@ async function test(id1) {
     }
 }
 
+//여기부터
+
 function bottom_button_style(key) {
     // 모든 버튼 요소를 가져옵니다.
     const buttons = document.querySelectorAll(".bottom_button");
@@ -108,4 +110,8 @@ function click_the_button (e) {
         document.querySelectorAll('.like_button')[e].style.color = "black"
         document.querySelectorAll('.like_button')[e].style.borderColor = "black"
     }
+}
+
+function openEndEvent() {
+    
 }

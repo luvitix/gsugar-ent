@@ -51,15 +51,16 @@
         }
         // Firestore에서 정보 가져오기
         async function openMediaContent() {
-            const [doc, doc1, doc2, doc3, doc4] = await Promise.all([
+            const [doc, doc1, doc2, doc3, doc4, doc5] = await Promise.all([
                 DB.collection('company').doc('detail').get(),
                 DB.collection('company').doc('stocks').get(),
                 DB.collection('company').doc('cash').get(),
                 DB.collection('company').doc('work').get(),
-                DB.collection('company').doc('team').get()
+                DB.collection('company').doc('team').get(),
+                DB.collection('company').doc('spendlist').get()
             ]);
 
-            if (!doc.exists || !doc1.exists || !doc2.exists || !doc3.exists || !doc4.exists) {
+            if (!doc.exists || !doc1.exists || !doc2.exists || !doc3.exists || !doc4.exists || !doc5.exists) {
                 console.log("No such document!");
                 return;
             }
@@ -79,13 +80,19 @@
             let worklist = doc3.data()['worklist'].reverse().map(item => 
                 `<p class="black" style="background-color: #f6f6f6; padding: 8px; border-radius: 15px;">${doc3.data()[item]}</p>`
             ).join('');
-            document.getElementById('workrecord').innerHTML = `<h3>내역 (2024. 10. 06. 이후)</h3>${worklist}`;
+            document.getElementById('workrecord').innerHTML = `${doc3.data()['title']}${worklist}`;
 
             // team history 처리
             let team_history = doc4.data()['history'].reverse().map(item => 
                 `<p class="black" style="background-color: #f6f6f6; padding: 8px; border-radius: 15px;">${doc4.data()[item]}</p>`
             ).join('');
             document.getElementById('teamhistory').innerHTML = `<h3>입사 및 퇴사 기록</h3>${team_history}`;
+
+            // team history 처리
+            let spend_history = doc5.data()['history'].reverse().map(item => 
+                `<p class="black" style="background-color: #f6f6f6; padding: 8px; border-radius: 15px;">${doc5.data()[item]}</p>`
+            ).join('');
+            document.getElementById('spendlist').innerHTML = `${doc5.data()['title']}${spend_history}`;
         }
         window.onload = openMediaContent();
     </script>
@@ -164,12 +171,12 @@
         <p>(7일에 한번씩 업데이트)</p>
         <h3 id="cash">현금성 자산 : 72,815원</h3>
         <div id="finance">
-            <h3>금융 자산 : 3,448,358원</h3>
-            <p>맥도날드 (주식) : 5.09794주 (매수금액 : 1,994,951원 / 평가금액 : 2,053,806원)</p>
-            <p>프록터 앤드 갬블 (주식) : 2주 (매수금액 : 395,636원 / 평가금액 : 449,588원)</p>
-            <p>코카콜라 (주식) : 0.14주 (매수금액 : 10,154원 / 평가금액 : 13,094원)</p>
-            <p>대신증권2우B (주식) : 25주 (매수금액 : 413,492원 / 평가금액 : 370,750원)</p>
-            <p>맥쿼리인프라 (주식) : 48주 (매수금액 : 622,212원 / 평가금액 : 561,120원)</p>
+            <h3>금융 자산 : 3,563,755원</h3>
+            <p>맥도날드 (주식) : 5.09794주 (매수금액 : 1,994,951원 / 평가금액 : 2,140,126원)</p>
+            <p>프록터 앤드 갬블 (주식) : 2주 (매수금액 : 395,636원 / 평가금액 : 467,467원)</p>
+            <p>코카콜라 (주식) : 0.14주 (매수금액 : 10,154원 / 평가금액 : 13,342원)</p>
+            <p>대신증권2우B (주식) : 25주 (매수금액 : 413,492원 / 평가금액 : 374,500원)</p>
+            <p>맥쿼리인프라 (주식) : 48주 (매수금액 : 622,212원 / 평가금액 : 568,320원)</p>
         </div>
         <div id="spendlist">
             <h3>내역 (2024. 10. 06. 이후)</h3>

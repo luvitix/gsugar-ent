@@ -11,6 +11,7 @@
     <link rel="icon" href="favicon.ico">
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js"></script> <!-- Firebase Storage 추가 -->
     <script>
         const firebaseConfig = {
             apiKey: "AIzaSyCbg4hzNgHuHLPPf-p81tOR9NokHUkJEYU",
@@ -27,26 +28,27 @@
 
         // Initialize Cloud Firestore and get a reference to the service
         const DB = firebase.firestore();
+        const STORAGE = firebase.storage();
 
-      // Firestore에서 링크 가져오기
-      function openMediaLink() {
-          DB.collection('mediaLinks').doc('careerButtonLink')
-              .get()
-              .then((doc) => {
-                  if (doc.exists) {
-                      // Firestore에서 가져온 링크를 새 창으로 열기
-                      window.location.replace(doc.data()['link'], '_blank');
-                  } else {
-                      console.log("No such document!");
-                  }
-              })
-              .catch((error) => {
-                  console.log("Error getting document:", error);
-              });
-      }
+        // Firestore에서 링크 가져오기
+        function openMediaLink() {
+            DB.collection('mediaLinks').doc('careerButtonLink')
+                .get()
+                .then((doc) => {
+                if (doc.exists) {
+                    // Firestore에서 가져온 링크를 새 창으로 열기
+                    window.location.replace(doc.data()['link'], '_blank');
+                } else {
+                    console.log("No such document!");
+                }
+            })
+            .catch((error) => {
+                console.log("Error getting document:", error);
+            });
+        }
 
-      // Firestore에서 링크 가져오기
-      function openMediaLink2() {
+        // Firestore에서 링크 가져오기
+        function openMediaLink2() {
             document.getElementById("testbed").style.display = 'block'
             document.getElementById("var").style.display = 'none'
             document.getElementById("media").style.display = 'none'
@@ -66,7 +68,22 @@
         //       .catch((error) => {
         //           console.log("Error getting document:", error);
         //       });
-      }
+        }
+
+    // 이미지를 불러오는 함수
+    function loadImage(key) {
+        const storageRef = STORAGE.ref();
+        const imageRef = storageRef.child(key);
+
+        // 이미지 파일의 다운로드 URL을 가져와서 <img> 태그에 적용
+        imageRef.getDownloadURL()
+          .then((url) => {
+            document.getElementById('albumImage').src = url;
+          })
+          .catch((error) => {
+            console.error('이미지 파일 불러오기 오류:', error);
+          });
+    }
 
       // Firestore에서 링크 가져오기
       function openMediaContent() {
@@ -93,6 +110,7 @@
         document.getElementById("capyright").style.display = 'block'
       }
       window.onload = openMediaContent();
+      window.onload = loadImage('testbed_album_1.png');
       
     </script>
 </head>
@@ -177,7 +195,7 @@
             </div>
             <div id="collection_tab" style="margin-top: 88px; display: none; background-color: white;">
                 <div style="margin: 8px; padding: 8px; background-color: #f6f6f6; border-radius: 15px; height: auto; display: flex;">
-                    <img src="esset/testbed_album_1.png" alt="" width="35%">
+                    <img id="albumImage" src="esset/testbed_album_1.png" alt="" width="35%">
                     <div style="display: flex; flex-direction: column; margin-left: 5px; justify-content: center; width: 100%;">
                         <h4 style="color: blueviolet; margin: 0;" class="black">미니 1집 Sugar Fantasy 컬렉션</h4>
                         <p style="margin: 0; margin-top: 4px;" class="black">컬렉션 구성 : 앨범 3종</p>
