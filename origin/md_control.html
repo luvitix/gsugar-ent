@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>상품 등록</title>
+</head>
+<body>
+  <h1>상품 등록</h1>
+
+  <!-- 상품 이름 입력 -->
+  <input type="text" id="productName" placeholder="상품 이름을 입력하세요">
+ 
+
+  <!-- 상품 가격 입력 -->
+  <input type="text" id="productPrice" placeholder="상품 가격을 입력하세요">
+
+    <!-- 티켓 개수 입력 -->
+    <input type="number" id="ticketCount" placeholder="제공할 티켓 개수를 입력하세요">
+    <br><br>
+
+  <!-- 상품 이미지 업로드 -->
+  <input type="file" id="productImage" accept="image/*">
+
+
+  <!-- 디자인 키 선택 -->
+  <label>
+    <input type="radio" name="designKey" id="designAuto" checked> auto
+  </label>
+  <label>
+    <input type="radio" name="designKey" id="designFull"> full
+  </label>
+  <br><br>
+    <!-- 미리보기 영역 -->
+    <div>
+        <h3>이미지 미리보기 (auto & full)</h3>
+      </div>
+      <div class="preview-box" style="width: 40.6%; display: flex;">
+        <div style="background-color: #f6f6f6; text-align: center; display: flex; justify-content: center; align-items: center; aspect-ratio: 1 / 1; width: 100%;">
+            <img id="imagePreviewAuto" alt="auto로 설정할 경우" style="width: 80%; height: auto;">
+        </div>
+        <div style="background-color: #f6f6f6; text-align: center; display: flex; justify-content: center; align-items: center; aspect-ratio: 1 / 1; width: 100%;">
+            <img id="imagePreviewFull" alt="full로 설정할 경우" style="width: 100%; height: auto;">
+        </div>
+      </div>
+
+  <!-- 상품 설명 입력 -->
+  <textarea id="productDescription" placeholder="상품 설명을 입력하세요" rows="4" cols="50"></textarea>
+
+  <!-- 추가 설명 입력 -->
+  <textarea id="extraDescription" placeholder="추가 설명을 입력하세요" rows="4" cols="50"></textarea>
+  <br>
+
+  <!-- 추가 상품 사진 업로드 -->
+    <p>추가 설명 사진 </p>
+  <input type="file" id="extraProductImages" multiple accept="image/*">
+  <br><br>
+
+  <!-- 옵션 추가 -->
+  <div id="productOptions">
+    <input type="text" placeholder="옵션을 입력하세요">
+    <button type="button" onclick="addOption()">+ 옵션 추가</button>
+  </div>
+  <br><br>
+
+  <!-- 판매 상태 선택 -->
+  <label>
+    <input type="radio" name="productStatus" id="saleStatus" checked> 현재 판매 상품
+  </label>
+  <label>
+    <input type="radio" name="productStatus" id="fundStatus"> 공개 예정 상품
+  </label>
+  <br><br>
+
+
+
+
+
+  <!-- 제출 버튼 -->
+  <button onclick="submitProduct()">상품 등록</button>
+    <!-- 미리보기 박스 -->
+
+    
+      <script>
+        const imageUpload = document.getElementById('productImage');
+        const imagePreviewAuto = document.getElementById('imagePreviewAuto');
+        const imagePreviewFull = document.getElementById('imagePreviewFull');
+    
+        imageUpload.addEventListener('change', function() {
+          const file = this.files[0];
+          if (file) {
+            const reader = new FileReader();
+    
+            reader.onload = function(event) {
+                imagePreviewAuto.src = event.target.result;
+                imagePreviewAuto.style.display = 'block'; // 이미지가 표시되도록 설정
+                imagePreviewFull.src = event.target.result;
+                imagePreviewFull.style.display = 'block'; // 이미지가 표시되도록 설정
+            };
+    
+            reader.readAsDataURL(file); // 이미지 파일을 읽어서 미리보기에 표시
+          }
+        });
+      </script>
+
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js"></script>
+  <script>
+      const firebaseConfig = {
+          apiKey: "AIzaSyCbg4hzNgHuHLPPf-p81tOR9NokHUkJEYU",
+          authDomain: "wav-page.firebaseapp.com",
+          projectId: "wav-page",
+          storageBucket: "wav-page.appspot.com",
+          messagingSenderId: "177402832992",
+          appId: "1:177402832992:web:f9e73201becffd901cfb05",
+          measurementId: "G-7LRKNDFK7B"
+      };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+    const storage = firebase.storage();
+
+    function addOption() {
+      const optionContainer = document.getElementById('productOptions');
+      const newOption = document.createElement('input');
+      newOption.type = 'text';
+      newOption.placeholder = '옵션을 입력하세요';
+      optionContainer.insertBefore(newOption, optionContainer.lastElementChild);
+    }
+
+    // 이미지 미리보기 기능
+    document.getElementById('productImage').addEventListener('change', function (event) {
+      const file = event.target.files[0];
+      const previewAuto = document.getElementById('imagePreviewAuto');
+      const previewFull = document.getElementById('imagePreviewFull');
+      const reader = new FileReader();
+
+      reader.onload = function (e) {
+        previewAuto.style.backgroundImage = `url(${e.target.result})`;
+        previewFull.style.backgroundImage = `url(${e.target.result})`;
+      };
+
+      if (file) {
+        reader.readAsDataURL(file);
+      }
+    });
+
+    function getCurrentFormattedTime() {
+      const now = new Date();
+      const year = now.getFullYear();
+      const month = String(now.getMonth() + 1).padStart(2, '0');
+      const day = String(now.getDate()).padStart(2, '0');
+      const hour = String(now.getHours()).padStart(2, '0');
+      const minute = String(now.getMinutes()).padStart(2, '0');
+      return `z${year}${month}${day}${hour}${minute}a`;
+    }
+
+    function submitProduct() {
+      const currentTime = getCurrentFormattedTime();
+      const productName = document.getElementById('productName').value;
+      const productPrice = document.getElementById('productPrice').value;
+      const productDescription = document.getElementById('productDescription').value;
+      const extraDescription = document.getElementById('extraDescription').value;
+      const ticketCount = document.getElementById('ticketCount').value;
+      const designKey = document.getElementById('designFull').checked ? 'full' : 'auto';
+      const productStatus = document.getElementById('saleStatus').checked ? 'sale' : 'fund';
+      
+      const options = Array.from(document.getElementById('productOptions').getElementsByTagName('input'))
+        .map(optionInput => optionInput.value).filter(option => option);
+
+      if (!productName || !productPrice || !productDescription || !ticketCount) {
+        alert("필수 항목을 입력하세요.");
+        return;
+      }
+
+      // 상품 데이터 준비
+      const productData = {
+        title: productName,
+        price: productPrice,
+        description: productDescription,
+        extra_description: extraDescription,
+        design_key: designKey,
+        key: productStatus,
+        ticket: Number(ticketCount),
+        option: options,
+      };
+
+      // 이미지 업로드 처리
+      const productImage = document.getElementById('productImage').files[0];
+      const storageRef = storage.ref(`md/${currentTime}.png`);
+
+      if (productImage) {
+        storageRef.put(productImage).then(() => {
+          storageRef.getDownloadURL().then((imgUrl) => {
+            productData.img_link = `md/${currentTime}.png`;
+
+        // Firestore에 상품 데이터 저장
+        db.collection('test').doc('md').set({
+          [currentTime]: productData
+        }, { merge: true }).then(() => {
+          
+          // list 배열에 상품 ID 추가
+          db.collection('test').doc('md').update({
+            list: firebase.firestore.FieldValue.arrayUnion(currentTime) // 배열에 새로운 상품 ID 추가
+          }).then(() => {
+            alert("상품이 성공적으로 등록되고 리스트에 추가되었습니다.");
+          }).catch(error => {
+            console.error("리스트 업데이트 중 오류 발생: ", error);
+          });
+
+        }).catch(error => {
+          console.error("상품 등록 중 오류 발생: ", error);
+        });
+      });
+    });
+  }
+}
+  </script>
+</body>
+</html>

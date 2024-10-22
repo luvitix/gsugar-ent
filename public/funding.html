@@ -47,38 +47,17 @@
             });
         }
 
-        // Firestore에서 링크 가져오기
-        function openMediaLink2() {
-            document.getElementById("testbed").style.display = 'block'
-            document.getElementById("var").style.display = 'none'
-            document.getElementById("media").style.display = 'none'
-            document.getElementById("project").style.display = 'none'
-            document.getElementById("career").style.display = 'none'
-            document.getElementById("capyright").style.display = 'none'
-        //   DB.collection('mediaLinks').doc('platformButtonLink')
-        //       .get()
-        //       .then((doc) => {
-        //           if (doc.exists) {
-        //               // Firestore에서 가져온 링크를 새 창으로 열기
-        //               window.location.replace(doc.data()['link'], '_blank');
-        //           } else {
-        //               console.log("No such document!");
-        //           }
-        //       })
-        //       .catch((error) => {
-        //           console.log("Error getting document:", error);
-        //       });
-        }
+
 
     // 이미지를 불러오는 함수
-    function loadImage(key) {
+    function loadImage(key, key2) {
         const storageRef = STORAGE.ref();
         const imageRef = storageRef.child(key);
 
         // 이미지 파일의 다운로드 URL을 가져와서 <img> 태그에 적용
         imageRef.getDownloadURL()
           .then((url) => {
-            document.getElementById('albumImage').src = url;
+            document.getElementById(key2).src = url;
           })
           .catch((error) => {
             console.error('이미지 파일 불러오기 오류:', error);
@@ -110,7 +89,7 @@
         document.getElementById("capyright").style.display = 'block'
       }
       window.onload = openMediaContent();
-      window.onload = loadImage('testbed_album_1.png');
+    //   window.onload = loadImage('testbed_album_1.png');
       
     </script>
 </head>
@@ -235,10 +214,10 @@
                     </a>
                     <a>
                         <div style="background-color: #f6f6f6; text-align: center; display: flex; justify-content: center; align-items: center; aspect-ratio: 1 / 1; width: 100%;">
-                            <img src="esset/photocard.png" alt="설탕이 우주여행 포토카드🌌" style="width: 100%; height: auto;">
+                            <img id="test_md_img" src="esset/photocard.png" alt="설탕이 우주여행 포토카드🌌" style="width: 100%; height: auto;">
                         </div>
-                        <h1 class="testshop_name black">설탕이 우주여행 포토카드🌌</h1>
-                        <h2 class="testshop_price black">4,500원 ~ 7,000원</h2>
+                        <h1 id="test_md" class="testshop_name black">설탕이 우주여행 포토카드🌌</h1>
+                        <h2 id="test_md_price" class="testshop_price black">4,500원 ~ 7,000원</h2>
                     </a>
                 </div>
                 <div style="margin-left: 8px; font-size: 12px; padding-bottom: 75px;" class="black">
@@ -248,10 +227,11 @@
             </div>
             <div id="event_tab" style="margin-top: 88px; display: none; background-color: white;">
                 <div style="margin: 8px;">
-                    <div style="text-align: center; display: flex;">
+                    <div id="test_event_bar" style="text-align: center; display: flex;">
                         <h2 class="event_control black" style=" color: white; background-color: blueviolet;">진행중 ( 3 )</h2>
                         <h2 class="event_control black" onclick="openEndEvent()">종료 ( 0 )</h2>
                     </div>
+                    <div id="test_event_list" style="display: flex; flex-direction: column;">
                     <div style="background-color: #f6f6f6; border-radius: 15px; height: auto;">
                         <div style="padding: 8px; background-color: white; border-radius: 15px; height: auto; display: flex; flex-direction: column;">
                             <img src="esset/event_1.png" alt="" width="100%">
@@ -283,6 +263,7 @@
                             <div class="white" style="text-align: center;">더보기</div>
                         </div>
                         
+                    </div>
                     </div>
                 </div>
                 

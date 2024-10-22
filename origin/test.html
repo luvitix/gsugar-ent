@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>드래그 리스트 테스트</title>
+  <style>
+    #sortable-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    #sortable-list li {
+      padding: 10px;
+      margin: 5px;
+      background-color: #f0f0f0;
+      border: 1px solid #ccc;
+      cursor: move;
+    }
+
+    #add-item {
+      padding: 10px;
+      margin: 5px;
+      background-color: #aaf;
+      border: 1px solid #00f;
+      text-align: center;
+      cursor: not-allowed;
+    }
+  </style>
+</head>
+<body>
+  <h1>리스트 순서 변경 테스트</h1>
+
+  <ul id="sortable-list">
+    <li draggable="true" data-id="1">아이템 1</li>
+    <li draggable="true" data-id="2">아이템 2</li>
+    <li draggable="true" data-id="3">아이템 3</li>
+    <li draggable="true" data-id="4">아이템 4</li>
+    <li draggable="true" data-id="5">아이템 5</li>
+    <li id="add-item">+ 아이템 추가</li>
+  </ul>
+
+  <script>
+    const list = document.getElementById('sortable-list');
+    let draggedItem = null;
+
+    // 드래그 시작
+    list.addEventListener('dragstart', function (e) {
+      if (e.target.id !== 'add-item') { // + 버튼은 드래그되지 않음
+        draggedItem = e.target;
+        setTimeout(() => {
+          draggedItem.style.display = 'none';
+        }, 0);
+      }
+    });
+
+    // 드래그 끝
+    list.addEventListener('dragend', function (e) {
+      if (draggedItem) {
+        setTimeout(() => {
+          draggedItem.style.display = 'block';
+          draggedItem = null;
+        }, 0);
+      }
+    });
+
+    // 드래그 오버 이벤트
+    list.addEventListener('dragover', function (e) {
+      e.preventDefault();
+      const draggingOverItem = e.target;
+      if (draggingOverItem && draggingOverItem.nodeName === 'LI' && draggingOverItem !== draggedItem && draggingOverItem.id !== 'add-item') {
+        const rect = draggingOverItem.getBoundingClientRect();
+        const offset = e.clientY - rect.top;
+        if (offset > rect.height / 2) {
+          draggingOverItem.after(draggedItem);
+        } else {
+          draggingOverItem.before(draggedItem);
+        }
+      }
+    });
+
+    // 드롭 시 순서 변경 출력
+    list.addEventListener('drop', function () {
+      const newOrder = Array.from(list.children)
+        .filter(li => li.id !== 'add-item')  // + 버튼 제외
+        .map(li => li.textContent);
+      console.log('새로운 리스트 순서:', newOrder);
+    });
+  </script>
+</body>
+</html>

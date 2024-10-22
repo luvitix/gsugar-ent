@@ -1,0 +1,453 @@
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/Pretendard-Regular.css");
+
+@font-face {
+    font-family: 'SUIT-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_suit@1.0/SUIT-Regular.woff2') format('woff2'),
+         url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_suit@1.0/SUIT-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    -webkit-font-smoothing: antialiased;
+}
+
+
+
+body {
+    background-color: rgb(0, 0, 0);
+}
+
+button {
+    border: none;
+    font-family: 'SUIT-Regular';
+    font-size: 15px;
+    background-color: rgb(20, 14, 32);
+    color: aliceblue;
+}
+button:hover{
+    background-color: aliceblue;
+    color: rgb(20, 14, 32);
+    cursor: pointer;
+}
+
+a {
+    text-decoration: none; /* 밑줄 제거 */
+    color: black; /* 링크 색상 변경 */
+    display: inline-block; /* 가운데 정렬을 위해 인라인 블록 요소로 변경 */
+    width: 100%; /* 부모 요소의 너비를 100%로 설정하여 가운데 정렬을 유지 */
+}
+
+input {
+    border-radius: 50px;
+    font-family: 'Pretendard', sans-serif;
+}
+
+/* #productName {
+    font-size: 32px;
+}
+
+#productDescription {
+    font-size: 16px;
+    border-radius: 50px;
+    font-family: 'Pretendard', sans-serif;
+} */
+
+/* Draggable div style */
+#draggableDiv {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #f1f1f1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    cursor: move;
+    width: 250px;
+}
+
+#nameInput {
+    font-size: 20px;
+}
+
+#instagramInput {
+    font-size: 20px;
+}
+
+#var {
+    background-color: rgb(14, 18, 32);
+    margin: -8px;
+    padding: 1px;
+    text-align: center;
+}
+
+#contact {
+    background-color: rgb(14, 18, 32);
+    margin: -8px;
+    padding: 50px;
+    text-align: center;
+}
+
+#media {
+    background-color: rgb(36, 26, 100);
+    margin: -8px;
+    margin-top: -4px;
+    padding: 50px;
+    text-align: center;
+}
+
+#store {
+    background-color: rgb(255, 255, 255);
+    text-align: left;
+    margin: -8px;
+    margin-top: -4px;
+    padding-top: 50px;
+    padding-left: 100px;
+    padding-right: 100px;
+    padding-bottom: 50px;
+    font-family: 'Pretendard', sans-serif;
+    color: rgb(42, 42, 42);
+}
+
+#career {
+    background-color: rgb(0, 0, 0);
+    margin: -8px;
+    margin-top: -4px;
+    padding: 50px;
+    text-align: center;
+}
+
+.black {
+    font-family: 'Pretendard', sans-serif;
+    color: rgb(42, 42, 42);
+}
+
+#project {
+    background-color: rgb(62, 0, 144);
+    margin: -8px;
+    margin-top: -4px;
+    padding: 50px;
+    text-align: center;
+}
+
+
+.logo-text {
+    font-size: clamp(10px, 5vh, 46.5px);
+}
+
+.white {
+    font-family: 'SUIT-Regular';
+    color: aliceblue;
+}
+
+.whiteNpadding {
+    font-family: 'SUIT-Regular';
+    color: aliceblue;
+    padding-top: 10px;
+}
+
+.headline {
+    font-family: 'SUIT-Regular';
+    color: aliceblue;
+    text-align: left;
+}
+
+.gold {
+    font-family: 'SUIT-Regular';
+    color: goldenrod
+}
+
+.vision_text {
+    font-size: clamp(10px, 10vh, 10vh);
+}
+
+.goods-title {
+    font-size: clamp(7px, 1.8vh, 1.8vh);
+}
+
+.goods-price {
+    font-size: clamp(4px, 1.7vh, 1.7vh);
+}
+
+.goods-content {
+    font-size: clamp(4px, 1.6vh, 1.6vh);
+}
+
+.vision-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
+
+.vision-left {
+    margin-top: 40%;
+    text-align: left
+}
+
+.vision-right {
+    margin-top: 40%;
+    text-align: right
+}
+
+.vision-point {
+    text-align: center;
+}
+
+.news-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    justify-items: center;
+}
+
+.content-box {
+    border-style: solid;
+    border-top-color: aliceblue;
+    border-left: none;
+    border-right: none;
+    border-bottom-color: aliceblue;
+    border-bottom-width: 0.4px;
+}
+
+.image-container {
+    position: relative;
+    text-align: center;
+    color: white; /* 혹은 원하는 텍스트 색상 */
+}
+
+.centered-text {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+
+
+.vision-letter {
+    opacity: 0;
+    transition: all 1s;
+}
+
+.super-vision {
+    opacity: 0;
+    transform: translateX(-60px);
+    transition: all 1s;
+}
+
+.goods-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+}
+
+.mypage-grid {
+    display: flex;
+    justify-content: center
+}
+
+.searching-button {
+    border-radius: 50px;
+    margin-left: 5px;
+    font-size: 20px;
+}
+
+#profile-photo {
+    width: 15%;
+}
+
+.event_image {
+    width: 43.5%;
+    max-width: 500px;
+}
+.event_control {
+    display: flex;
+    align-items: center;
+    margin: 8px;
+}
+.event_button {
+    margin-left: 8px;
+}
+.event_select {
+    display: inline-block; 
+    width: 100%; 
+    font-size: 18px;
+    padding: 8px;
+    margin-top: -35px;
+}
+.event_select:hover {
+    cursor: pointer;
+    color: blueviolet;
+    background-color: #f6f6f6;
+}
+.event_notice {
+    display: flex;
+    flex-direction: column;
+    margin: 8px;
+}
+.event_detail {
+    display: flex;
+    align-items: center;
+    margin-left: 8px;
+}
+#buy_button {
+    background-color: blueviolet;
+    color: #f6f6f6;
+    border-radius: 10px; 
+    font-size: 20px; 
+    padding: 8px; 
+    width: 100%;
+    text-align: center;
+}
+#buy_button:hover {
+    cursor: pointer;
+    background-color: black;
+}
+
+.login_button_class {
+    background-color: blueviolet;
+    color: #f6f6f6;
+    border-radius: 10px; 
+    font-size: 20px; 
+    padding: 8px;
+    margin: 5px; 
+    width: 60%;
+    text-align: center;
+}
+
+.login_button_class:hover {
+    cursor: pointer;
+    background-color: black;
+}
+.extra_img {
+    width: 50%;
+    display: block;  /* 이미지가 block 요소처럼 동작 */
+    margin: 0 auto;  /* 가로 가운데 정렬 */
+    text-align: center;  /* 이미지 안의 텍스트가 아니라, 이미지를 가운데 정렬 */
+}
+
+@media (max-width: 900px) {
+    .vision-grid {
+        grid-template-columns: repeat(1, 1fr);
+    }
+    .vision-left {
+        margin-top: 0px;
+        text-align: center;
+    }
+    .vision-right {
+        margin-top: 0px;
+        text-align: center;
+    }
+    .news-grid {
+        grid-template-columns: repeat(1, 1fr);
+    }
+    .vision-text {
+        font-size: 3vh;
+    }
+    .pc-letter {
+        display: none;
+    }
+    .centered-text {
+        width: 80%;
+        left: 10%;
+    }
+    .goods-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+    .goods-title {
+        font-size: 15px;
+    }
+    
+    .goods-price {
+        font-size: 13px;
+    }
+    
+    .goods-content {
+        font-size: 11px;
+    }
+    #store {
+        padding-left: 7px;
+        padding-right: 7px;
+    }
+    .mobile-searching {
+        flex-direction: column;
+    }
+    .mypage-grid{
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 5px;
+        width: 300px;
+        font-size: 10px;
+    }
+    
+    .searching-button {
+        height: auto;
+        width: 87px;
+        border-radius: 20px;
+        font-size: 16px;
+    }
+    #nameInput {
+        font-size: 16px;
+    }
+    #instagramInput {
+        font-size: 16px;
+    }
+    #profile-photo {
+        width: 40%;
+    }
+    .container {
+        display: flex;
+        justify-content: center;
+        text-align: center;
+    }
+    .mobile-none {
+        display: none;
+    }
+    .event_control {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .event_image {
+        width: 100%;
+        max-width: 100%;
+    }
+    .event_title {
+        font-size: 24px;
+    }
+    .event_button {
+        margin: 0;
+    }
+    .event_detail {
+        display: flex;
+        flex-direction: column;
+        margin: 0;
+    }
+    #buy_button {
+        position: fixed;
+        bottom: 0;
+        margin: 8px;
+        margin-bottom: 16px;
+        font-size: 24px;
+        height: 40px;
+        align-content: center;
+    }
+    .extra_img {
+        width: 100%;
+        text-align: center;
+    }
+    #productName {
+        font-size: 3vh;
+    }
+}
+
+@media (min-width: 901px) {
+    .mobile-letter {
+        display: none;
+    }
+    .image {
+        content: url('esset/world.jpg'); /* 큰 이미지로 교체 */
+    }
+}

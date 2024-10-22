@@ -112,6 +112,86 @@ function click_the_button (e) {
     }
 }
 
+function openNowEvent() {
+    document.getElementById('test_event_bar').innerHTML =
+    `
+    <h2 class="event_control black" style=" color: white; background-color: blueviolet;">진행중 ( 3 )</h2>
+    <h2 class="event_control black" onclick="openEndEvent()">종료 ( 0 )</h2>
+    `
+    document.getElementById('test_event_list').style.display = 'flex'
+}
+
 function openEndEvent() {
-    
+    document.getElementById('test_event_bar').innerHTML =
+    `
+    <h2 class="event_control black" onclick="openNowEvent()">진행중 ( 3 )</h2>
+    <h2 class="event_control black" style=" color: white; background-color: blueviolet;">종료 ( 0 )</h2>
+    `
+    document.getElementById('test_event_list').style.display = 'none'
+}
+
+async function sectionDesignFullsize(key) {
+    const storageRef = STORAGE.ref();
+    const imageRef = storageRef.child(key['img_link']);
+    const designHtml =
+    `<a>
+        <div style="background-color: #f6f6f6; text-align: center; display: flex; justify-content: center; align-items: center; aspect-ratio: 1 / 1; width: 100%;">
+            <img src=${await imageRef.getDownloadURL()} alt=${key['title']} style="width: 100%; height: auto;">
+        </div>
+        <h1 class="testshop_name black">${key['title']}</h1>
+        <h2 class="testshop_price black">${key['price']}</h2>
+    </a>`
+    console.log(designHtml)
+    return designHtml
+}
+
+async function sectionDesignAutosize(key) {
+    const storageRef = STORAGE.ref();
+    const imageRef = storageRef.child(key['img_link']);
+    const designHtml =
+    `<a>
+        <div style="background-color: #f6f6f6; text-align: center; display: flex; justify-content: center; align-items: center; aspect-ratio: 1 / 1; width: 100%;">
+            <img src=${await imageRef.getDownloadURL()} alt=${key['title']} style="width: 80%; height: auto;">
+        </div>
+        <h1 class="testshop_name black">${key['title']}</h1>
+        <h2 class="testshop_price black">${key['price']}</h2>
+    </a>`
+    return designHtml
+}
+
+// Firestore에서 링크 가져오기
+async function openMediaLink2() {
+    document.getElementById("testbed").style.display = 'block'
+    document.getElementById("var").style.display = 'none'
+    document.getElementById("media").style.display = 'none'
+    document.getElementById("project").style.display = 'none'
+    document.getElementById("career").style.display = 'none'
+    document.getElementById("capyright").style.display = 'none'
+    // loadImage('testbed_album_1.png', 'albumImage');
+            
+    const doc = await DB.collection('test').doc('md').get();
+        // document.getElementById('test_md').textContent = doc.data()['test']['title']
+        // document.getElementById('test_md_price').textContent = doc.data()['test']['price']
+        // loadImage(doc.data()['test']['img_link'], 'test_md_img');
+    let storeContentArray = new Array(doc.data()['list'].length);
+    // 모든 비동기 작업을 처리할 Promise 배열 생성
+    var promises = doc.data()['list'].reverse().map(async (item, index) => {
+        if (doc.data()[item]['design_key'] == "full") {
+            let content = await sectionDesignFullsize(doc.data()[item]);
+            storeContentArray[index] = content;
+        } else if (doc.data()[item]['design_key'] == "auto") {
+            let content = await sectionDesignAutosize(doc.data()[item]);
+            storeContentArray[index] = content;
+        }
+    });
+    // let designHtml = await sectionDesignFullsize(doc.data()['test']);
+    // // designHtml += await sectionDesignAutosize(doc.data()['z202410200058a'])
+    // document.getElementById('storeContent').innerHTML = storeContent
+    // 모든 Promise가 완료된 후에 storeContent를 적용
+    await Promise.all(promises);
+
+    // storeContentArray에 있는 모든 결과를 합쳐서 storeContent에 저장
+    const storeContent = storeContentArray.join('');
+    document.getElementById('storeContent').innerHTML = storeContent;
+   
 }
