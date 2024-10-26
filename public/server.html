@@ -10,6 +10,82 @@
     <script src="information.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <style>
+        .dropdown-container {
+          display: inline-block;
+          position: relative;
+        }
+    
+        #toggleButton {
+          font-size: 16px;
+          padding: 10px 20px;
+          color: white;
+          background-color: #28a745;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+        }
+    
+        #toggleButton:hover {
+          background-color: #218838;
+        }
+    
+        .options-container {
+          position: absolute;
+          bottom: 100%; /* 버튼 위에 나타나도록 변경 */
+          left: 0;
+          width: 100%;
+          display: none;
+          background-color: #ffffff;
+          border: 1px solid #ccc;
+          border-radius: 4px;
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+          z-index: 1;
+        }
+    
+        .option {
+          padding: 10px;
+          border-bottom: 1px solid #ccc;
+          cursor: pointer;
+        }
+    
+        .option:last-child {
+          border-bottom: none;
+        }
+    
+        .option:hover {
+          background-color: #f0f0f0;
+        }
+      </style>
+      <script>
+        function toggleOptions() {
+          const optionsContainer = document.getElementById('optionsContainer');
+          optionsContainer.style.display = optionsContainer.style.display === 'block' ? 'none' : 'block';
+        }
+    
+        function selectOption(option) {
+            DB.collection('goods').doc(id1)
+            .get()
+            .then((doc) => {
+                document.getElementById('goodsname').textContent = doc.data()['name'] + ` (${doc.data()['option'][option]['name']})`;
+                document.getElementById('price').textContent = doc.data()['option'][option]['price'];
+                document.getElementById('toggleButton').textContent = `${doc.data()['option'][option]['name']} (${doc.data()['option'][option]['price']})`
+                document.getElementById('buy_button').onclick = function() {
+                    window.location.replace(doc.data()['option'][option]['linkconnect'], '_blank');
+                };
+            })
+            document.getElementById('optionsContainer').style.display = 'none';
+            
+        }
+    
+        // 외부 클릭 시 드롭다운 닫기
+        window.addEventListener('click', function(event) {
+          const dropdown = document.querySelector('.dropdown-container');
+          if (!dropdown.contains(event.target)) {
+            document.getElementById('optionsContainer').style.display = 'none';
+          }
+        });
+      </script>
     <script>
         const firebaseConfig = {
             apiKey: "AIzaSyCbg4hzNgHuHLPPf-p81tOR9NokHUkJEYU",
@@ -61,6 +137,11 @@
                         <h1 id="goodsname" class="vision-text">굳즈 이름</h1>
                         <p id="description">설명</p>
                         <h2 id="price">가격</h2>
+                        <div id="option" class="dropdown-container">
+                            <button id="toggleButton" onclick="toggleOptions()">옵션을 선택하세요</button>
+                            <div id="optionsContainer" class="options-container">
+                            </div>
+                        </div>
                         <div style=" margin-top: 40px; display: flex; justify-content: center;">
                             <div id="buy_button" onclick="openMediaLink(id1)" style="color: #f6f6f6; width: 80%;">구매하기</div>
                         </div>
@@ -81,6 +162,11 @@
                         <h1 id="goodsname" class="vision-text">굳즈 이름</h1>
                         <p id="description">설명</p>
                         <h2 id="price">가격</h2>
+                        <div id="option" class="dropdown-container">
+                            <button id="toggleButton" onclick="toggleOptions()">옵션을 선택하세요</button>
+                            <div id="optionsContainer" class="options-container">
+                            </div>
+                        </div>
                         <div style=" margin-top: 40px; display: flex; justify-content: center;">
                             <div id="buy_button" onclick="iwantthis(id1)" style="color: #f6f6f6; width: 80%;">오픈 원해요!</div>
                         </div>
@@ -132,6 +218,16 @@
                         extra_img += `<img src="${doc.data()['extra_img_link'][i]}" class="extra_img">`
                     }
                     document.getElementById('extra_description_img').innerHTML = extra_img;
+
+                    if (doc.data()['option']) {
+                        var option_list = ""
+                        for (var i = 0; i < doc.data()['option'].length; i++) {
+                            option_list += `<div class="option" onclick="selectOption(${i})">${doc.data()['option'][i]['name']} (${doc.data()['option'][i]['price']})</div>`
+                        }
+                        document.getElementById('optionsContainer').innerHTML = option_list
+                    } else {
+                        document.getElementById('option').style.display = "none"
+                    }
                 } else {
                     console.log("No such document!");
                 }
@@ -158,6 +254,14 @@
                 <h1 id="goodsname" class="vision-text">굳즈 이름</h1>
                 <p id="description">설명</p>
                 <h2 id="price">가격</h2>
+                <div id="option" class="dropdown-container">
+                    <button id="toggleButton" onclick="toggleOptions()">옵션을 선택하세요</button>
+                    <div id="optionsContainer" class="options-container">
+                      <div class="option" onclick="selectOption('옵션 1')">옵션 1</div>
+                      <div class="option" onclick="selectOption('옵션 2')">옵션 2</div>
+                      <div class="option" onclick="selectOption('옵션 3')">옵션 3</div>
+                    </div>
+                </div>
                 <div style=" margin-top: 40px; display: flex; justify-content: center;">
                     <div id="buy_button" onclick="openMediaLink(id1)" style="color: #f6f6f6; width: 80%;">구매하기</div>
                 </div>

@@ -71,6 +71,12 @@
     color: blueviolet;
     background-color: #f6f6f6;
 }
+#new_var {
+    background-color: #f6f6f6;
+    margin: -8px;
+    padding: 1px;
+    text-align: center;
+}
 
 @media (max-width: 900px) {
     #testbed {
