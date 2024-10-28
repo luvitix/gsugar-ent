@@ -89,6 +89,10 @@ function bottom_button_style(key) {
             tabs[index].style.display = "none";
         }
     });
+
+    document.getElementById("MyPage_trigger").onclick = function() {
+        showMypage(key)
+    }
 }
 
 var key_value = 0
@@ -196,7 +200,9 @@ async function openMediaLink2() {
    
 }
 
-function showMypage() {
+var nowtab = ""
+
+function showMypage(key) {
     document.getElementById('top_line').textContent = "MyPage"
     document.getElementById('top_btn').onclick = function() {
         closeMypae()
@@ -208,6 +214,8 @@ function showMypage() {
     document.getElementById("button_line").style.display = "none"
     document.getElementById("testbed").style.backgroundColor = "rgb(14, 18, 32)"
     document.getElementById("ticket_showWindow").style.display = "none"
+    document.getElementById("MyPage_section").style.display = "block"
+    nowtab = key
 }
 
 function closeMypae() {
@@ -215,11 +223,10 @@ function closeMypae() {
     document.getElementById('top_btn').onclick = function() {
         closeSpecial()
     }
-    document.getElementById("home_tab").style.display = "block"
-    document.getElementById("collection_tab").style.display = "block"
-    document.getElementById("shop_tab").style.display = "block"
-    document.getElementById("event_tab").style.display = "block"
+    control_key = ["home_tab", "collection_tab", "shop_tab", "event_tab"]
+    document.getElementById(control_key[nowtab]).style.display = "block"
     document.getElementById("button_line").style.display = "flex"
     document.getElementById("testbed").style.backgroundColor = "white"
     document.getElementById("ticket_showWindow").style.display = "flex"
+    document.getElementById("MyPage_section").style.display = "none"
 }
