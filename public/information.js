@@ -195,3 +195,31 @@ async function openMediaLink2() {
     document.getElementById('storeContent').innerHTML = storeContent;
    
 }
+
+function showMypage() {
+    document.getElementById('top_line').textContent = "MyPage"
+    document.getElementById('top_btn').onclick = function() {
+        closeMypae()
+    }
+    document.getElementById("home_tab").style.display = "none"
+    document.getElementById("collection_tab").style.display = "none"
+    document.getElementById("shop_tab").style.display = "none"
+    document.getElementById("event_tab").style.display = "none"
+    document.getElementById("button_line").style.display = "none"
+    document.getElementById("testbed").style.backgroundColor = "rgb(14, 18, 32)"
+    document.getElementById("ticket_showWindow").style.display = "none"
+}
+
+function closeMypae() {
+    document.getElementById('top_line').textContent = "GSUGAR"
+    document.getElementById('top_btn').onclick = function() {
+        closeSpecial()
+    }
+    document.getElementById("home_tab").style.display = "block"
+    document.getElementById("collection_tab").style.display = "block"
+    document.getElementById("shop_tab").style.display = "block"
+    document.getElementById("event_tab").style.display = "block"
+    document.getElementById("button_line").style.display = "flex"
+    document.getElementById("testbed").style.backgroundColor = "white"
+    document.getElementById("ticket_showWindow").style.display = "flex"
+}

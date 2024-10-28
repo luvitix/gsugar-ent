@@ -100,16 +100,16 @@
     <div style="width: 100%; display: flex; justify-content: center;">
         <div id="testbed" style="display: none; background-color: white;">
             <div id="var_line" style="position: fixed; background-color: rgb(14, 18, 32); color: white; top: 0; text-align: center; display: flex; height: 8.6vh;">
-                <h1 style="font-size: 3.44vh;" class="white" onclick="closeSpecial()">◁</h1>
-                <h1 style="color: white; font-size: 3.44vh;" class="black">GSUGAR</h1>
-                <div style="margin-left: auto; display: flex;">
+                <h1 id="top_btn" style="font-size: 3.44vh;" class="white" onclick="closeSpecial()">◁</h1>
+                <h1 id="top_line" style="color: white; font-size: 3.44vh;" class="black">GSUGAR</h1>
+                <div id="ticket_showWindow" style="margin-left: auto; display: flex;">
                     <!-- <div style="display: flex; flex-direction: column; justify-content: center;">
                         <button style="border-style: solid; border-radius: 1.83vh; border-width: 2px; font-size: 2.37vh; width: auto; height: 4.84vh; align-items: center; display: flex;">
                             <img src="esset/masteryticket.png" style="width: 5.16vh;"> 9999
                         </button>
                     </div> -->
                     <div style="display: flex; flex-direction: column; justify-content: center;">
-                        <button style="border-style: solid; border-radius: 1.83vh; border-width: 2px; font-size: 2.37vh; width: auto; height: 4.84vh; align-items: center; display: flex;">
+                        <button style="border-style: solid; border-radius: 1.83vh; border-width: 2px; font-size: 2.37vh; width: auto; height: 4.84vh; align-items: center; display: flex;" onclick="showMypage()">
                             <img src="esset/masteryticket.png" style="width: 5.16vh;"> 53
                         </button>
                     </div>
@@ -278,6 +278,11 @@
                 <a onclick="bottom_button_style(1)" class="whiteNpadding bottom_button">수집품<br>Collection</a>
                 <a onclick="bottom_button_style(2)" class="whiteNpadding bottom_button">상점<br>Shop</a>
                 <a onclick="bottom_button_style(3)" class="whiteNpadding bottom_button">이벤트<br>Event</a>
+            </div>
+            <div id="MyPage_section" style="text-align: center;">
+                <img src="esset/masteryticket.png" alt="" width="100%">
+                <h3 style="margin: 0; margin-top: -100px;" class="white">내가 보유한 티켓!</h3>
+                <h1 style="margin: 0;" class="white">53개</h1>
             </div>
         </div>
     </div>
