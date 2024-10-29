@@ -97,7 +97,7 @@
 @media (max-width: 900px) {
     #testbed {
         width: 100vw;
-        height: 100vh;
+        height: auto;
     }
     #var_line {
         width: 100%;
