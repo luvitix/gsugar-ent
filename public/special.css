@@ -1,6 +1,7 @@
 #testbed {
     width: 56.3vh; 
-    height: auto; 
+    min-height: 100vh;
+    height: auto;
     background-color: rgb(255, 255, 255);
     margin: -8px;
 }
@@ -92,6 +93,14 @@
 
 .mypage_element:hover {
     cursor: pointer;
+}
+
+.heart_btn_box {
+    display: flex; 
+    align-items: center;
+    margin: 8px;
+    margin-top: 16px; 
+    margin-left: auto;
 }
 
 @media (max-width: 900px) {

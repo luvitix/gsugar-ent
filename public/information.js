@@ -133,6 +133,40 @@ function click_the_button (e) {
     }
 }
 
+function click_the_btn (e) {
+    var heart_count = Number(document.querySelectorAll('.heart_count')[e].textContent);
+    var heart = document.querySelectorAll('.heart_button')[e];
+    if (e == 0) {
+        if (community_test1 == 0) {
+            heart_count += 1
+            community_test1 = 1
+            document.querySelectorAll('.heart_count')[e].textContent = heart_count
+            document.querySelectorAll('.heart_count')[e].style.color = "blueviolet"
+            heart.src = "esset/heart-full.png"
+        } else if (community_test1 == 1) {
+            heart_count -= 1
+            community_test1 = 0
+            document.querySelectorAll('.heart_count')[e].textContent = heart_count
+            document.querySelectorAll('.heart_count')[e].style.color = "black"
+            heart.src = "esset/heart-none.png"
+        }
+    } else if (e == 1) {
+        if (community_test2 == 0) {
+            heart_count += 1
+            community_test2 = 1
+            document.querySelectorAll('.heart_count')[e].textContent = heart_count
+            document.querySelectorAll('.heart_count')[e].style.color = "blueviolet"
+            heart.src = "esset/heart-full.png"
+        } else if (community_test2 == 1) {
+            heart_count -= 1
+            community_test2 = 0
+            document.querySelectorAll('.heart_count')[e].textContent = heart_count
+            document.querySelectorAll('.heart_count')[e].style.color = "black"
+            heart.src = "esset/heart-none.png"
+        }
+    }
+}
+
 function openNowEvent() {
     document.getElementById('test_event_bar').innerHTML =
     `

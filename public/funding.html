@@ -117,7 +117,7 @@
             </div>
             <div id="home_tab" style="margin-top: 9.46vh; background-color: white;">
                 <div style="margin: 8px; padding: 8px; background-color: #f6f6f6; border-radius: 15px; height: auto;">
-                    <h2 style="margin: 0;" class="black">ARTIST MESSAGE</h2>
+                    <h2 style="margin: 0; font-size: 2.58vh;" class="black">ARTIST MESSAGE</h2>
                     <div style="padding: 8px; background-color: white; border-radius: 15px; height: auto; display: flex;">
                         <img src="esset/newsugar.png" alt="" width="20%" style="border-radius: 35px;">
                         <div style="display: flex; flex-direction: column; margin-left: 5px; justify-content: center;">
@@ -133,7 +133,7 @@
                     </div>
                 </div>
                 <div style="margin: 8px; padding: 8px; background-color: #f6f6f6; border-radius: 15px; height: auto;">
-                    <h2 style="margin: 0;" class="black">ARTIST CONTENT</h2>
+                    <h2 style="margin: 0; font-size: 2.58vh;" class="black">ARTIST CONTENT</h2>
                     <div style="padding: 8px; background-color: white; border-radius: 15px; height: auto; display: flex; flex-direction: column;">
                         <img src="esset/testbed_content.png" alt="" width="100%">
                         <h3 class="black">[SUGAR-POP!] 설탕이의 전생은?</h3>
@@ -143,34 +143,38 @@
                     </div>
                 </div>
                 <div style="margin: 8px; padding: 8px; background-color: #f6f6f6; border-radius: 15px; height: auto;">
-                    <h2 style="margin: 0;" class="black">COMMUNITY</h2>
+                    <h2 style="margin: 0; font-size: 2.58vh;" class="black">COMMUNITY</h2>
                     <!-- 커뮤니티 표시 예제 -->
-                    <div style="padding: 8px; background-color: white; border-radius: 15px; height: auto; display: flex;">
-                        <img src="esset/newsearch.png" alt="" width="20%" style="border-radius: 35px;">
-                        <div style="display: flex; flex-direction: column; margin-left: 5px; justify-content: center;">
-                            <h4 style="color: blueviolet; margin: 0;" class="black">설탕이의큐티한점을찾아보자</h4>
-                            <p style="margin: 0;" class="black">설탕이 녹여서 달고나 만드실 분! 👉</p>
+                    <div style="padding: 8px; background-color: white; border-radius: 15px; height: auto;">
+                        <div style="display: flex;">
+                            <img src="esset/newsearch.png" alt="" style="width: 8vh; height: 8vh; border-radius: 35px;">
+                            <div style="display: flex; flex-direction: column; margin-left: 5px; justify-content: center;">
+                                <h4 style="color: blueviolet; margin: 0;" class="black">설탕이의큐티한점을찾아보자</h4>
+                                <p style="margin: 0;" class="black">설탕이 녹여서 달고나 만드실 분!</p>
+                            </div>
                         </div>
-                        <div style="display: flex; flex-direction: column; justify-content: center; margin-left: auto;">
-                            <button class="like_button black white_button" onclick="click_the_button(0)">👍 174</button>
+                        <div class="heart_btn_box" onclick="click_the_btn(0)">
+                            <img class="heart_button" src="esset/heart-none.png" alt="" style="width: 22px; height: 22px; margin-left: auto;">
+                            <p class="heart_count black" style="font-size: 18px; margin: 0; margin-left: 8px;" >174</p>
                         </div>
                     </div>
+                    
                     <div style="margin: 8px;"></div>
                     <div style="padding: 8px; background-color: white; border-radius: 15px; height: auto;">
                         <div style="display: flex;">
-                            <img src="esset/newalien.png" alt="" width="20%" style="border-radius: 35px;">
+                            <img src="esset/newalien.png" alt="" style="width: 8vh; height: 8vh; border-radius: 35px;">
                             <div style="display: flex; flex-direction: column; margin-left: 5px; justify-content: center;">
                                 <h4 style="color: blueviolet; margin: 0;" class="black">외계에서온설탕이</h4>
                                 <p style="margin: 0;" class="black">설탕이 포카 넘 귀여운 듯</p>
                             </div>
-                            
-                            <div style="display: flex; flex-direction: column; justify-content: center; margin-left: auto;">
-                                <button class="like_button black white_button" onclick="click_the_button(1)">👍 99</button>
-                            </div>
                         </div>
-                        <div style="width: 100%; display: flex; border-radius: 15px;">
+                        <div style="width: 100%; display: flex; border-radius: 15px; margin-top: 12px;">
                             <img src="esset/test_community_img1.jpg" alt="" style="width: 50%; aspect-ratio: 1 / 1; object-fit: cover;">
                             <img src="esset/test_community_img2.jpg" alt="" style="width: 50%; aspect-ratio: 1 / 1; object-fit: cover;">
+                        </div>
+                        <div class="heart_btn_box" onclick="click_the_btn(1)">
+                            <img class="heart_button" src="esset/heart-none.png" alt="" style="width: 22px; height: 22px; margin-left: auto;">
+                            <p class="heart_count black" style="font-size: 18px; margin: 0; margin-left: 8px;" >99</p>
                         </div>
                     </div>
                     <div class="hovering" style="padding: 8px; border-radius: 15px; height: auto; display: flex; justify-content: center; align-items: center;">
