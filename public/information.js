@@ -285,3 +285,31 @@ function closeMypae() {
 function locate (e) {
     window.location.href = e
 }
+
+
+function showCommunity(key) {
+    document.getElementById('top_line').textContent = "Community"
+    document.getElementById('top_btn').onclick = function() {
+        closeCommunity()
+    }
+    document.getElementById("home_tab").style.display = "none"
+    document.getElementById("collection_tab").style.display = "none"
+    document.getElementById("shop_tab").style.display = "none"
+    document.getElementById("event_tab").style.display = "none"
+    document.getElementById("button_line").style.display = "none"
+    document.getElementById("ticket_showWindow").style.display = "none"
+    document.getElementById("Community_section").style.display = "block"
+    nowtab = key
+}
+
+function closeCommunity() {
+    document.getElementById('top_line').textContent = "GSUGAR"
+    document.getElementById('top_btn').onclick = function() {
+        closeSpecial()
+    }
+    control_key = ["home_tab", "collection_tab", "shop_tab", "event_tab"]
+    document.getElementById(control_key[nowtab]).style.display = "block"
+    document.getElementById("button_line").style.display = "flex"
+    document.getElementById("ticket_showWindow").style.display = "flex"
+    document.getElementById("Community_section").style.display = "none"
+}
