@@ -98,6 +98,7 @@ function bottom_button_style(key) {
 var key_value = 0
 var community_test1 = 0
 var community_test2 = 0
+var community_test3 = 0
 
 function click_the_button (e) {
     var like_text = document.querySelectorAll('.like_button')[e].textContent;
@@ -142,13 +143,19 @@ function click_the_btn (e) {
             community_test1 = 1
             document.querySelectorAll('.heart_count')[e].textContent = heart_count
             document.querySelectorAll('.heart_count')[e].style.color = "blueviolet"
+            document.querySelectorAll('.heart_count')[e+3].textContent = heart_count
+            document.querySelectorAll('.heart_count')[e+3].style.color = "blueviolet"
             heart.src = "esset/heart-full.png"
+            document.querySelectorAll('.heart_button')[e+3].src = "esset/heart-full.png";
         } else if (community_test1 == 1) {
             heart_count -= 1
             community_test1 = 0
             document.querySelectorAll('.heart_count')[e].textContent = heart_count
             document.querySelectorAll('.heart_count')[e].style.color = "black"
+            document.querySelectorAll('.heart_count')[e+3].textContent = heart_count
+            document.querySelectorAll('.heart_count')[e+3].style.color = "blueviolet"
             heart.src = "esset/heart-none.png"
+            document.querySelectorAll('.heart_button')[e+3].src = "esset/heart-none.png";
         }
     } else if (e == 1) {
         if (community_test2 == 0) {
@@ -156,10 +163,30 @@ function click_the_btn (e) {
             community_test2 = 1
             document.querySelectorAll('.heart_count')[e].textContent = heart_count
             document.querySelectorAll('.heart_count')[e].style.color = "blueviolet"
+            document.querySelectorAll('.heart_count')[e+3].textContent = heart_count
+            document.querySelectorAll('.heart_count')[e+3].style.color = "blueviolet"
             heart.src = "esset/heart-full.png"
+            document.querySelectorAll('.heart_button')[e+3].src = "esset/heart-full.png";
         } else if (community_test2 == 1) {
             heart_count -= 1
             community_test2 = 0
+            document.querySelectorAll('.heart_count')[e].textContent = heart_count
+            document.querySelectorAll('.heart_count')[e].style.color = "black"
+            document.querySelectorAll('.heart_count')[e+3].textContent = heart_count
+            document.querySelectorAll('.heart_count')[e+3].style.color = "blueviolet"
+            heart.src = "esset/heart-none.png"
+            document.querySelectorAll('.heart_button')[e+3].src = "esset/heart-none.png";
+        }
+    } else if (e == 2) {
+        if (community_test3 == 0) {
+            heart_count += 1
+            community_test3 = 1
+            document.querySelectorAll('.heart_count')[e].textContent = heart_count
+            document.querySelectorAll('.heart_count')[e].style.color = "blueviolet"
+            heart.src = "esset/heart-full.png"
+        } else if (community_test3 == 1) {
+            heart_count -= 1
+            community_test3 = 0
             document.querySelectorAll('.heart_count')[e].textContent = heart_count
             document.querySelectorAll('.heart_count')[e].style.color = "black"
             heart.src = "esset/heart-none.png"
@@ -299,7 +326,9 @@ function showCommunity(key) {
     document.getElementById("button_line").style.display = "none"
     document.getElementById("ticket_showWindow").style.display = "none"
     document.getElementById("Community_section").style.display = "block"
+    document.getElementById("testbed").style.backgroundColor = "#f6f6f6"
     nowtab = key
+    loadPosts()
 }
 
 function closeCommunity() {
@@ -312,4 +341,141 @@ function closeCommunity() {
     document.getElementById("button_line").style.display = "flex"
     document.getElementById("ticket_showWindow").style.display = "flex"
     document.getElementById("Community_section").style.display = "none"
+    document.getElementById("testbed").style.backgroundColor = "white"
 }
+
+// // 게시글 로드
+// async function loadPosts() {
+//     const postsContainer = document.getElementById('Community_content_section');
+//     postsContainer.innerHTML = ''; // 기존 게시글 초기화
+
+//     const doc = await DB.collection('Community').doc('temporarily').get();
+//     const data = doc.data();
+//     const postIds = (data.list || []).reverse();
+
+//     // 게시글 하나씩 로드
+//     for (const postId of postIds) {
+//       const post = data[postId];
+//       const postElement = document.createElement('div');
+//       postElement.classList.add('community_media_style');
+
+//       // 닉네임, 내용, 이미지 추가
+//       postElement.innerHTML = `
+//         <h4 style="color: blueviolet; margin: 0;" class="black">${post.nickname}</h4>
+//         <p style="margin: 0;" class="black">${post.content}</p>
+//       `;
+//       post.img.forEach((imgPath, index) => {
+//         const img = document.createElement('img');
+//         STORAGE.ref().child(imgPath).getDownloadURL().then(url => {
+//           img.src = url;
+//           img.style.width = "50%";
+//           img.style.aspectRatio = "1 / 1"
+//           img.style.objectFit = "cover";
+//           postElement.appendChild(img);
+//           img.onclick = function () {
+//             openPopup(url)
+//           }
+//         });
+//       });
+
+//       postsContainer.appendChild(postElement);
+//     }
+//   }
+
+// 게시글 로드
+async function loadPosts() {
+    const postsContainer = document.getElementById('Community_content_section');
+    postsContainer.innerHTML = ''; // 기존 게시글 초기화
+
+    const doc = await DB.collection('Community').doc('temporarily').get();
+    const data = doc.data();
+    const postIds = (data.list || []).reverse();
+
+    // 게시글 하나씩 로드
+    for (const postId of postIds) {
+        const post = data[postId];
+        const postElement = document.createElement('div');
+        postElement.classList.add('community_media_style');
+
+        // postId에서 날짜와 시간 추출 및 포맷팅
+        const dateTime = postId.match(/z(\d{12})a/)[1]; // YYYYMMDDhhmm 추출
+        const formattedTime = `${dateTime.slice(0, 4)}. ${dateTime.slice(4, 6)}. ${dateTime.slice(6, 8)}. ${dateTime.slice(8, 10)}:${dateTime.slice(10, 12)}`;
+
+        // 상단 프로필, 닉네임, 업로드 시간
+        postElement.innerHTML = `
+            <div style="display: flex; padding: 10px;">
+                <img src="esset/newalien.png" alt="프로필 사진" style="width: 8vh; height: 8vh; border-radius: 50%;">
+
+                <div style="display: flex; flex-direction: column; margin-left: 10px; justify-content: center;">
+                    <div style="display: flex; flex-direction: column;">
+                        <h4 style="color: blueviolet; margin: 0;" class="black">${post.nickname}</h4>
+                        <p style="margin: 0; color: grey; font-size: 12px;" class="black">${formattedTime}</p>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        // 글 내용 추가
+        const contentElement = document.createElement('div');
+        contentElement.style.cssText = "padding: 10px; font-size: 16px; line-height: 1.5;";
+        contentElement.textContent = post.content;
+        postElement.appendChild(contentElement);
+
+        // 이미지 추가
+        const imagesContainer = document.createElement('div');
+        imagesContainer.style.cssText = " display: flex;"
+        
+        // 각 이미지를 비동기적으로 가져와 추가
+        for (const imgPath of post.img) {
+            try {
+                const url = await STORAGE.ref().child(imgPath).getDownloadURL();
+                const img = document.createElement('img');
+                img.src = url;
+                img.style.cssText = "width: 50%; aspect-ratio: 1 / 1; object-fit: cover; border-radius: 10px; margin-top: 10px;";
+                img.setAttribute('data-url', url); // 데이터 속성에 URL 저장
+                // // 이미지 클릭 시 팝업 열기
+                // img.onclick = function () {
+                //     console.log("Image clicked, URL:", url);
+                //     openPopup(url);
+                // };
+                
+                imagesContainer.appendChild(img);
+            } catch (error) {
+                console.error("Error fetching image URL for path:", imgPath, error);
+            }
+        }
+
+        postElement.appendChild(imagesContainer);
+
+        // 좋아요 버튼 추가
+        postElement.innerHTML += `
+            <div class="heart_btn_box" onclick="click_the_btn(${postId})" style="display: flex; align-items: center; padding: 10px;">
+                <img class="heart_button" src="esset/heart-none.png" alt="좋아요 버튼" style="width: 22px; height: 22px; margin-left: auto;">
+                <p class="heart_count black" style="font-size: 18px; margin: 0; margin-left: 8px;">99</p>
+            </div>
+        `;
+
+        postsContainer.appendChild(postElement);
+    }
+    // 이미지 클릭 이벤트 위임 설정
+    postsContainer.addEventListener('click', function(event) {
+        if (event.target.tagName === 'IMG') {
+            const imgUrl = event.target.getAttribute('data-url'); // 데이터 속성에서 URL 가져오기
+            console.log("Image clicked, URL:", imgUrl);
+            openPopup(imgUrl);
+        }
+    })
+}
+
+
+
+    // 이미지 클릭 시 팝업 열기
+    function openPopup(imageSrc) {
+        document.getElementById("popupImage").src = imageSrc;
+        document.getElementById("imagePopup").style.display = "flex";
+    }
+    
+    // 팝업 닫기
+    function closePopup() {
+        document.getElementById("imagePopup").style.display = "none";
+    }

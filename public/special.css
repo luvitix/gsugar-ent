@@ -103,6 +103,27 @@
     margin-left: auto;
 }
 
+.community_media_style {
+    padding: 8px; 
+    background-color: white; 
+    border-radius: 15px; 
+    height: auto;
+}
+
+#write_button_mobile {
+    display: none;
+}
+
+#write_button_pc {
+    box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.385);
+    border-radius: 40px; 
+    height: 50px; 
+    border: 2px solid #f6f6f6;
+    margin: 8px;
+    text-align: center;
+    justify-items: center;
+}
+
 @media (max-width: 900px) {
     #testbed {
         width: 100vw;
@@ -117,5 +138,15 @@
 
     #button_line {
         width: 100%;
+    }
+    #write_button_mobile {
+        display: block;
+        position: fixed;
+        bottom: 16px; 
+        display: flex;
+        right: 16px; 
+    }
+    #write_button_pc {
+        display: none;
     }
 }
