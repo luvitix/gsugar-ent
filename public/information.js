@@ -111,43 +111,33 @@ var community_test1 = 0
 var community_test2 = 0
 var community_test3 = 0
 
-function click_the_button (e) {
-    var like_text = document.querySelectorAll('.like_button')[e].textContent;
-    var like_count = Number(like_text.split(' ')[1]);
-    if (e == 0) {
-        if (community_test1 == 0) {
-            like_count += 1
-            community_test1 = 1
-            document.querySelectorAll('.like_button')[e].textContent = `👍 ${like_count}`
-            document.querySelectorAll('.like_button')[e].style.color = "blueviolet"
-            document.querySelectorAll('.like_button')[e].style.borderColor = "blueviolet"
-        } else if (community_test1 == 1) {
-            like_count -= 1
-            community_test1 = 0
-            document.querySelectorAll('.like_button')[e].textContent = `👍 ${like_count}`
-            document.querySelectorAll('.like_button')[e].style.color = "black"
-            document.querySelectorAll('.like_button')[e].style.borderColor = "black"
-        }
-    } else if (e == 1) {
-        if (community_test2 == 0) {
-            like_count += 1
-            community_test2 = 1
-            document.querySelectorAll('.like_button')[e].textContent = `👍 ${like_count}`
-            document.querySelectorAll('.like_button')[e].style.color = "blueviolet"
-            document.querySelectorAll('.like_button')[e].style.borderColor = "blueviolet"
-        } else if (community_test2 == 1) {
-            like_count -= 1
-            community_test2 = 0
-            document.querySelectorAll('.like_button')[e].textContent = `👍 ${like_count}`
-            document.querySelectorAll('.like_button')[e].style.color = "black"
-            document.querySelectorAll('.like_button')[e].style.borderColor = "black"
-        }
+function click_the_button(e) {
+    console.log(e);
+    const likeCountElement = document.querySelector(`.${e}.heart_count`);
+    const likeImgElement = document.querySelector(`.heart_button.${e}`);
+    
+    let like_count = Number(likeCountElement.textContent);
+    let like_img = likeImgElement.src;
+    
+    if (like_img.includes("heart-none.png")) {
+        likeImgElement.src = "esset/heart-full.png";
+        likeCountElement.style.color = "blueviolet";
+        like_count += 1;
+    } else if (like_img.includes("heart-full.png")) {
+        likeImgElement.src = "esset/heart-none.png";
+        likeCountElement.style.color = "black";
+        like_count -= 1;
     }
+
+    // 업데이트된 좋아요 개수 적용
+    likeCountElement.textContent = like_count;
 }
 
 function click_the_btn (e) {
     var heart_count = Number(document.querySelectorAll('.heart_count')[e].textContent);
     var heart = document.querySelectorAll('.heart_button')[e];
+    var heart2 = document.getElementById(e);
+    heart2.src = "esset/heart-full.png";
     if (e == 0) {
         if (community_test1 == 0) {
             heart_count += 1
@@ -424,8 +414,8 @@ async function loadPosts() {
 
                 <div style="display: flex; flex-direction: column; margin-left: 10px; justify-content: center;">
                     <div style="display: flex; flex-direction: column;">
-                        <h4 style="color: blueviolet; margin: 0;" class="black">${post.nickname}</h4>
-                        <p style="margin: 0; color: grey; font-size: 12px;" class="black">${formattedTime}</p>
+                        <h4 class="nickname_style black">${post.nickname}</h4>
+                        <p class="time_style black">${formattedTime}</p>
                     </div>
                 </div>
             </div>
@@ -434,6 +424,7 @@ async function loadPosts() {
         // 글 내용 추가
         const contentElement = document.createElement('div');
         contentElement.textContent = post.content;
+        contentElement.classList.add('black');
         postElement.appendChild(contentElement);
 
         // 이미지 추가
@@ -460,9 +451,9 @@ async function loadPosts() {
 
         // 좋아요 버튼 추가
         postElement.innerHTML += `
-            <div class="heart_btn_box" onclick="click_the_btn(${postId})" style="display: flex; align-items: center; padding: 10px;">
-                <img class="heart_button" src="esset/heart-none.png" alt="좋아요 버튼" style="width: 22px; height: 22px; margin-left: auto;">
-                <p class="heart_count black" style="font-size: 18px; margin: 0; margin-left: 8px;">99</p>
+            <div class="heart_btn_box ${postId}" onclick="click_the_button('${postId}')">
+                <img class="heart_button ${postId}" src="esset/heart-none.png" alt="좋아요 버튼" style="width: 22px; height: 22px;">
+                <p class="heart_count black ${postId}" style="font-size: 18px; margin: 0; margin-left: 8px;">99</p>
             </div>
         `;
 

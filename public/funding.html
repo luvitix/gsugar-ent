@@ -98,8 +98,14 @@
     <div id="var">
         <a href="index.html"><h1 class="logo-text white">GSUGAR Ent.</h1></a>
     </div>
+
+
+    <!-- 테스트 베드 -->
     <div style="width: 100%; display: flex; justify-content: center;">
         <div id="testbed" style="display: none; background-color: white;">
+
+
+            <!-- 바 라인 -->
             <div id="var_line" style="position: fixed; background-color: rgb(14, 18, 32); color: white; top: 0; text-align: center; display: flex; height: 8.6vh;">
                 <h1 id="top_btn" style="font-size: 3.44vh;" class="white" onclick="closeSpecial()">◁</h1>
                 <h1 id="top_line" style="color: white; font-size: 3.44vh;" class="black">GSUGAR</h1>
@@ -116,8 +122,13 @@
                     </div>
                 </div>
             </div>
+
+
+            <!-- 홈 탭 -->
             <div id="home_tab" style="margin-top: 9.46vh; background-color: white;">
-                <div style="margin: 8px; padding: 8px; background-color: #f6f6f6; border-radius: 15px; height: auto;">
+
+                <!-- 아티스트 메세지 들어갈 영역, 디어유 혹은 노머스와 기술 협력 계획 -->
+                <div class="home_tab_box">
                     <h2 style="margin: 0; font-size: 2.58vh;" class="black">ARTIST MESSAGE</h2>
                     <div style="padding: 8px; background-color: white; border-radius: 15px; height: auto; display: flex;">
                         <img src="esset/newsugar.png" alt="" width="20%" style="border-radius: 35px;">
@@ -133,7 +144,9 @@
                         <div class="white" style="text-align: center;">더보기</div>
                     </div>
                 </div>
-                <div style="margin: 8px; padding: 8px; background-color: #f6f6f6; border-radius: 15px; height: auto;">
+
+                <!-- 아티스트 컨텐츠 -->
+                <div class="home_tab_box">
                     <h2 style="margin: 0; font-size: 2.58vh;" class="black">ARTIST CONTENT</h2>
                     <div style="padding: 8px; background-color: white; border-radius: 15px; height: auto; display: flex; flex-direction: column;">
                         <img src="esset/testbed_content.png" alt="" width="100%">
@@ -143,7 +156,9 @@
                         <div class="white" style="text-align: center;">더보기</div>
                     </div>
                 </div>
-                <div style="margin: 8px; padding: 8px; background-color: #f6f6f6; border-radius: 15px; height: auto;">
+
+                <!-- 커뮤니티 -->
+                <div class="home_tab_box">
                     <h2 style="margin: 0; font-size: 2.58vh;" class="black">COMMUNITY</h2>
                     <!-- 커뮤니티 표시 예제 -->
                     <div style="padding: 8px; background-color: white; border-radius: 15px; height: auto;">
@@ -165,8 +180,8 @@
                         <div style="display: flex;">
                             <img src="esset/newalien.png" alt="" style="width: 8vh; height: 8vh; border-radius: 35px;">
                             <div style="display: flex; flex-direction: column; margin-left: 5px; justify-content: center;">
-                                <h4 style="color: blueviolet; margin: 0;" class="black">외계에서온설탕이</h4>
-                                <p style="margin: 0;" class="black">설탕이 포카 넘 귀여운 듯</p>
+                                <h4 class="nickname_style black">외계에서온설탕이</h4>
+                                <p style="margin: 0;" class="black">설탕이 굳즈 넘 귀여운 듯</p>
                             </div>
                         </div>
                         <div style="width: 100%; display: flex; border-radius: 15px; margin-top: 12px;">
@@ -182,12 +197,18 @@
                         <div class="white" style="text-align: center;">더보기</div>
                     </div>
                 </div>
+
+
+                <!-- 협력사 이름 -->
                 <div style="margin-left: 8px; font-size: 12px; padding-bottom: 75px;" class="black">
                     App Design & Service : GSUGAR ENTERTAINMENT<br>
                     Artist Agency : GSUGAR LABLES<br>
                     App Supporter : GSUGAR ENTERTAINMENT(Artist Message, Artist Content, Coummunity)
                 </div>
             </div>
+
+
+            <!-- 컬렉션 탭 -->
             <div id="collection_tab" style="margin-top: 9.46vh; display: none; background-color: white;">
                 <div style="margin: 8px; padding: 8px; background-color: #f6f6f6; border-radius: 15px; height: auto; display: flex;">
                     <img id="albumImage" src="esset/testbed_album_1.png" alt="" width="35%">
@@ -205,6 +226,9 @@
                     </div>
                 </div>
             </div>
+
+
+            <!-- 샵 탭 -->
             <div id="shop_tab" style="margin-top: 9.46vh; display: none; background-color: white;">
                 <div id="storeContent" class="testshop-grid black" style="margin: 8px;">
                     <a>
@@ -241,6 +265,9 @@
                     Distributor : GSUGAR ENTERTAINMENT
                 </div>
             </div>
+
+
+            <!-- 이벤트 탭 -->
             <div id="event_tab" style="margin-top: 9.46vh; display: none; background-color: white;">
                 <div style="margin: 8px;">
                     <div id="test_event_bar" style="text-align: center; display: flex;">
@@ -287,6 +314,9 @@
                     Event Host : GSUGAR LABLES
                 </div>
             </div>
+
+
+            <!-- 버튼 라인 -->
             <div id="button_line" style="position: fixed; background-color: black; color: white; bottom: 0; text-align: center; display: flex; height: 70px;">
                 <a onclick="bottom_button_style(0)" class="whiteNpadding bottom_button" style="background-color: blueviolet;">홈<br>Home</a>
                 <a onclick="bottom_button_style(1)" class="whiteNpadding bottom_button">수집품<br>Collection</a>

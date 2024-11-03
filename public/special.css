@@ -101,6 +101,7 @@
     margin: 8px;
     margin-top: 16px; 
     margin-left: auto;
+    padding: 10px;
 }
 
 .community_media_style {
@@ -124,6 +125,26 @@
     margin: 8px;
     text-align: center;
     justify-items: center;
+}
+
+.home_tab_box {
+    margin: 8px;
+    padding: 8px;
+    background-color: #f6f6f6;
+    border-radius: 15px;
+    height: auto;
+    box-shadow: 0px 0px 3px rgba(110, 110, 110, 0.385);
+}
+
+.nickname_style {
+    color: blueviolet; 
+    margin: 0;
+}
+
+.time_style {
+    margin: 0; 
+    color: grey; 
+    font-size: 12px;
 }
 
 @media (max-width: 900px) {
