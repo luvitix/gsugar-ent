@@ -57,6 +57,7 @@ async function test(id1) {
 }
 
 //여기부터
+var community_open = ""
 
 function bottom_button_style(key) {
     // 모든 버튼 요소를 가져옵니다.
@@ -89,6 +90,16 @@ function bottom_button_style(key) {
             tabs[index].style.display = "none";
         }
     });
+    
+    if (community_open == 1) {
+        document.getElementById('top_line').textContent = "GSUGAR"
+        document.getElementById('top_btn').onclick = function() {
+            closeSpecial()
+        }
+        control_key = ["home_tab", "collection_tab", "shop_tab", "event_tab"]
+        document.getElementById("Community_section").style.display = "none"
+        document.getElementById("testbed").style.backgroundColor = "white"
+    } else {}
 
     document.getElementById("MyPage_trigger").onclick = function() {
         showMypage(key)
@@ -293,10 +304,17 @@ function showMypage(key) {
     document.getElementById("testbed").style.backgroundColor = "rgb(14, 18, 32)"
     document.getElementById("ticket_showWindow").style.display = "none"
     document.getElementById("MyPage_section").style.display = "block"
+    document.getElementById("Community_section").style.display = "none"
     nowtab = key
 }
 
 function closeMypae() {
+    if (community_open == 1) {
+        showCommunity(nowtab)
+        document.getElementById("MyPage_section").style.display = "none"
+        document.getElementById("button_line").style.display = "flex"
+        document.getElementById("ticket_showWindow").style.display = "flex"
+    } else {
     document.getElementById('top_line').textContent = "GSUGAR"
     document.getElementById('top_btn').onclick = function() {
         closeSpecial()
@@ -307,6 +325,7 @@ function closeMypae() {
     document.getElementById("testbed").style.backgroundColor = "white"
     document.getElementById("ticket_showWindow").style.display = "flex"
     document.getElementById("MyPage_section").style.display = "none"
+    }
 }
 
 function locate (e) {
@@ -323,12 +342,11 @@ function showCommunity(key) {
     document.getElementById("collection_tab").style.display = "none"
     document.getElementById("shop_tab").style.display = "none"
     document.getElementById("event_tab").style.display = "none"
-    document.getElementById("button_line").style.display = "none"
-    document.getElementById("ticket_showWindow").style.display = "none"
     document.getElementById("Community_section").style.display = "block"
     document.getElementById("testbed").style.backgroundColor = "#f6f6f6"
     nowtab = key
     loadPosts()
+    community_open = 1
 }
 
 function closeCommunity() {
@@ -338,10 +356,9 @@ function closeCommunity() {
     }
     control_key = ["home_tab", "collection_tab", "shop_tab", "event_tab"]
     document.getElementById(control_key[nowtab]).style.display = "block"
-    document.getElementById("button_line").style.display = "flex"
-    document.getElementById("ticket_showWindow").style.display = "flex"
     document.getElementById("Community_section").style.display = "none"
     document.getElementById("testbed").style.backgroundColor = "white"
+    community_open = ""
 }
 
 // // 게시글 로드
@@ -382,7 +399,6 @@ function closeCommunity() {
 //     }
 //   }
 
-// 게시글 로드
 async function loadPosts() {
     const postsContainer = document.getElementById('Community_content_section');
     postsContainer.innerHTML = ''; // 기존 게시글 초기화
@@ -403,7 +419,7 @@ async function loadPosts() {
 
         // 상단 프로필, 닉네임, 업로드 시간
         postElement.innerHTML = `
-            <div style="display: flex; padding: 10px;">
+            <div style="display: flex;">
                 <img src="esset/newalien.png" alt="프로필 사진" style="width: 8vh; height: 8vh; border-radius: 50%;">
 
                 <div style="display: flex; flex-direction: column; margin-left: 10px; justify-content: center;">
@@ -417,13 +433,12 @@ async function loadPosts() {
 
         // 글 내용 추가
         const contentElement = document.createElement('div');
-        contentElement.style.cssText = "padding: 10px; font-size: 16px; line-height: 1.5;";
         contentElement.textContent = post.content;
         postElement.appendChild(contentElement);
 
         // 이미지 추가
         const imagesContainer = document.createElement('div');
-        imagesContainer.style.cssText = " display: flex;"
+        imagesContainer.style.cssText = "display: flex;";
         
         // 각 이미지를 비동기적으로 가져와 추가
         for (const imgPath of post.img) {
@@ -433,12 +448,8 @@ async function loadPosts() {
                 img.src = url;
                 img.style.cssText = "width: 50%; aspect-ratio: 1 / 1; object-fit: cover; border-radius: 10px; margin-top: 10px;";
                 img.setAttribute('data-url', url); // 데이터 속성에 URL 저장
-                // // 이미지 클릭 시 팝업 열기
-                // img.onclick = function () {
-                //     console.log("Image clicked, URL:", url);
-                //     openPopup(url);
-                // };
-                
+                img.classList.add('popup-image'); // 특정 클래스 추가
+
                 imagesContainer.appendChild(img);
             } catch (error) {
                 console.error("Error fetching image URL for path:", imgPath, error);
@@ -457,25 +468,24 @@ async function loadPosts() {
 
         postsContainer.appendChild(postElement);
     }
-    // 이미지 클릭 이벤트 위임 설정
+
+    // 이미지 클릭 이벤트 위임 설정 (popup-image 클래스만 대상)
     postsContainer.addEventListener('click', function(event) {
-        if (event.target.tagName === 'IMG') {
+        if (event.target.classList.contains('popup-image')) { // 특정 클래스가 있는지 확인
             const imgUrl = event.target.getAttribute('data-url'); // 데이터 속성에서 URL 가져오기
             console.log("Image clicked, URL:", imgUrl);
             openPopup(imgUrl);
         }
-    })
+    });
 }
 
-
-
-    // 이미지 클릭 시 팝업 열기
-    function openPopup(imageSrc) {
-        document.getElementById("popupImage").src = imageSrc;
-        document.getElementById("imagePopup").style.display = "flex";
-    }
+// 이미지 클릭 시 팝업 열기
+function openPopup(imageSrc) {
+    document.getElementById("popupImage").src = imageSrc;
+    document.getElementById("imagePopup").style.display = "flex";
+}
     
-    // 팝업 닫기
-    function closePopup() {
-        document.getElementById("imagePopup").style.display = "none";
-    }
+// 팝업 닫기
+function closePopup() {
+    document.getElementById("imagePopup").style.display = "none";
+}
