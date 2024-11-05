@@ -116,8 +116,8 @@
                         </button>
                     </div> -->
                     <div style="display: flex; flex-direction: column; justify-content: center;">
-                        <button id="MyPage_trigger" onclick="showMypage(0)" style="border-style: solid; border-radius: 1.83vh; border-width: 2px; font-size: 2.37vh; width: auto; height: 4.84vh; align-items: center; display: flex;">
-                            <img src="esset/artistticket.png" style="width: 5.16vh;"> 53
+                        <button id="MyPage_trigger" onclick="showMypage()" style="border-style: solid; border-radius: 1.83vh; border-width: 2px; font-size: 2.37vh; width: auto; height: 4.84vh; align-items: center; display: flex;">
+                            <img id="MyPage_img_element" src="esset/artistticket.png" style="width: 5.16vh;"> 53
                         </button>
                     </div>
                 </div>
@@ -140,7 +140,7 @@
                             <div style="background-color: #DD285C; border-radius: 30px; width: 30px; height: 30px; text-align: center; display: flex; flex-direction: column; justify-content: center;" class="white">9+</div>
                         </div>
                     </div>
-                    <div class="hovering" style="padding: 8px; border-radius: 15px; height: auto; display: flex; justify-content: center; align-items: center;">
+                    <div class="hovering" onclick="showSection('home_tab', 'Artist_message_section')">
                         <div class="white" style="text-align: center;">더보기</div>
                     </div>
                 </div>
@@ -152,7 +152,7 @@
                         <img src="esset/testbed_content.png" alt="" width="100%">
                         <h3 class="black">[SUGAR-POP!] 설탕이의 전생은?</h3>
                     </div>
-                    <div class="hovering" style="padding: 8px; border-radius: 15px; height: auto; display: flex; justify-content: center; align-items: center;">
+                    <div class="hovering" onclick="showSection('home_tab', 'Artist_content_section')">
                         <div class="white" style="text-align: center;">더보기</div>
                     </div>
                 </div>
@@ -193,7 +193,7 @@
                             <p class="heart_count black" style="font-size: 18px; margin: 0; margin-left: 8px;" >99</p>
                         </div>
                     </div>
-                    <div class="hovering" style="padding: 8px; border-radius: 15px; height: auto; display: flex; justify-content: center; align-items: center;" id="Community_trigger"  onclick="showCommunity(0)">
+                    <div class="hovering" id="Community_trigger"  onclick="showSection('home_tab', 'Community_section')">
                         <div class="white" style="text-align: center;">더보기</div>
                     </div>
                 </div>
@@ -318,10 +318,10 @@
 
             <!-- 버튼 라인 -->
             <div id="button_line" style="position: fixed; background-color: black; color: white; bottom: 0; text-align: center; display: flex; height: 70px;">
-                <a onclick="bottom_button_style(0)" class="whiteNpadding bottom_button" style="background-color: blueviolet;">홈<br>Home</a>
-                <a onclick="bottom_button_style(1)" class="whiteNpadding bottom_button">수집품<br>Collection</a>
-                <a onclick="bottom_button_style(2)" class="whiteNpadding bottom_button">상점<br>Shop</a>
-                <a onclick="bottom_button_style(3)" class="whiteNpadding bottom_button">이벤트<br>Event</a>
+                <a onclick="bottom_button_style('home_tab')" class="whiteNpadding bottom_button" style="background-color: blueviolet;">홈<br>Home</a>
+                <a onclick="bottom_button_style('collection_tab')" class="whiteNpadding bottom_button">수집품<br>Collection</a>
+                <a onclick="bottom_button_style('shop_tab')" class="whiteNpadding bottom_button">상점<br>Shop</a>
+                <a onclick="bottom_button_style('event_tab')" class="whiteNpadding bottom_button">이벤트<br>Event</a>
             </div>
 
 
@@ -355,7 +355,21 @@
             </div>
 
 
+            <!-- 세부 섹션 : 아티스트 메세지 -->
+            <div id="Artist_message_section" style="margin-top: 9.46vh; display: none;">
+
+
+
+            </div>
+
+            <!-- 세부 섹션 : 아티스트 컨텐츠 -->
+            <div id="Artist_content_section" style="margin-top: 9.46vh; display: none;">
+
+
+
+            </div>
             
+
             <!-- 세부 섹션 : 커뮤니티 -->
             <div id="Community_section" style="margin-top: 9.46vh; display: none;">
                 <!-- 글 쓰기 버튼 -->
@@ -441,6 +455,8 @@
                 <div style="margin: 8px;"></div>
                 </div>
             </div>
+
+
         </div>
     </div>
 

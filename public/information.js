@@ -59,53 +59,6 @@ async function test(id1) {
 //여기부터
 var community_open = ""
 
-function bottom_button_style(key) {
-    // 모든 버튼 요소를 가져옵니다.
-    const buttons = document.querySelectorAll(".bottom_button");
-
-    // 반복문을 통해 모든 버튼의 스타일을 설정합니다.
-    buttons.forEach((button, index) => {
-        if (index === key) {
-            // 클릭한 버튼의 배경을 보라색으로 설정
-            button.style.backgroundColor = "blueviolet";
-        } else {
-            // 나머지 버튼은 검정색으로 설정
-            button.style.backgroundColor = "black";
-        }
-    });
-
-    // 모든 탭을 숨깁니다.
-    const tabs = {
-        0: document.getElementById("home_tab"),
-        1: document.getElementById("collection_tab"),
-        2: document.getElementById("shop_tab"),
-        3: document.getElementById("event_tab")
-    };
-
-    // 모든 탭을 숨기고, 클릭한 탭만 보이도록 설정합니다.
-    Object.keys(tabs).forEach(index => {
-        if (index == key) {
-            tabs[index].style.display = "block";
-        } else {
-            tabs[index].style.display = "none";
-        }
-    });
-    
-    if (community_open == 1) {
-        document.getElementById('top_line').textContent = "GSUGAR"
-        document.getElementById('top_btn').onclick = function() {
-            closeSpecial()
-        }
-        control_key = ["home_tab", "collection_tab", "shop_tab", "event_tab"]
-        document.getElementById("Community_section").style.display = "none"
-        document.getElementById("testbed").style.backgroundColor = "white"
-    } else {}
-
-    document.getElementById("MyPage_trigger").onclick = function() {
-        showMypage(key)
-    }
-}
-
 var key_value = 0
 var community_test1 = 0
 var community_test2 = 0
@@ -136,8 +89,6 @@ function click_the_button(e) {
 function click_the_btn (e) {
     var heart_count = Number(document.querySelectorAll('.heart_count')[e].textContent);
     var heart = document.querySelectorAll('.heart_button')[e];
-    var heart2 = document.getElementById(e);
-    heart2.src = "esset/heart-full.png";
     if (e == 0) {
         if (community_test1 == 0) {
             heart_count += 1
@@ -279,42 +230,72 @@ async function openMediaLink2() {
    
 }
 
-var nowtab = ""
+var open_tab = "home_tab"
+var open_section = null
 
-function showMypage(key) {
+
+
+function bottom_button_style(activeTabId) {
+    console.log(open_section)
+    
+    document.getElementById("testbed").style.backgroundColor = "white"
+    // 이미 열려 있는 탭과 동일하면 함수 종료
+    if (open_tab === activeTabId && activeTabId !== "home_tab") return;
+    
+    document.getElementById('top_line').textContent = "GSUGAR";
+    document.getElementById('MyPage_img_element').src = "esset/artistticket.png";
+
+    // 이전에 열려 있던 탭 숨기기
+    document.getElementById(open_tab).style.display = "none";
+    try {document.getElementById(open_section).style.display = "none";} catch {}
+
+    // 새로운 활성 탭 표시
+    document.getElementById(activeTabId).style.display = "block";
+    
+    // 커뮤니티 섹션이 열려 있는 경우 초기화
+    if (activeTabId === "home_tab" && open_section !== null && activeTabId !== open_tab) {
+        showSection("home_tab", open_section)
+    }
+    open_tab = activeTabId;
+
+    // 버튼 색상 설정: 선택된 버튼은 보라색, 나머지는 검정색
+    document.querySelectorAll(".bottom_button").forEach((button, index) => {
+        button.style.backgroundColor = button.getAttribute('onclick').includes(activeTabId) ? "blueviolet" : "black";
+    });
+}
+
+function showMypage() {
     document.getElementById('top_line').textContent = "MyPage"
     document.getElementById('top_btn').onclick = function() {
-        closeMypae()
+        closeMypage()
     }
-    document.getElementById("home_tab").style.display = "none"
-    document.getElementById("collection_tab").style.display = "none"
-    document.getElementById("shop_tab").style.display = "none"
-    document.getElementById("event_tab").style.display = "none"
     document.getElementById("button_line").style.display = "none"
     document.getElementById("testbed").style.backgroundColor = "rgb(14, 18, 32)"
     document.getElementById("ticket_showWindow").style.display = "none"
     document.getElementById("MyPage_section").style.display = "block"
-    document.getElementById("Community_section").style.display = "none"
-    nowtab = key
+
+    document.getElementById(open_tab).style.display = "none"
+    try {document.getElementById(open_section).style.display = "none"} catch {}
 }
 
-function closeMypae() {
-    if (community_open == 1) {
-        showCommunity(nowtab)
-        document.getElementById("MyPage_section").style.display = "none"
-        document.getElementById("button_line").style.display = "flex"
-        document.getElementById("ticket_showWindow").style.display = "flex"
-    } else {
+function closeMypage() {
+    // 공통사안
     document.getElementById('top_line').textContent = "GSUGAR"
-    document.getElementById('top_btn').onclick = function() {
-        closeSpecial()
-    }
-    control_key = ["home_tab", "collection_tab", "shop_tab", "event_tab"]
-    document.getElementById(control_key[nowtab]).style.display = "block"
-    document.getElementById("button_line").style.display = "flex"
-    document.getElementById("testbed").style.backgroundColor = "white"
-    document.getElementById("ticket_showWindow").style.display = "flex"
     document.getElementById("MyPage_section").style.display = "none"
+    document.getElementById("button_line").style.display = "flex"
+    document.getElementById("ticket_showWindow").style.display = "flex"
+    document.getElementById("testbed").style.backgroundColor = "white"
+
+    // 오픈한 세부 섹션이 있을 경우
+    if (open_section && open_tab === "home_tab") {
+        showSection(open_tab, open_section)
+    
+    // 오픈한 세부 섹션이 없을 경우
+    } else {
+        document.getElementById('top_btn').onclick = function() {
+            closeSpecial()
+        }
+        document.getElementById(open_tab).style.display = "block"
     }
 }
 
@@ -322,72 +303,49 @@ function locate (e) {
     window.location.href = e
 }
 
-
-function showCommunity(key) {
-    document.getElementById('top_line').textContent = "Community"
+function showSection(key, sectionType) {
+    // 공통 설정
     document.getElementById('top_btn').onclick = function() {
-        closeCommunity()
+        closeSection(sectionType);
+    };
+    document.getElementById("home_tab").style.display = "none";
+    document.getElementById("collection_tab").style.display = "none";
+    document.getElementById("shop_tab").style.display = "none";
+    document.getElementById("event_tab").style.display = "none";
+    document.getElementById("testbed").style.backgroundColor = "#f6f6f6";
+    open_tab = key;
+
+    // 섹션별 설정
+    if (sectionType === "Community_section") {
+        document.getElementById('top_line').textContent = "Community";
+        loadPosts();
+        
+    } else if (sectionType === "Artist_message_section") {
+        document.getElementById('MyPage_img_element').src = "esset/artistpoint.webp";
     }
-    document.getElementById("home_tab").style.display = "none"
-    document.getElementById("collection_tab").style.display = "none"
-    document.getElementById("shop_tab").style.display = "none"
-    document.getElementById("event_tab").style.display = "none"
-    document.getElementById("Community_section").style.display = "block"
-    document.getElementById("testbed").style.backgroundColor = "#f6f6f6"
-    nowtab = key
-    loadPosts()
-    community_open = 1
+    document.getElementById(sectionType).style.display = "block";
+    open_section = sectionType;
 }
 
-function closeCommunity() {
-    document.getElementById('top_line').textContent = "GSUGAR"
+function closeSection() {
+    // 기본 설정
     document.getElementById('top_btn').onclick = function() {
-        closeSpecial()
+        closeSpecial();
+    };
+    document.getElementById(open_tab).style.display = "block";
+    document.getElementById("testbed").style.backgroundColor = "white";
+    document.getElementById(open_section).style.display = "none";
+    
+    // 섹션별 설정
+    if (open_section === "Community_section") {
+        document.getElementById('top_line').textContent = "GSUGAR";
+    } else if (open_section === "Artist_message_section") {
+        document.getElementById('MyPage_img_element').src = "esset/artistticket.png";
     }
-    control_key = ["home_tab", "collection_tab", "shop_tab", "event_tab"]
-    document.getElementById(control_key[nowtab]).style.display = "block"
-    document.getElementById("Community_section").style.display = "none"
-    document.getElementById("testbed").style.backgroundColor = "white"
-    community_open = ""
+
+    //초기화
+    open_section = null;
 }
-
-// // 게시글 로드
-// async function loadPosts() {
-//     const postsContainer = document.getElementById('Community_content_section');
-//     postsContainer.innerHTML = ''; // 기존 게시글 초기화
-
-//     const doc = await DB.collection('Community').doc('temporarily').get();
-//     const data = doc.data();
-//     const postIds = (data.list || []).reverse();
-
-//     // 게시글 하나씩 로드
-//     for (const postId of postIds) {
-//       const post = data[postId];
-//       const postElement = document.createElement('div');
-//       postElement.classList.add('community_media_style');
-
-//       // 닉네임, 내용, 이미지 추가
-//       postElement.innerHTML = `
-//         <h4 style="color: blueviolet; margin: 0;" class="black">${post.nickname}</h4>
-//         <p style="margin: 0;" class="black">${post.content}</p>
-//       `;
-//       post.img.forEach((imgPath, index) => {
-//         const img = document.createElement('img');
-//         STORAGE.ref().child(imgPath).getDownloadURL().then(url => {
-//           img.src = url;
-//           img.style.width = "50%";
-//           img.style.aspectRatio = "1 / 1"
-//           img.style.objectFit = "cover";
-//           postElement.appendChild(img);
-//           img.onclick = function () {
-//             openPopup(url)
-//           }
-//         });
-//       });
-
-//       postsContainer.appendChild(postElement);
-//     }
-//   }
 
 async function loadPosts() {
     const postsContainer = document.getElementById('Community_content_section');

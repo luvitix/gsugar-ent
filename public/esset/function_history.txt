@@ -1,0 +1,140 @@
+function showCommunity(key) {
+    document.getElementById('top_line').textContent = "Community"
+    document.getElementById('top_btn').onclick = function() {
+        closeCommunity()
+    }
+    document.getElementById("home_tab").style.display = "none"
+    document.getElementById("collection_tab").style.display = "none"
+    document.getElementById("shop_tab").style.display = "none"
+    document.getElementById("event_tab").style.display = "none"
+    document.getElementById("Community_section").style.display = "block"
+    document.getElementById("testbed").style.backgroundColor = "#f6f6f6"
+    nowtab = key
+    loadPosts()
+    community_open = 1
+}
+
+function showArtistMessage(key) {
+    document.getElementById('top_btn').onclick = function() {
+        closeArtistMessage()
+    }
+    document.getElementById('MyPage_img_element').src = "esset/artistpoint.webp"
+    document.getElementById("home_tab").style.display = "none"
+    document.getElementById("collection_tab").style.display = "none"
+    document.getElementById("shop_tab").style.display = "none"
+    document.getElementById("event_tab").style.display = "none"
+    document.getElementById("Artist_message_section").style.display = "block"
+    document.getElementById("testbed").style.backgroundColor = "#f6f6f6"
+    nowtab = key
+    community_open = 2
+}
+
+// 게시글 로드
+async function loadPosts() {
+    const postsContainer = document.getElementById('Community_content_section');
+    postsContainer.innerHTML = ''; // 기존 게시글 초기화
+
+    const doc = await DB.collection('Community').doc('temporarily').get();
+    const data = doc.data();
+    const postIds = (data.list || []).reverse();
+
+    // 게시글 하나씩 로드
+    for (const postId of postIds) {
+      const post = data[postId];
+      const postElement = document.createElement('div');
+      postElement.classList.add('community_media_style');
+
+      // 닉네임, 내용, 이미지 추가
+      postElement.innerHTML = `
+        <h4 style="color: blueviolet; margin: 0;" class="black">${post.nickname}</h4>
+        <p style="margin: 0;" class="black">${post.content}</p>
+      `;
+      post.img.forEach((imgPath, index) => {
+        const img = document.createElement('img');
+        STORAGE.ref().child(imgPath).getDownloadURL().then(url => {
+          img.src = url;
+          img.style.width = "50%";
+          img.style.aspectRatio = "1 / 1"
+          img.style.objectFit = "cover";
+          postElement.appendChild(img);
+          img.onclick = function () {
+            openPopup(url)
+          }
+        });
+      });
+
+      postsContainer.appendChild(postElement);
+    }
+  }
+
+  
+function closeCommunity() {
+    document.getElementById('top_line').textContent = "GSUGAR"
+    document.getElementById('top_btn').onclick = function() {
+        closeSpecial()
+    }
+    control_key = ["home_tab", "collection_tab", "shop_tab", "event_tab"]
+    document.getElementById(control_key[nowtab]).style.display = "block"
+    document.getElementById("Community_section").style.display = "none"
+    document.getElementById("testbed").style.backgroundColor = "white"
+    open_section = ""
+}
+
+function closeArtistMessage() {
+    document.getElementById('top_btn').onclick = function() {
+        closeSpecial()
+    }
+    document.getElementById('MyPage_img_element').src = "esset/artistticket.png"
+    control_key = ["home_tab", "collection_tab", "shop_tab", "event_tab"]
+    document.getElementById(control_key[nowtab]).style.display = "block"
+    document.getElementById("Artist_message_section").style.display = "none"
+    document.getElementById("testbed").style.backgroundColor = "white"
+    open_section = ""
+}
+
+function bottom_button_style(key) {
+    // 모든 버튼 요소를 가져옵니다.
+    const buttons = document.querySelectorAll(".bottom_button");
+
+    // 반복문을 통해 모든 버튼의 스타일을 설정합니다.
+    buttons.forEach((button, index) => {
+        if (index === key) {
+            // 클릭한 버튼의 배경을 보라색으로 설정
+            button.style.backgroundColor = "blueviolet";
+        } else {
+            // 나머지 버튼은 검정색으로 설정
+            button.style.backgroundColor = "black";
+        }
+    });
+
+    // 모든 탭을 숨깁니다.
+    const tabs = {
+        0: document.getElementById("home_tab"),
+        1: document.getElementById("collection_tab"),
+        2: document.getElementById("shop_tab"),
+        3: document.getElementById("event_tab")
+    };
+
+    // 모든 탭을 숨기고, 클릭한 탭만 보이도록 설정합니다.
+    Object.keys(tabs).forEach(index => {
+        if (index == key) {
+            tabs[index].style.display = "block";
+        } else {
+            tabs[index].style.display = "none";
+        }
+    });
+    
+    if (community_open == 1) {
+        document.getElementById('top_line').textContent = "GSUGAR"
+        document.getElementById('top_btn').onclick = function() {
+            closeSpecial()
+        }
+        control_key = ["home_tab", "collection_tab", "shop_tab", "event_tab"]
+        document.getElementById("Community_section").style.display = "none"
+        document.getElementById("testbed").style.backgroundColor = "white"
+    } else {}
+
+    document.getElementById("MyPage_trigger").onclick = function() {
+        showMypage(key)
+    }
+}

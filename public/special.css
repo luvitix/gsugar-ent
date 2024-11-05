@@ -20,6 +20,12 @@
 
 .hovering {
     background-color: blueviolet;
+    padding: 8px; 
+    border-radius: 15px; 
+    height: auto; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center;
 }
 
 .hovering:hover {
