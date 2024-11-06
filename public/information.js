@@ -240,7 +240,7 @@ function bottom_button_style(activeTabId) {
     
     document.getElementById("testbed").style.backgroundColor = "white"
     // 이미 열려 있는 탭과 동일하면 함수 종료
-    if (open_tab === activeTabId && activeTabId !== "home_tab") return;
+    if (open_tab === activeTabId && activeTabId !== "home_tab" && activeTabId !== "event_tab") return;
     
     document.getElementById('top_line').textContent = "GSUGAR";
     document.getElementById('MyPage_img_element').src = "esset/artistticket.png";
@@ -254,6 +254,8 @@ function bottom_button_style(activeTabId) {
     
     // 커뮤니티 섹션이 열려 있는 경우 초기화
     if (activeTabId === "home_tab" && open_section !== null && activeTabId !== open_tab) {
+        showSection("home_tab", open_section)
+    } else if (activeTabId === "event_tab" && open_section !== null && activeTabId !== open_tab) {
         showSection("home_tab", open_section)
     }
     open_tab = activeTabId;
@@ -287,7 +289,7 @@ function closeMypage() {
     document.getElementById("testbed").style.backgroundColor = "white"
 
     // 오픈한 세부 섹션이 있을 경우
-    if (open_section && open_tab === "home_tab") {
+    if (open_section && open_tab) {
         showSection(open_tab, open_section)
     
     // 오픈한 세부 섹션이 없을 경우
