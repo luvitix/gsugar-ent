@@ -76,12 +76,6 @@
             let stockslist = doc1.data()['list'].map(item => doc1.data()[item]).join('');
             document.getElementById('finance').innerHTML = stockslist;
 
-            // worklist 처리
-            let worklist = doc3.data()['worklist'].reverse().map(item => 
-                `<p class="black" style="background-color: #f6f6f6; padding: 8px; border-radius: 15px;">${doc3.data()[item]}</p>`
-            ).join('');
-            document.getElementById('workrecord').innerHTML = `${doc3.data()['title']}${worklist}`;
-
             // team history 처리
             let team_history = doc4.data()['history'].reverse().map(item => 
                 `<p class="black" style="background-color: #f6f6f6; padding: 8px; border-radius: 15px;">${doc4.data()[item]}</p>`
@@ -95,6 +89,73 @@
             document.getElementById('spendlist').innerHTML = `${doc5.data()['title']}${spend_history}`;
         }
         window.onload = openMediaContent();
+
+        // 시작 날짜를 계산하는 함수 (현재 날짜에서 7일 전, 00:00으로 설정)
+        function getStartDate() {
+            const now = new Date();
+            now.setHours(0, 0, 0, 0); // 오늘의 00:00으로 설정
+            now.setDate(now.getDate() - 6); // 7일 전으로 설정
+            console.log(now)
+            return now;
+        }
+
+        function formatDateToYMD(date) {
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0'); // 월은 0부터 시작하므로 +1 필요
+            const day = String(date.getDate()).padStart(2, '0');
+            return `${year}년 ${month}월 ${day}일`;
+        }
+
+        // 시작 날짜 이후의 기록만 불러오는 함수 // worklist 처리
+        async function loadFilteredWorkRecords() {
+            const startDate = getStartDate(); // 7일 전 00:00으로 설정된 시작 날짜
+            const formattedStartDate = formatDateToYMD(startDate);
+            const doc = await DB.collection('company').doc('work').get();
+            
+            if (doc.exists) {
+                let worklist = doc.data()['worklist'] || [];
+
+                // null 또는 undefined 항목을 DB에서 제거하는 비동기 작업
+                const validWorklist = await Promise.all(worklist.map(async (item) => {
+                if (!doc.data()[item]) {
+                    // null 또는 undefined 항목일 경우 DB에서 삭제
+                    await DB.collection('company').doc('work').update({
+                    [item]: firebase.firestore.FieldValue.delete(),
+                    worklist: firebase.firestore.FieldValue.arrayRemove(item),
+                    });
+                    return null; // null을 반환하여 필터링에 사용
+                }
+                return item; // 유효한 항목일 경우 그대로 반환
+                }));
+
+                // 유효한 항목만 필터링하여 날짜 비교
+                const filteredWorklist = validWorklist.reverse().filter(item => {
+                if (!item) return false; // null인 항목 제외
+
+                // 'z202411071611a'에서 '202411071611' 추출
+                const dateString = item.slice(1, 13);
+                
+                // 'YYYYMMDDHHMM' 형식을 Date 객체로 변환
+                const year = parseInt(dateString.slice(0, 4));
+                const month = parseInt(dateString.slice(4, 6)) - 1; // 월은 0부터 시작
+                const day = parseInt(dateString.slice(6, 8));
+                const hours = parseInt(dateString.slice(8, 10));
+                const minutes = parseInt(dateString.slice(10, 12));
+                const itemDate = new Date(year, month, day, hours, minutes);
+
+                console.log(dateString, startDate, itemDate >= startDate); // 디버깅용 출력
+                return itemDate >= startDate;
+                });
+
+                // 필터링된 기록 표시
+                const workItems = filteredWorklist.map(item => `<p class="black" style="background-color: #f6f6f6; padding: 8px; border-radius: 15px;">${doc.data()[item]}</p>`).join('');
+                document.getElementById('workrecord').innerHTML = `<h3>내역 (${formattedStartDate} 이후)</h3>${workItems}`;
+            }
+        }
+
+
+        // 페이지 로드 시 `loadFilteredWorkRecords` 함수 호출
+        window.onload = loadFilteredWorkRecords;
     </script>
 </head>
 <body>
