@@ -1,62 +1,3 @@
-
-
-
-function load() {
-    // 현재 URL 가져오기
-    var currentUrl = window.location.href;
-
-    
-    var id1 = currentUrl.substring(currentUrl.lastIndexOf('/') + 1);
-
-    // 이미지 태그 업데이트
-    var img = document.getElementById('viewpoint');
-    img.src = `esset/${id1}.png`;
-
-    updateContent(id1)
-    
-}
-
-async function updateContent(id1) {
-
-    var currentUrl = window.location.href;
-    var id1 = currentUrl.substring(currentUrl.lastIndexOf('/') + 1)
-    var set_Element = ['goodsname', 'description', 'price', 'linkconnect']
-    for (i = 0; i < set_Element.length; i++) { set_Element[i] = document.getElementById(set_Element[i]) }
-
-    const base_data = await test(id1);
-    const now_content = base_data
-
-    if (now_content.exists) {
-        objekt_numbering = `${now_content.data()['name']} ${now_content.data()['S_Name']} ${now_content.data()['Season']} ${now_content.data()['O_Number']}`
-
-        set_Element[0].textContent = `${now_content.data()['name']}`
-        set_Element[1].innerHTML = `<strong>Number</strong><br>${objekt_numbering}`
-        set_Element[2].innerHTML = `<strong>origin</strong><br><a href=${now_content.data()['origin']}><button>원본 보러가기</button></a>`
-        set_Element[4].innerHTML = `<strong>Grid_Key</strong><br>${now_content.data()['imsi_key']}`
-
-        if (maker_data.exists) {
-            set_Element[3].innerHTML = `<strong>makers</strong><br><a href=${maker_data.data()['M_Link']}><button>${maker_data.data()['M_Name']} 트위터</button></a>`
-        } else {
-            set_Element[3].innerHTML = `<strong>makers</strong><br><a href=${now_content.data()['maker']}><button>${now_content.data()['maker_name']} 트위터</button></a>`
-        }
-
-        document.getElementById("objekt").innerText = objekt_numbering
-
-    } else {
-        window.location.href = "error.html";
-    }
-}
-
-async function test(id1) {
-    try {
-        var now_content = await DB.collection('goods').doc(id1).get();
-        return now_content
-    } catch (error) {
-        console.error("예외가 발생했습니다:", error);
-    }
-}
-
-//여기부터
 var community_open = ""
 
 var key_value = 0
@@ -164,31 +105,31 @@ function openEndEvent() {
     document.getElementById('test_event_list').style.display = 'none'
 }
 
-async function sectionDesignFullsize(key) {
+async function sectionDesignFullsize(value, key) {
     const storageRef = STORAGE.ref();
-    const imageRef = storageRef.child(key['img_link']);
+    const imageRef = storageRef.child(value['img_link']);
     const designHtml =
-    `<a>
+    `<a id=${key} onclick="productSection(this.id); showSection('shop_tab', 'Product_section');">
         <div style="background-color: #f6f6f6; text-align: center; display: flex; justify-content: center; align-items: center; aspect-ratio: 1 / 1; width: 100%;">
-            <img src=${await imageRef.getDownloadURL()} alt=${key['title']} style="width: 100%; height: auto;">
+            <img src=${await imageRef.getDownloadURL()} alt=${value['title']} style="width: 100%; height: auto;">
         </div>
-        <h1 class="testshop_name black">${key['title']}</h1>
-        <h2 class="testshop_price black">${key['price']}</h2>
+        <h1 class="testshop_name black">${value['title']}</h1>
+        <h2 class="testshop_price black">${value['price']}</h2>
     </a>`
     console.log(designHtml)
     return designHtml
 }
 
-async function sectionDesignAutosize(key) {
+async function sectionDesignAutosize(value, key) {
     const storageRef = STORAGE.ref();
-    const imageRef = storageRef.child(key['img_link']);
+    const imageRef = storageRef.child(value['img_link']);
     const designHtml =
-    `<a>
+    `<a id=${key} onclick="productSection(this.id); showSection('shop_tab', 'Product_section');">
         <div style="background-color: #f6f6f6; text-align: center; display: flex; justify-content: center; align-items: center; aspect-ratio: 1 / 1; width: 100%;">
-            <img src=${await imageRef.getDownloadURL()} alt=${key['title']} style="width: 80%; height: auto;">
+            <img src=${await imageRef.getDownloadURL()} alt=${value['title']} style="width: 80%; height: auto;">
         </div>
-        <h1 class="testshop_name black">${key['title']}</h1>
-        <h2 class="testshop_price black">${key['price']}</h2>
+        <h1 class="testshop_name black">${value['title']}</h1>
+        <h2 class="testshop_price black">${value['price']}</h2>
     </a>`
     return designHtml
 }
@@ -211,10 +152,10 @@ async function openMediaLink2() {
     // 모든 비동기 작업을 처리할 Promise 배열 생성
     var promises = doc.data()['list'].reverse().map(async (item, index) => {
         if (doc.data()[item]['design_key'] == "full") {
-            let content = await sectionDesignFullsize(doc.data()[item]);
+            let content = await sectionDesignFullsize(doc.data()[item], item);
             storeContentArray[index] = content;
         } else if (doc.data()[item]['design_key'] == "auto") {
-            let content = await sectionDesignAutosize(doc.data()[item]);
+            let content = await sectionDesignAutosize(doc.data()[item], item);
             storeContentArray[index] = content;
         }
     });
@@ -231,33 +172,44 @@ async function openMediaLink2() {
 }
 
 var open_tab = "home_tab"
-var open_section = null
-
+var open_section = {
+    "home_tab": null,
+    "collection_tab": null,
+    "shop_tab": null,
+    "event_tab": null
+}
+var open_detail = {
+    "Artist_message_section": null,
+    "Artist_content_section": null,
+    "Community_section": null,
+    "Collection_detail_section": null,
+    "Product_section": null,
+    "Event_detail_section": null
+}
 
 
 function bottom_button_style(activeTabId) {
-    console.log(open_section)
+    console.log(activeTabId, open_section[activeTabId])
     
     document.getElementById("testbed").style.backgroundColor = "white"
-    // 이미 열려 있는 탭과 동일하면 함수 종료
-    if (open_tab === activeTabId && activeTabId !== "home_tab" && activeTabId !== "event_tab") return;
-    
     document.getElementById('top_line').textContent = "GSUGAR";
     document.getElementById('MyPage_img_element').src = "esset/artistticket.png";
 
     // 이전에 열려 있던 탭 숨기기
     document.getElementById(open_tab).style.display = "none";
-    try {document.getElementById(open_section).style.display = "none";} catch {}
+    try {document.getElementById(open_section[open_tab]).style.display = "none";} catch {}
 
     // 새로운 활성 탭 표시
     document.getElementById(activeTabId).style.display = "block";
     
     // 커뮤니티 섹션이 열려 있는 경우 초기화
-    if (activeTabId === "home_tab" && open_section !== null && activeTabId !== open_tab) {
-        showSection("home_tab", open_section)
-    } else if (activeTabId === "event_tab" && open_section !== null && activeTabId !== open_tab) {
-        showSection("home_tab", open_section)
-    }
+    if (activeTabId === "home_tab" && open_section[activeTabId] !== null && activeTabId !== open_tab) {
+        showSection("home_tab", open_section[activeTabId])
+    } else if (activeTabId === "shop_tab" && open_section[activeTabId] !== null && activeTabId !== open_tab) {
+        showSection("shop_tab", open_section[activeTabId])
+    } else if (activeTabId === "event_tab" && open_section[activeTabId] !== null && activeTabId !== open_tab) {
+        showSection("event_tab", open_section[activeTabId])
+    } 
     open_tab = activeTabId;
 
     // 버튼 색상 설정: 선택된 버튼은 보라색, 나머지는 검정색
@@ -277,7 +229,7 @@ function showMypage() {
     document.getElementById("MyPage_section").style.display = "block"
 
     document.getElementById(open_tab).style.display = "none"
-    try {document.getElementById(open_section).style.display = "none"} catch {}
+    try {document.getElementById(open_section[open_tab]).style.display = "none"} catch {}
 }
 
 function closeMypage() {
@@ -289,8 +241,8 @@ function closeMypage() {
     document.getElementById("testbed").style.backgroundColor = "white"
 
     // 오픈한 세부 섹션이 있을 경우
-    if (open_section && open_tab) {
-        showSection(open_tab, open_section)
+    if (open_section[open_tab] && open_tab) {
+        showSection(open_tab, open_section[open_tab])
     
     // 오픈한 세부 섹션이 없을 경우
     } else {
@@ -306,6 +258,7 @@ function locate (e) {
 }
 
 function showSection(key, sectionType) {
+    console.log(sectionType)
     // 공통 설정
     document.getElementById('top_btn').onclick = function() {
         closeSection(sectionType);
@@ -324,9 +277,11 @@ function showSection(key, sectionType) {
         
     } else if (sectionType === "Artist_message_section") {
         document.getElementById('MyPage_img_element').src = "esset/artistpoint.webp";
+    } else if (sectionType === "Product_section" && open_detail[sectionType] !== null) {
+        productSection(open_detail[sectionType])
     }
     document.getElementById(sectionType).style.display = "block";
-    open_section = sectionType;
+    open_section[key] = sectionType;
 }
 
 function closeSection() {
@@ -336,7 +291,7 @@ function closeSection() {
     };
     document.getElementById(open_tab).style.display = "block";
     document.getElementById("testbed").style.backgroundColor = "white";
-    document.getElementById(open_section).style.display = "none";
+    document.getElementById(open_section[open_tab]).style.display = "none";
     
     // 섹션별 설정
     if (open_section === "Community_section") {
@@ -346,7 +301,7 @@ function closeSection() {
     }
 
     //초기화
-    open_section = null;
+    open_section[open_tab] = null;
 }
 
 async function loadPosts() {
@@ -428,6 +383,15 @@ async function loadPosts() {
             openPopup(imgUrl);
         }
     });
+}
+
+async function productSection(key) {
+    open_detail['Product_section'] = key
+    const doc = await DB.collection('test').doc('md').get();
+    const storageRef = STORAGE.ref();
+    const imageRef = storageRef.child(doc.data()[key]['img_link']);
+    document.getElementById('Product_img').src = await imageRef.getDownloadURL()
+    document.getElementById('Product_title').textContent = doc.data()[key]['title']
 }
 
 // 이미지 클릭 시 팝업 열기
