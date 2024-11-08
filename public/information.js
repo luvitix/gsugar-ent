@@ -201,6 +201,14 @@ function bottom_button_style(activeTabId) {
 
     // 새로운 활성 탭 표시
     document.getElementById(activeTabId).style.display = "block";
+
+    if (open_tab === activeTabId) {
+        try {
+            // console.log(activeTabId, open_section[activeTabId], open_detail[open_section[open_tab]])
+            open_detail[open_section[open_tab]] = null;
+            open_section[open_tab] = null;
+        } catch {}
+    }
     
     // 커뮤니티 섹션이 열려 있는 경우 초기화
     if (activeTabId === "home_tab" && open_section[activeTabId] !== null && activeTabId !== open_tab) {
