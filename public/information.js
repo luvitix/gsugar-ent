@@ -294,13 +294,19 @@ function closeSection() {
     document.getElementById(open_section[open_tab]).style.display = "none";
     
     // 섹션별 설정
-    if (open_section === "Community_section") {
+    if (open_section[open_tab] === "Community_section") {
         document.getElementById('top_line').textContent = "GSUGAR";
-    } else if (open_section === "Artist_message_section") {
+    } else if (open_section[open_tab] === "Artist_message_section") {
         document.getElementById('MyPage_img_element').src = "esset/artistticket.png";
+    } else if (open_section[open_tab] === "Product_section") {
+        document.getElementById('goodsimage').src = ""
+        document.getElementById('goods-title').textContent = ""
+        document.getElementById('Product_description').textContent = ""
+        document.getElementById('Product_price').textContent = ""
     }
 
     //초기화
+    open_detail[open_section[open_tab]] = null;
     open_section[open_tab] = null;
 }
 
@@ -390,8 +396,10 @@ async function productSection(key) {
     const doc = await DB.collection('test').doc('md').get();
     const storageRef = STORAGE.ref();
     const imageRef = storageRef.child(doc.data()[key]['img_link']);
-    document.getElementById('Product_img').src = await imageRef.getDownloadURL()
-    document.getElementById('Product_title').textContent = doc.data()[key]['title']
+    document.getElementById('goodsimage').src = await imageRef.getDownloadURL()
+    document.getElementById('goods-title').textContent = doc.data()[key]['title']
+    document.getElementById('Product_description').textContent = doc.data()[key]['description']
+    document.getElementById('Product_price').textContent = doc.data()[key]['price']
 }
 
 // 이미지 클릭 시 팝업 열기
