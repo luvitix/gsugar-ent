@@ -204,9 +204,7 @@ function bottom_button_style(activeTabId) {
 
     if (open_tab === activeTabId) {
         try {
-            // console.log(activeTabId, open_section[activeTabId], open_detail[open_section[open_tab]])
-            open_detail[open_section[open_tab]] = null;
-            open_section[open_tab] = null;
+            closeSection()
         } catch {}
     }
     
