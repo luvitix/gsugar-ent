@@ -171,6 +171,8 @@ async function openMediaLink2() {
    
 }
 
+var ticket = 53
+var point = 301
 var open_tab = "home_tab"
 var open_section = {
     "home_tab": null,
@@ -194,6 +196,7 @@ function bottom_button_style(activeTabId) {
     document.getElementById("testbed").style.backgroundColor = "white"
     document.getElementById('top_line').textContent = "GSUGAR";
     document.getElementById('MyPage_img_element').src = "esset/artistticket.png";
+    document.getElementById('MyPage_value').textContent = ticket
 
     // 이전에 열려 있던 탭 숨기기
     document.getElementById(open_tab).style.display = "none";
@@ -283,6 +286,7 @@ function showSection(key, sectionType) {
         
     } else if (sectionType === "Artist_message_section") {
         document.getElementById('MyPage_img_element').src = "esset/artistpoint.webp";
+        document.getElementById('MyPage_value').textContent = point
     } else if (sectionType === "Product_section" && open_detail[sectionType] !== null) {
         productSection(open_detail[sectionType])
     }
@@ -304,6 +308,7 @@ function closeSection() {
         document.getElementById('top_line').textContent = "GSUGAR";
     } else if (open_section[open_tab] === "Artist_message_section") {
         document.getElementById('MyPage_img_element').src = "esset/artistticket.png";
+        document.getElementById('MyPage_value').textContent = ticket
     } else if (open_section[open_tab] === "Product_section") {
         document.getElementById('goodsimage').src = ""
         document.getElementById('goods-title').textContent = ""

@@ -117,7 +117,7 @@
                     </div> -->
                     <div style="display: flex; flex-direction: column; justify-content: center;">
                         <button id="MyPage_trigger" onclick="showMypage()" style="border-style: solid; border-radius: 1.83vh; border-width: 2px; font-size: 2.37vh; width: auto; height: 4.84vh; align-items: center; display: flex;">
-                            <img id="MyPage_img_element" src="esset/artistticket.png" style="width: 5.16vh;"> 53
+                            <img id="MyPage_img_element" src="esset/artistticket.png" style="width: 5.16vh;"><div id="MyPage_value">53</div>
                         </button>
                     </div>
                 </div>
@@ -210,7 +210,7 @@
 
             <!-- 컬렉션 탭 -->
             <div id="collection_tab" style="margin-top: 9.46vh; display: none; background-color: white;">
-                <div style="margin: 8px; padding: 8px; background-color: #f6f6f6; border-radius: 15px; height: auto; display: flex;">
+                <div class="collection_tab_box">
                     <img id="albumImage" src="esset/testbed_album_1.png" alt="" width="35%">
                     <div style="display: flex; flex-direction: column; margin-left: 5px; justify-content: center; width: 100%;">
                         <h4 style="color: blueviolet; margin: 0;" class="black">미니 1집 Sugar Fantasy 컬렉션</h4>
@@ -275,38 +275,47 @@
                         <h2 class="event_control black" onclick="openEndEvent()">종료 ( 0 )</h2>
                     </div>
                     <div id="test_event_list" style="display: flex; flex-direction: column;">
-                    <div style="background-color: #f6f6f6; border-radius: 15px; height: auto;">
-                        <div style="padding: 8px; background-color: white; border-radius: 15px; height: auto; display: flex; flex-direction: column;">
-                            <img src="esset/event_1.png" alt="" width="100%" id="z202411071023a">
-                            <h3 class="black">미니 1집 Sugar Fantasy 출시 기념 대면 팬사인회 이벤트</h3>
-                            <p class="black" style="margin: 0;">3024. 10. 14 ~ 3024. 10. 21</p>
-                        </div>
-                        <div class="hovering" onclick="showSection('event_tab', 'Event_detail_section')">
-                            <div class="white" style="text-align: center;">더보기</div>
+                    
+                    <div class="event_tab_box">
+                        <img src="esset/event_1.png" alt="" width="100%" id="z202411071023a">
+                        <div style="padding: 8px; padding-top: 0;">
+                            <div style="border-radius: 15px; height: auto; display: flex; flex-direction: column;">
+                                <h3 class="black" style="margin: 0; margin-top: 8px;">미니 1집 Sugar Fantasy 출시 기념 대면 팬사인회 이벤트</h3>
+                                <p class="black">3024. 10. 14 ~ 3024. 10. 21</p>
+                            </div>
+                            <div class="hovering" onclick="showSection('event_tab', 'Event_detail_section')">
+                                <div class="white" style="text-align: center;">더보기</div>
+                            </div>
                         </div>
                     </div>
-                    <div style="background-color: #f6f6f6; border-radius: 15px; height: auto;">
-                        <div style="padding: 8px; background-color: white; border-radius: 15px; height: auto; display: flex; flex-direction: column;">
-                            <img src="esset/event_1.png" alt="" width="100%" id="z202411071353a">
-                            <h3 class="black">미니 1집 Sugar Fantasy 출시 기념 영상통화 팬사인회 이벤트</h3>
-                            <p class="black" style="margin: 0;">3024. 10. 14 ~ 3024. 10. 21</p>
+
+                    <div class="event_tab_box">
+                        <img src="esset/event_1.png" alt="" width="100%" id="z202411071023a">
+                        <div style="padding: 8px; padding-top: 0;">
+                            <div style="border-radius: 15px; height: auto; display: flex; flex-direction: column;">
+                                <h3 class="black" style="margin: 0; margin-top: 8px;">미니 1집 Sugar Fantasy 출시 기념 영상통화 팬사인회 이벤트</h3>
+                                <p class="black">3024. 10. 14 ~ 3024. 10. 21</p>
+                            </div>
+                            <div class="hovering" onclick="showSection('event_tab', 'Event_detail_section')">
+                                <div class="white" style="text-align: center;">더보기</div>
+                            </div>
                         </div>
-                        <div class="hovering" onclick="showSection('event_tab', 'Event_detail_section')">
-                            <div class="white" style="text-align: center;">더보기</div>
-                        </div>
-                        
                     </div>
-                    <div style="background-color: #f6f6f6; border-radius: 15px; height: auto;">
-                        <div style="padding: 8px; background-color: white; border-radius: 15px; height: auto; display: flex; flex-direction: column;">
-                            <img src="esset/event_3.png" alt="" width="100%" id="z202411071723a">
-                            <h3 class="black">미니 1집 Sugar Fantasy 출시 기념 티켓 2배 제공 이벤트</h3>
-                            <p class="black" style="margin: 0;">3024. 10. 14 ~ 3024. 10. 21</p>
+
+                    <div class="event_tab_box">
+                        <img src="esset/event_3.png" alt="" width="100%" id="z202411071023a">
+                        <div style="padding: 8px; padding-top: 0;">
+                            <div style="border-radius: 15px; height: auto; display: flex; flex-direction: column;">
+                                <h3 class="black" style="margin: 0; margin-top: 8px;">미니 1집 Sugar Fantasy 출시 기념 티켓 2배 제공 이벤트</h3>
+                                <p class="black">3024. 10. 14 ~ 3024. 10. 21</p>
+                            </div>
+                            <div class="hovering" onclick="showSection('event_tab', 'Event_detail_section')">
+                                <div class="white" style="text-align: center;">더보기</div>
+                            </div>
                         </div>
-                        <div class="hovering" onclick="showSection('event_tab', 'Event_detail_section')">
-                            <div class="white" style="text-align: center;">더보기</div>
-                        </div>
-                        
                     </div>
+
+
                     </div>
                 </div>
                 
@@ -356,9 +365,18 @@
 
 
             <!-- 세부 섹션 : 아티스트 메세지 -->
-            <div id="Artist_message_section" style="margin-top: 9.46vh; display: none;">
+            <div id="Artist_message_section" class="community_media_style" style="background-color: white; margin-top: 9.46vh; display: none;">
 
-
+                <div style="padding: 8px; background-color: white; border-radius: 15px; height: auto; display: flex;">
+                    <img src="esset/newsugar.png" alt="" width="20%" style="border-radius: 35px;">
+                    <div style="display: flex; flex-direction: column; margin-left: 5px; justify-content: center;">
+                        <h4 style="color: blueviolet; margin: 0;" class="black">설탕이</h4>
+                        <p style="margin: 0;" class="black">밥 먹었쒀?</p>
+                    </div>
+                    <div style="display: flex; flex-direction: column; justify-content: center; margin-left: auto;">
+                        <div style="background-color: #DD285C; border-radius: 30px; width: 30px; height: 30px; text-align: center; display: flex; flex-direction: column; justify-content: center;" class="white">9+</div>
+                    </div>
+                </div>
 
             </div>
 

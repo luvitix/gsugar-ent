@@ -116,7 +116,7 @@
     background-color: white; 
     border-radius: 15px; 
     height: auto;
-    box-shadow: 0px 0px 3px rgba(199, 199, 199, 0.385);
+    box-shadow: 2px 5px 20px rgba(201, 201, 201, 0.356);
 }
 
 #write_button_mobile {
@@ -139,8 +139,28 @@
     background-color: #f6f6f6;
     border-radius: 15px;
     height: auto;
-    box-shadow: 0px 0px 3px rgba(110, 110, 110, 0.385);
+    box-shadow: 0px 0px 20px rgba(117, 117, 117, 0.36);
 }
+
+.collection_tab_box {
+    margin: 8px; 
+    padding: 8px; 
+    background-color: #f6f6f6; 
+    border-radius: 15px; 
+    height: auto; 
+    display: flex;
+    box-shadow: 0px 0px 20px rgba(117, 117, 117, 0.36);
+}
+
+.event_tab_box {
+    margin: 8px; 
+    background-color: #f6f6f6; 
+    border-radius: 15px; 
+    height: auto; 
+    box-shadow: 0px 0px 20px rgba(117, 117, 117, 0.36);
+}
+
+
 
 .nickname_style {
     color: blueviolet; 
