@@ -305,6 +305,12 @@ input {
     text-align: center;  /* 이미지 안의 텍스트가 아니라, 이미지를 가운데 정렬 */
 }
 
+.worklist {
+    background-color: #f6f6f6; 
+    padding: 8px; 
+    border-radius: 15px;
+}
+
 @media (max-width: 900px) {
     .vision-grid {
         grid-template-columns: repeat(1, 1fr);

@@ -289,6 +289,9 @@ function showSection(key, sectionType) {
         document.getElementById('MyPage_value').textContent = point
     } else if (sectionType === "Product_section" && open_detail[sectionType] !== null) {
         productSection(open_detail[sectionType])
+    } else if (sectionType === "Artist_content_section") {
+        document.getElementById('MyPage_img_element').src = "esset/artistpoint.webp";
+        document.getElementById('MyPage_value').textContent = point
     }
     document.getElementById(sectionType).style.display = "block";
     open_section[key] = sectionType;
@@ -422,4 +425,46 @@ function openPopup(imageSrc) {
 // 팝업 닫기
 function closePopup() {
     document.getElementById("imagePopup").style.display = "none";
+}
+
+async function Event_load() {
+    const doc = await DB.collection('test').doc('event').get();
+    document.getElementById("nowEvent").textContent = `진행중 ( ${doc.data()['list'].length} )`
+    document.getElementById("endEvent").textContent = `종료 ( ${doc.data()['end_list'].length} )`
+}
+
+
+
+// 프로그래스바 공간
+let progress = 0;
+let progress_trigger = 0;
+
+// 프로그래스 증가 함수
+function increaseProgress(amount) {
+    progress = Math.min(progress + amount, 100); // 최대 100%로 제한
+    updateProgressBar();
+}
+
+// 프로그래스 초기화 함수
+function resetProgress() {
+    progress = 0;
+    if (progress_trigger == 1) {
+        progress_trigger -= 1;
+        point -= 1;
+    }
+    updateProgressBar();
+
+}
+
+// 프로그래스바 업데이트 함수
+function updateProgressBar() {
+    document.getElementById("progress_Bar").style.width = progress + "%";
+    document.getElementById("progress_text").textContent = `컨텐츠 시청 ( ${progress/100} / 1 )`
+    if (progress > 0) {document.getElementById("progress_Bar").style.color = "blueviolet"}
+    else {document.getElementById("progress_Bar").style.color = "#f6f6f6"}
+    if (progress == 100 && progress_trigger == 0) {
+        progress_trigger += 1
+        point += 1
+    }
+    document.getElementById('MyPage_value').textContent = point
 }

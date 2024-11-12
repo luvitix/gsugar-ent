@@ -33,6 +33,11 @@
     cursor: pointer;
 }
 
+.tab_box {
+    margin-top: 9.46vh;
+    background-color: white;
+}
+
 .white_button {
     border-style: solid; 
     border-radius: 13px; 
@@ -160,7 +165,21 @@
     box-shadow: 0px 0px 20px rgba(117, 117, 117, 0.36);
 }
 
+.red_circle_box {
+    background-color: #DD285C;
+    border-radius: 50%;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
 
+.home_section_preview {
+    padding: 8px;
+    background-color: white;
+    border-radius: 15px;
+    height: auto;
+}
 
 .nickname_style {
     color: blueviolet; 
@@ -171,6 +190,23 @@
     margin: 0; 
     color: grey; 
     font-size: 12px;
+}
+
+.progress-container {
+    width: 100%;
+    background-color: #f6f6f6;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    width: 0%;
+    background-color: blueviolet;
+    text-align: center;
+    color: #f6f6f6;
+    line-height: 20px;
+    border-radius: 10px;
 }
 
 @media (max-width: 900px) {

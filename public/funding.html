@@ -125,19 +125,19 @@
 
 
             <!-- 홈 탭 -->
-            <div id="home_tab" style="margin-top: 9.46vh; background-color: white;">
+            <div id="home_tab" class="tab_box">
 
                 <!-- 아티스트 메세지 들어갈 영역, 디어유 혹은 노머스와 기술 협력 계획 -->
                 <div class="home_tab_box">
                     <h2 style="margin: 0; font-size: 2.58vh;" class="black">ARTIST MESSAGE</h2>
-                    <div style="padding: 8px; background-color: white; border-radius: 15px; height: auto; display: flex;">
+                    <div class="home_section_preview" style="display: flex;">
                         <img src="esset/newsugar.png" alt="" width="20%" style="border-radius: 35px;">
                         <div style="display: flex; flex-direction: column; margin-left: 5px; justify-content: center;">
                             <h4 style="color: blueviolet; margin: 0;" class="black">설탕이</h4>
                             <p style="margin: 0;" class="black">밥 먹었쒀?</p>
                         </div>
                         <div style="display: flex; flex-direction: column; justify-content: center; margin-left: auto;">
-                            <div style="background-color: #DD285C; border-radius: 30px; width: 30px; height: 30px; text-align: center; display: flex; flex-direction: column; justify-content: center;" class="white">9+</div>
+                            <div style="width: 30px; height: 30px; font-size: 16px;" class="white red_circle_box">9+</div>
                         </div>
                     </div>
                     <div class="hovering" onclick="showSection('home_tab', 'Artist_message_section')">
@@ -148,7 +148,7 @@
                 <!-- 아티스트 컨텐츠 -->
                 <div class="home_tab_box">
                     <h2 style="margin: 0; font-size: 2.58vh;" class="black">ARTIST CONTENT</h2>
-                    <div style="padding: 8px; background-color: white; border-radius: 15px; height: auto; display: flex; flex-direction: column;">
+                    <div class="home_section_preview" style="display: flex; flex-direction: column;">
                         <img src="esset/testbed_content.png" alt="" width="100%">
                         <h3 class="black">[SUGAR-POP!] 설탕이의 전생은?</h3>
                     </div>
@@ -161,7 +161,7 @@
                 <div class="home_tab_box">
                     <h2 style="margin: 0; font-size: 2.58vh;" class="black">COMMUNITY</h2>
                     <!-- 커뮤니티 표시 예제 -->
-                    <div style="padding: 8px; background-color: white; border-radius: 15px; height: auto;">
+                    <div class="home_section_preview">
                         <div style="display: flex;">
                             <img src="esset/newsearch.png" alt="" style="width: 8vh; height: 8vh; border-radius: 35px;">
                             <div style="display: flex; flex-direction: column; margin-left: 5px; justify-content: center;">
@@ -176,7 +176,7 @@
                     </div>
                     
                     <div style="margin: 8px;"></div>
-                    <div style="padding: 8px; background-color: white; border-radius: 15px; height: auto;">
+                    <div class="home_section_preview">
                         <div style="display: flex;">
                             <img src="esset/newalien.png" alt="" style="width: 8vh; height: 8vh; border-radius: 35px;">
                             <div style="display: flex; flex-direction: column; margin-left: 5px; justify-content: center;">
@@ -209,7 +209,7 @@
 
 
             <!-- 컬렉션 탭 -->
-            <div id="collection_tab" style="margin-top: 9.46vh; display: none; background-color: white;">
+            <div id="collection_tab" style="display: none;" class="tab_box">
                 <div class="collection_tab_box">
                     <img id="albumImage" src="esset/testbed_album_1.png" alt="" width="35%">
                     <div style="display: flex; flex-direction: column; margin-left: 5px; justify-content: center; width: 100%;">
@@ -229,7 +229,7 @@
 
 
             <!-- 샵 탭 -->
-            <div id="shop_tab" style="margin-top: 9.46vh; display: none; background-color: white;">
+            <div id="shop_tab" style="display: none;" class="tab_box">
                 <div id="storeContent" class="testshop-grid black" style="margin: 8px;">
                     <a>
                         <div style="background-color: #f6f6f6; text-align: center; display: flex; justify-content: center; align-items: center; aspect-ratio: 1 / 1; width: 100%;">
@@ -268,11 +268,11 @@
 
 
             <!-- 이벤트 탭 -->
-            <div id="event_tab" style="margin-top: 9.46vh; display: none; background-color: white;">
+            <div id="event_tab" style="display: none;" class="tab_box">
                 <div style="margin: 8px;">
                     <div id="test_event_bar" style="text-align: center; display: flex;">
-                        <h2 class="event_control black" style=" color: white; background-color: blueviolet;">진행중 ( 3 )</h2>
-                        <h2 class="event_control black" onclick="openEndEvent()">종료 ( 0 )</h2>
+                        <h2 id="nowEvent" class="event_control black" style=" color: white; background-color: blueviolet;">진행중 ( 3 )</h2>
+                        <h2 id="endEvent" class="event_control black" onclick="openEndEvent()">종료 ( 0 )</h2>
                     </div>
                     <div id="test_event_list" style="display: flex; flex-direction: column;">
                     
@@ -330,7 +330,7 @@
                 <a onclick="bottom_button_style('home_tab')" class="whiteNpadding bottom_button" style="background-color: blueviolet;">홈<br>Home</a>
                 <a onclick="bottom_button_style('collection_tab')" class="whiteNpadding bottom_button">수집품<br>Collection</a>
                 <a onclick="bottom_button_style('shop_tab')" class="whiteNpadding bottom_button">상점<br>Shop</a>
-                <a onclick="bottom_button_style('event_tab')" class="whiteNpadding bottom_button">이벤트<br>Event</a>
+                <a onclick="bottom_button_style('event_tab'); Event_load();" class="whiteNpadding bottom_button">이벤트<br>Event</a>
             </div>
 
 
@@ -360,12 +360,13 @@
                         </div>
                     </div>
                 </div>
-                <p style="color: #DD285C;" class="white">탈퇴하기</p>
+                <p style="color: #DD285C;" class="white" onclick="closeSpecial()">로그아웃</p>
             </div>
 
 
             <!-- 세부 섹션 : 아티스트 메세지 -->
             <div id="Artist_message_section" class="community_media_style" style="background-color: white; margin-top: 9.46vh; display: none;">
+
 
                 <div style="padding: 8px; background-color: white; border-radius: 15px; height: auto; display: flex;">
                     <img src="esset/newsugar.png" alt="" width="20%" style="border-radius: 35px;">
@@ -374,7 +375,7 @@
                         <p style="margin: 0;" class="black">밥 먹었쒀?</p>
                     </div>
                     <div style="display: flex; flex-direction: column; justify-content: center; margin-left: auto;">
-                        <div style="background-color: #DD285C; border-radius: 30px; width: 30px; height: 30px; text-align: center; display: flex; flex-direction: column; justify-content: center;" class="white">9+</div>
+                        <div style="width: 30px; height: 30px; font-size: 16px;" class="white red_circle_box">9+</div>
                     </div>
                 </div>
 
@@ -382,9 +383,27 @@
 
             <!-- 세부 섹션 : 아티스트 컨텐츠 -->
             <div id="Artist_content_section" style="margin-top: 9.46vh; display: none;">
+                <div style="background-color: white; margin: 8px; padding: 8px; border-radius: 15px; align-items: center; box-shadow: 2px 5px 20px rgba(201, 201, 201, 0.356);">
+                    <div style="display: flex; flex-direction: column; text-align: center;">
+                        <h3 class="black" id="progress_text">컨텐츠 시청 ( 0 / 1 )</h3>
+                    </div>
+                    <div style="display: flex; align-items: center; width: 100%; justify-content: center;">
+                        <div style="width: 75%;">
+                            <div class="progress-container">
+                                <div id="progress_Bar" class="progress-bar">0%</div>
+                            </div>
+                        </div>
+                        <img src="esset/artistpoint.webp" alt="아티스트포인트" width="10%">
+                    </div>
+                </div>
+                <div>
+                    <button onclick="increaseProgress(100)">대충 시청했다 치는 버튼</button>
+                    <button onclick="increaseProgress(20)">테스트 버튼</button>
+                    <button onclick="resetProgress()">Reset</button>
+                </div>
+                <div>
 
-
-
+                </div>
             </div>
             
 
@@ -395,7 +414,7 @@
                     <div style="font-size: 32px; color: rgb(128, 128, 128);" class="white">글 남기기!</div>
                 </div>
                 <div id="write_button_mobile">
-                    <div style=" background-color: #DD285C; font-size: 28px; border-radius: 50%; width: 50px; height: 50px; text-align: center; display: flex; flex-direction: column; justify-content: center; " class="white">+</div>
+                    <div style="width: 50px; height: 50px; font-size: 28px;" class="white red_circle_box">+</div>
                 </div>
                 <!-- 원본 이미지 팝업 -->
                 <div id="imagePopup" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.8); justify-content: center; align-items: center;">
