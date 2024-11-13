@@ -269,9 +269,7 @@ function locate (e) {
 function showSection(key, sectionType) {
     console.log(sectionType)
     // 공통 설정
-    document.getElementById('top_btn').onclick = function() {
-        closeSection(sectionType);
-    };
+    document.getElementById('top_btn').onclick = function() {closeSection(sectionType);};
     document.getElementById("home_tab").style.display = "none";
     document.getElementById("collection_tab").style.display = "none";
     document.getElementById("shop_tab").style.display = "none";
@@ -283,7 +281,6 @@ function showSection(key, sectionType) {
     if (sectionType === "Community_section") {
         document.getElementById('top_line').textContent = "Community";
         loadPosts();
-        
     } else if (sectionType === "Artist_message_section") {
         document.getElementById('MyPage_img_element').src = "esset/artistpoint.webp";
         document.getElementById('MyPage_value').textContent = point
@@ -292,6 +289,10 @@ function showSection(key, sectionType) {
     } else if (sectionType === "Artist_content_section") {
         document.getElementById('MyPage_img_element').src = "esset/artistpoint.webp";
         document.getElementById('MyPage_value').textContent = point
+    } else if (sectionType === "Collection_detail_section") {
+        document.getElementById("testbed").style.backgroundColor = "rgb(14, 18, 32)"
+        document.getElementById('top_line').textContent = ""
+        document.getElementById("button_line").style.display = "none"
     }
     document.getElementById(sectionType).style.display = "block";
     open_section[key] = sectionType;
@@ -299,9 +300,7 @@ function showSection(key, sectionType) {
 
 function closeSection() {
     // 기본 설정
-    document.getElementById('top_btn').onclick = function() {
-        closeSpecial();
-    };
+    document.getElementById('top_btn').onclick = function() {closeSpecial();};
     document.getElementById(open_tab).style.display = "block";
     document.getElementById("testbed").style.backgroundColor = "white";
     document.getElementById(open_section[open_tab]).style.display = "none";
@@ -317,6 +316,12 @@ function closeSection() {
         document.getElementById('goods-title').textContent = ""
         document.getElementById('Product_description').textContent = ""
         document.getElementById('Product_price').textContent = ""
+    } else if (open_section[open_tab] === "Artist_content_section") {
+        document.getElementById('MyPage_img_element').src = "esset/artistticket.png";
+        document.getElementById('MyPage_value').textContent = ticket
+    } else if (open_section[open_tab] === "Collection_detail_section") {
+        document.getElementById('top_line').textContent = "GSUGAR"
+        document.getElementById("button_line").style.display = "flex"
     }
 
     //초기화
@@ -461,7 +466,7 @@ function updateProgressBar() {
     document.getElementById("progress_Bar").style.width = progress + "%";
     document.getElementById("progress_text").textContent = `컨텐츠 시청 ( ${progress/100} / 1 )`
     if (progress > 0) {document.getElementById("progress_Bar").style.color = "blueviolet"}
-    else {document.getElementById("progress_Bar").style.color = "#f6f6f6"}
+    else {document.getElementById("progress_Bar").style.color = "#f0f0f0"}
     if (progress == 100 && progress_trigger == 0) {
         progress_trigger += 1
         point += 1
