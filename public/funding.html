@@ -149,8 +149,8 @@
                 <div class="home_tab_box">
                     <h2 style="margin: 0; font-size: 2.58vh;" class="black">ARTIST CONTENT</h2>
                     <div class="home_section_preview" style="display: flex; flex-direction: column;">
-                        <img src="esset/testbed_content.png" alt="" width="100%">
-                        <h3 class="black">[SUGAR-POP!] 설탕이의 전생은?</h3>
+                        <img src="esset/testbed_content2.png" alt="" width="100%">
+                        <h3 class="black">[SUGAR-POP!] 설탕핑 무셔핑</h3>
                     </div>
                     <div class="hovering" onclick="showSection('home_tab', 'Artist_content_section')">
                         <div class="white" style="text-align: center;">더보기</div>
@@ -410,6 +410,18 @@
                 </div>
 
                 <div class="event_tab_box">
+                    <img src="esset/testbed_content2.png" alt="" width="100%">
+                    <div style="padding: 8px; padding-top: 0;">
+                        <div style="border-radius: 15px; height: auto; display: flex; flex-direction: column;">
+                            <h3 class="black" style="margin: 8px; padding-top: 8px; padding-bottom: 8px;">[SUGAR-POP!] 설탕핑 무셔핑</h3>
+                        </div>
+                        <div class="hovering" onclick="increaseProgress(100)">
+                            <div class="white" style="text-align: center;">시청하기</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="event_tab_box">
                     <img src="esset/testbed_content.png" alt="" width="100%">
                     <div style="padding: 8px; padding-top: 0;">
                         <div style="border-radius: 15px; height: auto; display: flex; flex-direction: column;">
@@ -421,13 +433,19 @@
                     </div>
                 </div>
 
-                <div>
+                <!-- <div>
                     <button onclick="increaseProgress(100)">대충 시청했다 치는 버튼</button>
                     <button onclick="increaseProgress(20)">테스트 버튼</button>
                     <button onclick="resetProgress()">Reset</button>
-                </div>
+                </div> -->
+                <div style="margin-bottom: 75px;"></div>
             </div>
             
+            <!-- 원본 이미지 팝업 -->
+            <div id="imagePopup" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.8); justify-content: center; align-items: center;">
+                <span onclick="closePopup()" style="position: absolute; top: 20px; right: 30px; font-size: 24px; color: white; cursor: pointer;">&times;</span>
+                <img id="popupImage" src="" alt="원본 이미지" style="max-width: 90%; max-height: 90%; border-radius: 10px;">
+            </div>
 
             <!-- 세부 섹션 : 커뮤니티 -->
             <div id="Community_section" style="margin-top: 9.46vh; display: none;">
@@ -438,11 +456,7 @@
                 <div id="write_button_mobile">
                     <div style="width: 50px; height: 50px; font-size: 28px;" class="white red_circle_box">+</div>
                 </div>
-                <!-- 원본 이미지 팝업 -->
-                <div id="imagePopup" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.8); justify-content: center; align-items: center;">
-                    <span onclick="closePopup()" style="position: absolute; top: 20px; right: 30px; font-size: 24px; color: white; cursor: pointer;">&times;</span>
-                    <img id="popupImage" src="" alt="원본 이미지" style="max-width: 90%; max-height: 90%; border-radius: 10px;">
-                </div>
+
 
                 <div id="Community_content_section">
                 <!-- 커뮤니티 표시 예제 -->
