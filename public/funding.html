@@ -7,7 +7,7 @@
     <title>GSUGAR ENTERTAINMENT</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="special.css">
-    <script src="information.js"></script>
+    <script src="information.js" defer></script>
     <link rel="icon" href="favicon.ico">
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
@@ -191,7 +191,11 @@
                                 </div>
                             </div>
                         </div>
-                    <div class="black">설탕이 굳즈 넘 귀여운 듯</div><div style="display: flex;"><img src="https://firebasestorage.googleapis.com/v0/b/wav-page.appspot.com/o/community%2Ftemporarily%2Fz202411032127a_1.png?alt=media&amp;token=257244f1-5b82-42d5-afcf-a0438f79723d" data-url="https://firebasestorage.googleapis.com/v0/b/wav-page.appspot.com/o/community%2Ftemporarily%2Fz202411032127a_1.png?alt=media&amp;token=257244f1-5b82-42d5-afcf-a0438f79723d" class="popup-image" style="width: 50%; aspect-ratio: 1 / 1; object-fit: cover; border-radius: 10px; margin-top: 10px;"><img src="https://firebasestorage.googleapis.com/v0/b/wav-page.appspot.com/o/community%2Ftemporarily%2Fz202411032127a_2.png?alt=media&amp;token=e22e588e-23c2-431d-be4a-45c41641a790" data-url="https://firebasestorage.googleapis.com/v0/b/wav-page.appspot.com/o/community%2Ftemporarily%2Fz202411032127a_2.png?alt=media&amp;token=e22e588e-23c2-431d-be4a-45c41641a790" class="popup-image" style="width: 50%; aspect-ratio: 1 / 1; object-fit: cover; border-radius: 10px; margin-top: 10px;"></div>
+                    <div class="black">설탕이 굳즈 넘 귀여운 듯</div>
+                    <div id="BestPostImageContainer" style="display: flex;">
+                        <img src="https://firebasestorage.googleapis.com/v0/b/wav-page.appspot.com/o/community%2Ftemporarily%2Fz202411032127a_1.png?alt=media&amp;token=257244f1-5b82-42d5-afcf-a0438f79723d" data-url="https://firebasestorage.googleapis.com/v0/b/wav-page.appspot.com/o/community%2Ftemporarily%2Fz202411032127a_1.png?alt=media&amp;token=257244f1-5b82-42d5-afcf-a0438f79723d" class="popup-image" style="width: 50%; aspect-ratio: 1 / 1; object-fit: cover; border-radius: 10px; margin-top: 10px;">
+                        <img src="https://firebasestorage.googleapis.com/v0/b/wav-page.appspot.com/o/community%2Ftemporarily%2Fz202411032127a_2.png?alt=media&amp;token=e22e588e-23c2-431d-be4a-45c41641a790" data-url="https://firebasestorage.googleapis.com/v0/b/wav-page.appspot.com/o/community%2Ftemporarily%2Fz202411032127a_2.png?alt=media&amp;token=e22e588e-23c2-431d-be4a-45c41641a790" class="popup-image" style="width: 50%; aspect-ratio: 1 / 1; object-fit: cover; border-radius: 10px; margin-top: 10px;">
+                    </div>
                         <div class="heart_btn_box z202411032127ab" onclick="click_the_button('z202411032127ab')">
                             <img class="heart_button z202411032127ab" src="esset/heart-none.png" alt="좋아요 버튼" style="width: 22px; height: 22px;">
                             <p class="heart_count black z202411032127ab" style="font-size: 18px; margin: 0; margin-left: 8px;">99</p>
@@ -220,9 +224,9 @@
                     <div style="display: flex; flex-direction: column; margin-left: 5px; justify-content: center; width: 100%;">
                         <h4 style="color: blueviolet; margin: 0;" class="black">미니 1집 Sugar Fantasy 컬렉션</h4>
                         <p style="margin: 0; margin-top: 4px;" class="black">컬렉션 구성 : 앨범 3종</p>
-                        <div style="display: flex;">
-                            <p style="margin: 0; margin-top: 4px;" class="black">완성 보상 : </p>
-                            <img src="esset/ticket3.png" style="width: 23px;">
+                        <div style="display: flex; align-items: center;">
+                            <p style="margin: 0;" class="black">완성 보상 : </p>
+                            <img src="esset/artistticket.png" style="width: 23px;">
                             <p style="margin: 0;" class="black"> 5개</p>
                         </div>
                         <div class="hovering" onclick="showSection('collection_tab', 'Collection_detail_section')" style="margin-top: 4px; padding: 4px; border-radius: 11px; height: auto; display: flex; justify-content: center; align-items: center; width: 95%;">
@@ -514,6 +518,19 @@
             <!-- 세부 섹션 : 컬렉션 -->
             <div id="Collection_detail_section" style="margin-top: 8.6vh; text-align: center; display: none;">
                 <h1 class="white">미니 1집 Sugar Fantasy 앨범 컬렉션</h1>
+                <div style="display: flex; flex-direction: column; justify-content: center; height: calc(91.4vh - 170px); align-items: center;">
+                    <div style="display: flex; justify-content: center; align-items: center;">
+                        <img src="esset/testbed_album_1.png" alt="" width="35%" style="margin: 8px; object-fit: contain;">
+                        <img src="esset/testbed_album_1.png" alt="" width="35%" style="margin: 8px; object-fit: contain;">
+                    </div>
+                    <img src="esset/testbed_album_1.png" alt="" width="35%" style="margin: 8px; object-fit: contain;">
+                </div>
+                <div class="button_line" style="position: fixed; bottom: 55px; left: 0; right: 0; display: flex; justify-content: center; align-items: center;">
+                    <div style="display: flex; align-items: center; justify-content: center;">
+                        <h2 class="white" style="margin-right: 10px;">완료 보상</h2><img src="esset/artistticket.png" alt="" width="5%"><h2 class="white">x 5</h2>
+                    </div>
+                </div>                
+
                 <div id="button_line" style="position: fixed; background-color: rgb(14, 18, 32); color: white; bottom: 0; text-align: center; justify-items: center; height: 55px;">
                     <div class="hovering" style="margin: 8px;">
                         <div class="white" style="text-align: center;">완성하기</div>
@@ -643,5 +660,7 @@
 
     let vision = document.querySelectorAll('.vision-letter')
     console.log(vision)
+
+
 </script>
 </html>

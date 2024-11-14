@@ -149,52 +149,6 @@
             }
         }
 
-        // Firestore 도큐먼트 데이터 불러와 시간순으로 정렬하여 표시
-        async function displayDocumentData() {
-            try {
-                const doc = await DB.collection('company').doc('work').get();
-                const data = doc.data();
-
-                // 데이터 표시할 요소 가져오기
-                const dataDisplay = document.getElementById("workrecord_page");
-
-                // worklist와 lastweek를 제외하고, z(YYYYMMDDhhmm)a 패턴의 필드만 추출
-                const filteredKeys = Object.keys(data)
-                .filter(field => /^z\d{12}a$/.test(field)) // 필드명이 z로 시작하고 숫자 12개 후에 a로 끝나는지 검사
-                .sort(); // 기본적으로 문자열 오름차순으로 정렬
-
-                // 정렬된 순서로 데이터 표시
-                filteredKeys.reverse().forEach(field => {
-                const fieldElement = document.createElement("p");
-                fieldElement.className = "worklist black";
-                fieldElement.textContent = `${data[field]}`;
-                dataDisplay.appendChild(fieldElement);
-                });
-            } catch (error) {
-                console.error("데이터를 불러오는 중 오류가 발생했습니다:", error);
-            }
-        }
-
-        var Page = 0
-
-        function switchingPage() {
-            event.preventDefault(); // 기본 동작 방지
-            if (Page == 0) {
-                document.getElementById("workrecord_page").style.display = "block"
-                document.getElementById("mainpage").style.display = "none"
-                displayDocumentData()
-                Page += 1
-                document.getElementById("prev").href = ""
-                document.getElementById("prev").onclick = switchingPage
-            } else {
-                document.getElementById("mainpage").style.display = "block"
-                document.getElementById("workrecord_page").style.display = "none"
-                Page -= 1
-                document.getElementById("prev").href = "../"
-                document.getElementById("prev").onclick = ""
-            }
-        }
-
 
         // 페이지 로드 시 `loadFilteredWorkRecords` 함수 호출
         window.onload = loadFilteredWorkRecords;
@@ -272,9 +226,6 @@
                 <h3>내역 (2024. 10. 14. 이후)</h3>
                 <p class="black" style="background-color: #f6f6f6; padding: 8px; border-radius: 15px;"> 2024년 10월 14일 19:48 팬덤 플랫폼 체험 페이지 Event탭 외부 디자인 완성</p>
             </div>
-            <div onclick="switchingPage()">
-                <p class="black worklist">전체보기</p>
-            </div>
         </div>
 
         <!-- Asset Section -->
@@ -295,9 +246,6 @@
                 <p class="black" style="background-color: #f6f6f6; padding: 8px; border-radius: 15px;">2024년 10월 07일 14:33 인스타그램 광고 비용 | -58,980원</p>
             </div>
         </div>
-    </div>
-    <div id="workrecord_page" style="display: none">
-
     </div>
 
     <!-- Contact Us Section (Unchanged) -->

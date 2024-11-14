@@ -410,6 +410,14 @@ async function loadPosts() {
     });
 }
 
+// Add event listener to all images with the class 'popup-image'
+document.querySelectorAll('.popup-image').forEach(function(img) {
+    img.addEventListener('click', function() {
+        const url = img.getAttribute('data-url'); // Get the data-url attribute
+        openPopup(url); // Call the openPopup function
+    });
+});
+
 async function productSection(key) {
     open_detail['Product_section'] = key
     const doc = await DB.collection('test').doc('md').get();
@@ -423,6 +431,7 @@ async function productSection(key) {
 
 // 이미지 클릭 시 팝업 열기
 function openPopup(imageSrc) {
+    console.log("정상")
     document.getElementById("popupImage").src = imageSrc;
     document.getElementById("imagePopup").style.display = "flex";
 }
