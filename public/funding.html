@@ -541,7 +541,7 @@
                 </div>
                 <div class="button_line" style="position: fixed; bottom: 55px; left: 0; right: 0; display: flex; justify-content: center; align-items: center;">
                     <div style="display: flex; align-items: center; justify-content: center;">
-                        <h2 class="white" style="margin-right: 10px;">완료 보상</h2><img src="esset/artistticket.png" alt="" width="5%"><h2 class="white">x 5</h2>
+                        <h2 class="white" style="margin-right: 10px;">완료 보상</h2><img src="esset/artistticket.png" alt="" style="width: 10vh;"><h2 class="white">x 5</h2>
                     </div>
                 </div>                
 
@@ -576,10 +576,18 @@
             <!-- 세부 섹션 : Event detail -->
             <div id="Event_detail_section" style="margin-top: 9.46vh; display: none;">
 
-
+                <div class="hovering" style="margin: 8px;" onclick="EvnetPopup()">
+                    <div class="white" style="text-align: center;">응모하기</div>
+                </div>
 
             </div>
-
+            <!-- 원본 이미지 팝업 -->
+            <div id="EventPopup" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.8); justify-content: center; align-items: center;">
+                <span onclick="closePopup()" style="position: absolute; top: 20px; right: 30px; font-size: 24px; color: white; cursor: pointer;">&times;</span>
+                <div style="width: 40vh; height: 65vh; background-color: black; border: solid #f6f6f6 1px; border-radius: 50px;">
+                    <h1 class="white">응모할 티켓 개수를 입력해주세요!</h1>
+                </div>
+            </div>
 
 
 

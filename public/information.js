@@ -435,10 +435,17 @@ function openPopup(imageSrc) {
     document.getElementById("popupImage").src = imageSrc;
     document.getElementById("imagePopup").style.display = "flex";
 }
+
+// 이미지 클릭 시 팝업 열기
+function EvnetPopup() {
+    console.log("정상")
+    document.getElementById("EventPopup").style.display = "flex";
+}
     
 // 팝업 닫기
 function closePopup() {
     document.getElementById("imagePopup").style.display = "none";
+    document.getElementById("EventPopup").style.display = "none";
 }
 
 async function Event_load() {
