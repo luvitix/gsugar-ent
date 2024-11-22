@@ -13,12 +13,12 @@ function click_the_button(e) {
     let like_count = Number(likeCountElement.textContent);
     let like_img = likeImgElement.src;
     
-    if (like_img.includes("heart-none.png")) {
-        likeImgElement.src = "esset/heart-full.png";
+    if (like_img.includes("heart-none.webp")) {
+        likeImgElement.src = "esset/heart-full.webp";
         likeCountElement.style.color = "blueviolet";
         like_count += 1;
-    } else if (like_img.includes("heart-full.png")) {
-        likeImgElement.src = "esset/heart-none.png";
+    } else if (like_img.includes("heart-full.webp")) {
+        likeImgElement.src = "esset/heart-none.webp";
         likeCountElement.style.color = "black";
         like_count -= 1;
     }
@@ -207,11 +207,7 @@ function bottom_button_style(activeTabId) {
     // 새로운 활성 탭 표시
     document.getElementById(activeTabId).style.display = "block";
 
-    if (open_tab === activeTabId) {
-        try {
-            closeSection()
-        } catch {}
-    }
+    if (open_tab === activeTabId) { try { closeSection() } catch {} }
     
     // 커뮤니티 섹션이 열려 있는 경우 초기화
     if (activeTabId === "home_tab" && open_section[activeTabId] !== null && activeTabId !== open_tab) {
@@ -394,7 +390,7 @@ async function loadPosts() {
         // 좋아요 버튼 추가
         postElement.innerHTML += `
             <div class="heart_btn_box ${postId}" onclick="click_the_button('${postId}')">
-                <img class="heart_button ${postId}" src="esset/heart-none.png" alt="좋아요 버튼" style="width: 22px; height: 22px;">
+                <img class="heart_button ${postId}" src="esset/heart-none.webp" alt="좋아요 버튼" style="width: 22px; height: 22px;">
                 <p class="heart_count black ${postId}" style="font-size: 18px; margin: 0; margin-left: 8px;">99</p>
             </div>
         `;
@@ -493,9 +489,14 @@ function updateProgressBar() {
 }
 
 function eventTicket(value) {
-    if (value === 0) {
+    if (value === 0 && document.getElementById('eventTicket').value < ticket) {
         document.getElementById('eventTicket').value = Number(document.getElementById('eventTicket').value) + 1
-    } else if (value === 1 && document.getElementById('eventTicket').value != 0) {
+    } else if (value === 1 && document.getElementById('eventTicket').value > 0) {
         document.getElementById('eventTicket').value -= 1
+        
+    } else if (document.getElementById('eventTicket').value < 0) { 
+        document.getElementById('eventTicket').value = 0 
+    } else if (document.getElementById('eventTicket').value > ticket) { 
+        document.getElementById('eventTicket').value = ticket
     }
-}
+} 

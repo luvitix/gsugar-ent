@@ -184,6 +184,10 @@
     justify-content: center;
 }
 
+.black_circle_box:hover {
+    background-color: rgb(18, 17, 17);
+}
+
 .home_section_preview {
     padding: 8px;
     background-color: white;
