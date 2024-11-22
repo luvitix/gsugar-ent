@@ -30,65 +30,25 @@
         const DB = firebase.firestore();
         const STORAGE = firebase.storage();
 
-        // Firestore에서 링크 가져오기
-        function openMediaLink() {
-            DB.collection('mediaLinks').doc('careerButtonLink')
-                .get()
-                .then((doc) => {
-                if (doc.exists) {
-                    // Firestore에서 가져온 링크를 새 창으로 열기
-                    window.location.replace(doc.data()['link'], '_blank');
-                } else {
-                    console.log("No such document!");
-                }
-            })
-            .catch((error) => {
-                console.log("Error getting document:", error);
-            });
-        }
-
-
-
     // 이미지를 불러오는 함수
     function loadImage(key, key2) {
         const storageRef = STORAGE.ref();
         const imageRef = storageRef.child(key);
 
         // 이미지 파일의 다운로드 URL을 가져와서 <img> 태그에 적용
-        imageRef.getDownloadURL()
-          .then((url) => {
+        imageRef.getDownloadURL().then((url) => {
             document.getElementById(key2).src = url;
-          })
-          .catch((error) => {
-            console.error('이미지 파일 불러오기 오류:', error);
-          });
+        }).catch((error) => {console.error('이미지 파일 불러오기 오류:', error)});
     }
 
-      // Firestore에서 링크 가져오기
-      function openMediaContent() {
-          DB.collection('mediaLinks').doc('careerButtonLink')
-              .get()
-              .then((doc) => {
-                  if (doc.exists) {
-                      // Firestore에서 가져온 링크를 새 창으로 열기
-                      document.getElementById('career_img').src = doc.data()['image'];
-                  } else {
-                      console.log("No such document!");
-                  }
-              })
-              .catch((error) => {
-                  console.log("Error getting document:", error);
-              });
-      }
-      function closeSpecial() {
+    function closeSpecial() {
+        window.location.href = "../"
         document.getElementById("testbed").style.display = 'none'
         document.getElementById("var").style.display = 'block'
         document.getElementById("media").style.display = 'block'
         document.getElementById("project").style.display = 'block'
-        document.getElementById("career").style.display = 'block'
         document.getElementById("capyright").style.display = 'block'
-      }
-      window.onload = openMediaContent();
+    }
       
     //   window.onload = loadImage('testbed_album_1.png');
       
@@ -584,8 +544,13 @@
             <!-- 원본 이미지 팝업 -->
             <div id="EventPopup" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.8); justify-content: center; align-items: center;">
                 <span onclick="closePopup()" style="position: absolute; top: 20px; right: 30px; font-size: 24px; color: white; cursor: pointer;">&times;</span>
-                <div style="width: 40vh; height: 65vh; background-color: black; border: solid #f6f6f6 1px; border-radius: 50px;">
-                    <h1 class="white">응모할 티켓 개수를 입력해주세요!</h1>
+                <div style="width: 40vh; height: 65vh; background-color: rgb(18, 17, 17); border: solid #f6f6f6 1px; border-radius: 50px;">
+                    <h1 class="black" style="color: white; text-align: center; padding: 8px;">응모할 티켓 개수를 입력해 주세요!</h1>
+                    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                        <div style="width: 50px; height: 50px; font-size: 28px;" class="white black_circle_box" onclick="eventTicket(0)">+</div>
+                        <textarea id="eventTicket" class="white" style="background-color: black; resize: none; border: none; width: 85px; height: 60px; border-radius: 20px; margin: 8px; text-align: center;">1</textarea>
+                        <div style="width: 50px; height: 50px; font-size: 28px;" class="white black_circle_box" onclick="eventTicket(1)">-</div>
+                    </div>
                 </div>
             </div>
 
@@ -644,22 +609,7 @@
             
         </div>
   
-    <!-- Career Section -->
-    <div id="career">
-        <h2 class="logo-text white">CAREER</h2>
-        <p class="white">GSUGAR ENTERTAINMENT의 팬 플랫폼을 직접 만들어보세요.</p>
-        <div id="app" class="vision-grid" style="margin-top: 10px;">
-            
-            <img id="career_img" src="esset/pr_image.png" alt="" width="100%">
-            <div class="white vision-left">
-                <h1 id="arti" class="vision-text">Product Owner 채용 중</h1>
-                <p>우대 사항1 : 다양한 아이돌 덕질 경험이 있는 분<br>우대 사항2 : 웹/앱 등 IT개발 경험이 있는 분</p>
-                <div style=" margin-top: 30px;">
-                    <a><button onclick="openMediaLink()" style="border-style: solid; border-color: aliceblue; border-radius: 50px; font-size: 20px; padding: 8px;">채용 공고</button></a>
-                </div>
-            </div>
-        </div>
-    </div>
+
 
 
     <!-- Section -->

@@ -10,6 +10,7 @@
     <link rel="icon" href="favicon.ico">
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js"></script> <!-- Firebase Storage 추가 -->
     <script>
         const firebaseConfig = {
             apiKey: "AIzaSyCbg4hzNgHuHLPPf-p81tOR9NokHUkJEYU",
@@ -24,63 +25,68 @@
         firebase.initializeApp(firebaseConfig);
 
 
-        // Initialize Cloud Firestore and get a reference to the service
-        const DB = firebase.firestore();
+    // Initialize Cloud Firestore and get a reference to the service
+    const DB = firebase.firestore();
+    const STORAGE = firebase.storage();
 
-      // Firestore에서 링크 가져오기
-      function openMediaLink() {
-          DB.collection('mediaLinks').doc('mediaButtonLink')
-              .get()
-              .then((doc) => {
-                  if (doc.exists) {
-                      // Firestore에서 가져온 링크를 새 창으로 열기
-                      window.location.replace(doc.data()['link'], '_blank');
-                  } else {
-                      console.log("No such document!");
-                  }
-              })
-              .catch((error) => {
-                  console.log("Error getting document:", error);
-              });
-      }
-        // Firestore에서 정보 가져오기
-        function openMediaContent() {
-            DB.collection('mediaLinks').doc('mediaButtonLink').get().then((doc) => {
-                if (doc.exists) {
-                    // Firestore에서 가져와서 HTML만들기
-                    var medialist = doc.data()['list']
-                    var storeContent = ""
-                    // 모든 비동기 작업을 처리할 Promise 배열 생성
-                    var promises = medialist.reverse().map((item) => {
-                        return DB.collection('media').doc(item).get().then((doc1) => {
-                            if (doc1.exists) {
-                                storeContent += `
-                                <div class="white">
-                                    <img id="artimage" src="${doc1.data()['image']}" alt="" width="100%">
-                                    <h1 id="arti" class="vision-text">${doc1.data()['media']}</h1>
-                                    <div>
-                                        <a href=${doc1.data()['link']}><button style="border-style: solid; border-color: aliceblue; border-radius: 50px; font-size: 20px; padding: 8px;">아티클 보러가기</button></a>
-                                    </div>
-                                </div>`;
-                            } else {
-                                console.log("No such document!");
-                            }
-                        });
+    // Firestore에서 career링크 가져오기
+    function openCareerLink() {
+        DB.collection('mediaLinks').doc('careerButtonLink').get().then((doc) => {
+            if (doc.exists) {
+                // Firestore에서 가져온 링크를 새 창으로 열기
+                window.location.replace(doc.data()['link'], '_blank');
+            } else {console.log("No such document!")}
+        }).catch((error) => {console.log("Error getting document:", error)});
+    }
+
+    function openCareerContent() {
+        DB.collection('mediaLinks').doc('careerButtonLink').get().then((doc) => {
+            if (doc.exists) {
+                // Firestore에서 가져온 링크를 새 창으로 열기
+                document.getElementById('career_img').src = doc.data()['image'];
+            } else {console.log("No such document!")}
+        }).catch((error) => {console.log("Error getting document:", error)});
+    }
+
+    // Firestore에서 링크 가져오기
+    function openMediaLink() {
+        DB.collection('mediaLinks').doc('mediaButtonLink').get().then((doc) => {
+            if (doc.exists) {
+                // Firestore에서 가져온 링크를 새 창으로 열기
+                window.location.replace(doc.data()['link'], '_blank');
+            } else {console.log("No such document!")}
+        }).catch((error) => {console.log("Error getting document:", error)});
+    }
+
+    // Firestore에서 정보 가져오기
+    function openMediaContent() {
+        DB.collection('mediaLinks').doc('mediaButtonLink').get().then((doc) => {
+            if (doc.exists) {
+                // Firestore에서 가져와서 HTML만들기
+                var medialist = doc.data()['list']
+                var storeContent = ""
+                // 모든 비동기 작업을 처리할 Promise 배열 생성
+                var promises = medialist.reverse().map((item) => {
+                    return DB.collection('media').doc(item).get().then((doc1) => {
+                        if (doc1.exists) {
+                            storeContent += `
+                            <div class="white">
+                                <img id="artimage" src="${doc1.data()['image']}" alt="" width="100%">
+                                <h1 id="arti" class="vision-text">${doc1.data()['media']}</h1>
+                                <div>
+                                    <a href=${doc1.data()['link']}><button style="border-style: solid; border-color: aliceblue; border-radius: 50px; font-size: 20px; padding: 8px;">아티클 보러가기</button></a>
+                                </div>
+                            </div>`;
+                        } else {console.log("No such document!")}
                     });
+                });
 
-                    // 모든 Promise가 완료된 후에 storeContent 적용
-                    Promise.all(promises).then(() => {
-                        document.getElementsByClassName('news-grid')[1].innerHTML = storeContent;
-                    });
+                // 모든 Promise가 완료된 후에 storeContent 적용
+                Promise.all(promises).then(() => {document.getElementsByClassName('news-grid')[1].innerHTML = storeContent});
 
-                } else {
-                    console.log("No such document!");
-                }
-            })
-            .catch((error) => {
-                console.log("Error getting document:", error);
-            });
-        }
+            } else {console.log("No such document!")}
+        }).catch((error) => {console.log("Error getting document:", error)});
+    }
       
       // Firestore에서 링크 가져오기
     async function openGoodsContent() {
@@ -90,13 +96,12 @@
             document.getElementById('goods_description2').textContent = control.data()['description'][1];
             document.getElementById('goods_img1').src = control.data()['img_link'][0];
             document.getElementById('goods_img2').src = control.data()['img_link'][1];
-        } else {
-            console.log("No such document!");
-        }
-            
-      }
-      window.onload = openMediaContent();
-      window.onload = openGoodsContent();
+        } else {console.log("No such document!")}
+    }
+
+    window.onload = openMediaContent();
+    window.onload = openGoodsContent();
+    window.onload = openCareerContent();
 
     </script>
 </head>
@@ -123,7 +128,7 @@
 
     <!-- Media Section -->
     <div id="project">
-        <h2 class="logo-text white">PROJECT</h2>
+        <h2 class="logo-text white">PROJECT_1</h2>
 
         <div id="app" class="vision-grid" style="margin-top: 10px;">
         
@@ -131,7 +136,7 @@
             <div class="white vision-left">
                 <h1 class="vision-text">K-POP을 바꿀 팬덤 플랫폼</h1>
                 <div style=" margin-top: 40px;">
-                    <a href="funding"><button style="border-style: solid; border-color: aliceblue; border-radius: 50px; font-size: 20px; padding: 8px;">프로젝트에 참가하기</button></a>
+                    <a href="funding"><button style="border-style: solid; border-color: aliceblue; border-radius: 50px; font-size: 20px; padding: 8px;">프로젝트에 체험하기</button></a>
                 </div>
             </div>
         </div>
@@ -143,11 +148,11 @@
         <div id="app" class="news-grid super-vision" width="100%" style="margin-top: 10px; align-items: center;">
             
             <div style="flex-direction: column;">
-                <img id="goods_img1" src="esset/angrycushion.png" alt="" width="80%" style="border-radius: 50px; background-color: #f6f6f6; padding: 20px;">
+                <img id="goods_img1" alt="굳즈1" width="80%" style="border-radius: 50px; background-color: #f6f6f6; padding: 20px;">
                 <p id="goods_description1" class="black">굳즈 1</p>
             </div>
             <div style="flex-direction: column;" class="mobile-none">
-                <img id="goods_img2" src="esset/angrycushion.png" alt="" width="80%" style="border-radius: 50px; background-color: #f6f6f6; padding: 20px;">
+                <img id="goods_img2" alt="굳즈2" width="80%" style="border-radius: 50px; background-color: #f6f6f6; padding: 20px;">
                 <p id="goods_description2" class="black">굳즈 2</p>
             </div>
             <div style="width: 100%; text-align: left">
@@ -169,6 +174,23 @@
                 <h1 id="arti" class="vision-text">1</h1>
                 <div>
                     <a><button onclick="openMediaLink()" style="border-style: solid; border-color: aliceblue; border-radius: 50px; font-size: 20px; padding: 8px;">아티클 보러가기</button></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Career Section -->
+    <div id="career">
+        <h2 class="logo-text white">CAREER</h2>
+        <p class="white">GSUGAR ENTERTAINMENT의 팬 플랫폼을 직접 만들어보세요.</p>
+        <div id="app" class="vision-grid" style="margin-top: 10px;">
+            
+            <img id="career_img" src="esset/pr_image.png" alt="" width="100%">
+            <div class="white vision-left">
+                <h1 id="arti" class="vision-text">Product Owner 채용 중</h1>
+                <p>우대 사항1 : 다양한 아이돌 덕질 경험이 있는 분<br>우대 사항2 : 웹/앱 등 IT개발 경험이 있는 분</p>
+                <div style=" margin-top: 30px;">
+                    <a><button onclick="openCareerLink()" style="border-style: solid; border-color: aliceblue; border-radius: 50px; font-size: 20px; padding: 8px;">채용 공고</button></a>
                 </div>
             </div>
         </div>

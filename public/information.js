@@ -140,7 +140,6 @@ async function openMediaLink2() {
     document.getElementById("var").style.display = 'none'
     document.getElementById("media").style.display = 'none'
     document.getElementById("project").style.display = 'none'
-    document.getElementById("career").style.display = 'none'
     document.getElementById("capyright").style.display = 'none'
     // loadImage('testbed_album_1.png', 'albumImage');
             
@@ -170,6 +169,9 @@ async function openMediaLink2() {
     document.getElementById('storeContent').innerHTML = storeContent;
    
 }
+
+openMediaLink2();
+
 
 var ticket = 53
 var point = 301
@@ -488,4 +490,12 @@ function updateProgressBar() {
         point += 1
     }
     document.getElementById('MyPage_value').textContent = point
+}
+
+function eventTicket(value) {
+    if (value === 0) {
+        document.getElementById('eventTicket').value = Number(document.getElementById('eventTicket').value) + 1
+    } else if (value === 1 && document.getElementById('eventTicket').value != 0) {
+        document.getElementById('eventTicket').value -= 1
+    }
 }
