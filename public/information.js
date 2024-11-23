@@ -489,11 +489,13 @@ function updateProgressBar() {
 }
 
 function eventTicket(value) {
+    // Check if the value is NaN or not a number, and set it to 0 if true
+    document.getElementById('eventTicket').value = isNaN(Number(document.getElementById('eventTicket').value)) ? 0 : Number(document.getElementById('eventTicket').value);
+
     if (value === 0 && document.getElementById('eventTicket').value < ticket) {
         document.getElementById('eventTicket').value = Number(document.getElementById('eventTicket').value) + 1
     } else if (value === 1 && document.getElementById('eventTicket').value > 0) {
         document.getElementById('eventTicket').value -= 1
-        
     } else if (document.getElementById('eventTicket').value < 0) { 
         document.getElementById('eventTicket').value = 0 
     } else if (document.getElementById('eventTicket').value > ticket) { 
