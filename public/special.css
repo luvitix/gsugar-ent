@@ -189,7 +189,7 @@
 }
 
 .eventPopupSpace {
-    width: 40vh; height: 65vh; background-color: rgb(18, 17, 17); border: solid #f6f6f6 1px; border-radius: 50px;
+    width: 40vh; height: auto; background-color: rgb(18, 17, 17); border: solid #f6f6f6 1px; border-radius: 50px;
 }
 
 .home_section_preview {
@@ -254,6 +254,6 @@
     }
 
     .eventPopupSpace {
-        width: 80%; height: 65%;
+        width: 80%; height: auto;
     }
 }

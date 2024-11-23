@@ -545,12 +545,23 @@
             <div id="EventPopup" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.8); justify-content: center; align-items: center;">
                 <span onclick="closePopup()" style="position: absolute; top: 20px; right: 30px; font-size: 24px; color: white; cursor: pointer;">&times;</span>
                 <div class="eventPopupSpace">
-                    <h1 class="black" style="color: white; text-align: center; padding: 8px; font-size: 3.5vh;">응모할 티켓 개수를 입력해 주세요!</h1>
-                    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
-                        <div style="width: 50px; height: 50px; font-size: 28px;" class="white black_circle_box" onclick="eventTicket(0)">+</div>
-                        <textarea id="eventTicket" class="white" onkeyup="eventTicket()" style="font-size: 32px; background-color: black; resize: none; border: none; width: 85px; height: 60px; border-radius: 20px; margin: 8px; text-align: center; line-height: 55px;">1</textarea>
-                        <div style="width: 50px; height: 50px; font-size: 28px;" class="white black_circle_box" onclick="eventTicket(1)">-</div>
+                    <div style="width: 100%; display: flex; justify-content: center;">
+                        <h1 class="black" style="color: white; text-align: center; padding: 8px; font-size: 3.4vh; width: 70%;">응모할 티켓 개수를 입력해 주세요!</h1>
                     </div>
+
+                    <!-- <div style="display: flex;">
+                        <img src="esset/artistticket.png" alt="" width="10%"> -->
+                        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                            <div style="width: 50px; height: 50px; font-size: 28px;" class="white black_circle_box" onclick="eventTicket(0)">+</div>
+                            <textarea id="eventTicket" class="white" onkeyup="eventTicket()" style="font-size: 32px; background-color: black; resize: none; border: none; width: 85px; height: 60px; border-radius: 20px; margin: 8px; text-align: center; line-height: 55px;">1</textarea>
+                            <div style="width: 50px; height: 50px; font-size: 28px;" class="white black_circle_box" onclick="eventTicket(1)">-</div>
+                        </div>
+                    <!-- </div> -->
+
+                    <div style="width: 100%; display: flex; justify-content: center; margin-top: 2vh;">
+                        <div class="white hovering" style="text-align: center; margin: 8px; width: 70%;">응모하기</div>
+                    </div>
+                    
                 </div>
             </div>
 
