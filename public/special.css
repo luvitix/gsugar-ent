@@ -188,6 +188,10 @@
     background-color: rgb(18, 17, 17);
 }
 
+.eventPopupSpace {
+    width: 40vh; height: 65vh; background-color: rgb(18, 17, 17); border: solid #f6f6f6 1px; border-radius: 50px;
+}
+
 .home_section_preview {
     padding: 8px;
     background-color: white;
@@ -247,5 +251,9 @@
     }
     #write_button_pc {
         display: none;
+    }
+
+    .eventPopupSpace {
+        width: 40%; height: 65%;
     }
 }
