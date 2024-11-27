@@ -287,7 +287,7 @@ function showSection(key, sectionType) {
     } else if (sectionType === "Artist_content_section") {
         document.getElementById('MyPage_img_element').src = "esset/artistpoint.webp";
         document.getElementById('MyPage_value').textContent = point
-    } else if (sectionType === "Collection_detail_section") {
+    } else if (sectionType === "Collection_detail_section" || "Event_detail_section") {
         document.getElementById("testbed").style.backgroundColor = "rgb(14, 18, 32)"
         document.getElementById('top_line').textContent = ""
         document.getElementById("button_line").style.display = "none"
@@ -317,7 +317,7 @@ function closeSection() {
     } else if (open_section[open_tab] === "Artist_content_section") {
         document.getElementById('MyPage_img_element').src = "esset/artistticket.png";
         document.getElementById('MyPage_value').textContent = ticket
-    } else if (open_section[open_tab] === "Collection_detail_section") {
+    } else if (open_section[open_tab] === "Collection_detail_section" || open_section[open_tab] === "Event_detail_section") {
         document.getElementById('top_line').textContent = "GSUGAR"
         document.getElementById("button_line").style.display = "flex"
     }
@@ -391,7 +391,7 @@ async function loadPosts() {
         postElement.innerHTML += `
             <div class="heart_btn_box ${postId}" onclick="click_the_button('${postId}')">
                 <img class="heart_button ${postId}" src="esset/heart-none.webp" alt="좋아요 버튼" style="width: 22px; height: 22px;">
-                <p class="heart_count black ${postId}" style="font-size: 18px; margin: 0; margin-left: 8px;">99</p>
+                <p class="heart_count black ${postId}" style="font-size: 18px; margin: 0; margin-left: 8px;">${post.heart}</p>
             </div>
         `;
 
