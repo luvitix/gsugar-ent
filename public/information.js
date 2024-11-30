@@ -327,6 +327,24 @@ function closeSection() {
     open_section[open_tab] = null;
 }
 
+function openWriteSection() {
+    document.getElementById("write_button").style.display = "block"
+    document.getElementById('top_btn').onclick = function() {closeWriteSecton();};
+    document.getElementById("write_button_mobile").style.display = "none"
+    document.getElementById("Community_content_section").style.display = "none"
+    document.getElementById("button_line").style.display = "none"
+    document.getElementById("ticket_showWindow").style.display = "none"
+}
+
+function closeWriteSecton() {
+    document.getElementById("write_button").style.display = ""
+    document.getElementById('top_btn').onclick = function() {closeSection("Community_section");};
+    document.getElementById("write_button_mobile").style.display = ""
+    document.getElementById("Community_content_section").style.display = "block"
+    document.getElementById("button_line").style.display = "flex"
+    document.getElementById("ticket_showWindow").style.display = "flex"
+}
+
 async function loadPosts() {
     const postsContainer = document.getElementById('Community_content_section');
     postsContainer.innerHTML = ''; // 기존 게시글 초기화
@@ -439,11 +457,18 @@ function EvnetPopup() {
     console.log("정상")
     document.getElementById("EventPopup").style.display = "flex";
 }
+
+// 이미지 클릭 시 팝업 열기
+function ArtiMessage() {
+    console.log("정상")
+    document.getElementById("AriMessageSignup").style.display = "flex";
+}
     
 // 팝업 닫기
 function closePopup() {
     document.getElementById("imagePopup").style.display = "none";
     document.getElementById("EventPopup").style.display = "none";
+    document.getElementById("AriMessageSignup").style.display = "none";
 }
 
 async function Event_load() {
