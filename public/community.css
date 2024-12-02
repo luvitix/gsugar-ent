@@ -1,0 +1,70 @@
+.photo-grid {
+    display: grid;
+  }
+  
+  .photo-grid[data-count="1"] {
+    grid-template-columns: 1fr;
+  }
+  
+  .photo-grid[data-count="2"] {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .photo-grid[data-count="3"] {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  .photo-grid[data-count="4"] {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, auto);
+  }
+  
+  .photo-grid[data-count="6"] {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  .photo-grid[data-count="5"], 
+  .photo-grid[data-count="7"],
+  .photo-grid[data-count="8"] {
+    grid-template-columns: repeat(6, 1fr);
+  }
+  
+  .photo-grid[data-count="5"] img:nth-child(-n+3),
+  .photo-grid[data-count="7"] img:nth-child(-n+3) {
+    grid-column: span 2;
+  }
+  
+  .photo-grid[data-count="5"] img:nth-child(n+4),
+  .photo-grid[data-count="7"] img:nth-child(n+4) {
+    grid-column: span 3; /* 마지막 두 이미지를 넓게 배치 */
+  }
+  
+  .photo-grid[data-count="8"] img:nth-child(-n+6) {
+    grid-column: span 2;
+  }
+  
+  .photo-grid[data-count="8"] img:nth-child(n+7) {
+    grid-column: span 3; /* 마지막 두 이미지를 넓게 배치 */
+  }
+  
+  .photo-grid[data-count="9"] {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+
+
+  /* 기본 파일 업로드 버튼 숨기기 */
+#images {
+    display: none;
+}
+
+/* 이미지 스타일 */
+.custom-file-upload {
+    display: inline-block;
+    cursor: pointer;
+}
+  
+.custom-file-upload img {
+    width: 50px;
+    height: auto;
+}

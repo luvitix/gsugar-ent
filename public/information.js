@@ -116,7 +116,7 @@ async function sectionDesignFullsize(value, key) {
         <h1 class="testshop_name black">${value['title']}</h1>
         <h2 class="testshop_price black">${value['price']}</h2>
     </a>`
-    console.log(designHtml)
+    // console.log(designHtml)
     return designHtml
 }
 
@@ -345,6 +345,103 @@ function closeWriteSecton() {
     document.getElementById("ticket_showWindow").style.display = "flex"
 }
 
+const selectedFiles = []; // 업로드된 모든 파일을 관리할 배열
+const MAX_FILES = 9; // 최대 파일 개수
+
+// 비동기적으로 FileReader 작업을 처리하는 함수
+function readFileAsDataURL(file) {
+  return new Promise((resolve) => {
+    const reader = new FileReader();
+    reader.onload = function (e) {
+      resolve(e.target.result); // 파일의 데이터 URL 반환
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+// 파일 업로드 버튼과 연결
+const fileInput = document.getElementById("images");
+const extraInput = document.getElementById("extra-images");
+
+fileInput.addEventListener("change", handleFileSelection);
+extraInput.addEventListener("change", handleFileSelection);
+
+// 이미지 제거 함수
+function removeImage(index) {
+    selectedFiles.splice(index, 1); // 배열에서 제거
+    updateUI();
+    renderPreviews();
+  }
+
+// 이미지 미리보기 렌더링 함수
+async function renderPreviews() {
+  const previewSection = document.getElementById('preview-section');
+  previewSection.innerHTML = ""; // 기존 미리보기 초기화
+
+  for (let i = 0; i < selectedFiles.length; i++) {
+    const file = selectedFiles[i];
+    const dataURL = await readFileAsDataURL(file); // 파일 순서대로 읽기
+
+    const img = document.createElement('img');
+    img.src = dataURL;
+    img.style.width = "50px";
+    img.style.height = "50px";
+    img.style.objectFit = "cover";
+    img.style.border = "1px solid #ddd";
+    img.style.borderRadius = "5px";
+    img.style.cursor = "pointer";
+
+    // 클릭 이벤트: 이미지를 클릭하면 배열에서 제거
+    img.addEventListener('click', function () {
+      removeImage(i);
+    });
+
+    previewSection.appendChild(img); // 미리보기 섹션에 추가
+  }
+}
+
+// 파일 선택 이벤트 처리 함수
+function handleFileSelection(event) {
+    const files = event.target.files;
+  
+    // 현재 파일 개수와 새로 추가될 파일 개수 확인
+    if (selectedFiles.length + files.length > MAX_FILES) {
+      alert(`최대 ${MAX_FILES}개 파일만 업로드할 수 있습니다.`);
+      return;
+    }
+  
+    // 파일 추가
+    Array.from(files).forEach((file) => {
+      selectedFiles.push(file);
+    });
+  
+    updateUI();
+    renderPreviews();
+  }
+  
+  // UI 업데이트 함수
+  function updateUI() {
+    const imguploaderLabel = document.getElementById("imguploader-label");
+    const plusimgLabel = document.getElementById("plusimg-label");
+  
+    if (selectedFiles.length === 0) {
+      imguploaderLabel.style.display = "block";
+      plusimgLabel.style.display = "none";
+    } else if (selectedFiles.length < MAX_FILES) {
+      imguploaderLabel.style.display = "none";
+      plusimgLabel.style.display = "block";
+    } else if (selectedFiles.length === MAX_FILES) {
+      imguploaderLabel.style.display = "none";
+      plusimgLabel.style.display = "none";
+    }
+  }
+
+// 초기 파일 선택 이벤트 연결
+document.getElementById('images').addEventListener('change', handleFileSelection);
+
+// 추가 업로드 버튼에 파일 선택 이벤트 연결
+document.getElementById('extra-images').addEventListener('change', handleFileSelection);
+
 async function loadPosts() {
     const postsContainer = document.getElementById('Community_content_section');
     postsContainer.innerHTML = ''; // 기존 게시글 초기화
@@ -385,7 +482,9 @@ async function loadPosts() {
 
         // 이미지 추가
         const imagesContainer = document.createElement('div');
-        imagesContainer.style.cssText = "display: flex;";
+        imagesContainer.classList.add('photo-grid'); // CSS Grid 스타일을 적용할 클래스 추가
+        imagesContainer.style.cssText = "margin-top: 15px";
+        
         
         // 각 이미지를 비동기적으로 가져와 추가
         for (const imgPath of post.img) {
@@ -393,7 +492,7 @@ async function loadPosts() {
                 const url = await STORAGE.ref().child(imgPath).getDownloadURL();
                 const img = document.createElement('img');
                 img.src = url;
-                img.style.cssText = "width: 50%; aspect-ratio: 1 / 1; object-fit: cover; border-radius: 10px; margin-top: 10px;";
+                img.style.cssText = "width: 100%; aspect-ratio: 1 / 1; object-fit: cover; border-radius: 10px;";
                 img.setAttribute('data-url', url); // 데이터 속성에 URL 저장
                 img.classList.add('popup-image'); // 특정 클래스 추가
 
@@ -402,7 +501,7 @@ async function loadPosts() {
                 console.error("Error fetching image URL for path:", imgPath, error);
             }
         }
-
+        imagesContainer.setAttribute('data-count', post.img.length);
         postElement.appendChild(imagesContainer);
 
         // 좋아요 버튼 추가

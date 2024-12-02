@@ -7,6 +7,7 @@
     <title>GSUGAR ENTERTAINMENT</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="special.css">
+    <link rel="stylesheet" href="community.css">
     <script src="information.js" defer></script>
     <link rel="icon" href="favicon.ico">
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
@@ -417,9 +418,19 @@
                         <textarea id="content" rows="4" placeholder="내용을 입력하세요" class="black" style="resize: none; border: none; border-radius: 10px; "></textarea>
                         <input type="file" id="images" multiple accept="image/*">
                         <!-- 이미지를 버튼으로 대체 -->
-                        <label for="images" class="custom-file-upload">
-                        <img src="esset/imguploader.webp" alt="Upload">
-                        </label>
+                        <div style="display: flex;">
+                            <label for="images" class="custom-file-upload" id="imguploader-label">
+                                <img src="esset/imguploader.webp" alt="Upload" style="width: 50px; height: 50px; cursor: pointer;">
+                            </label>
+                            <!-- 미리보기 이미지 섹션 -->
+                            <div id="preview-section" style="display: flex; flex-wrap: wrap; gap: 4px; "></div>
+                            <!-- 추가 업로드 버튼 -->
+                            <label for="extra-images" id="plusimg-label" style="cursor: pointer; display: none;">
+                                <img src="esset/plusimg.webp" alt="Add more images" style="width: 50px; height: 50px;">
+                            </label>
+                            <input type="file" id="extra-images" multiple accept="image/*" style="display: none;">
+                        </div>
+
                         <button class="hovering" style="color: white;" onclick="submitPost()">글쓰기</button>
                     </div>
                 </div>
@@ -430,7 +441,7 @@
 
                 <div id="Community_content_section">
                 <!-- 커뮤니티 표시 예제 -->
-                <div class="community_media_style">
+                <!-- <div class="community_media_style">
                     <div style="display: flex;">
                         <img src="esset/newsugar.png" alt="" style="width: 8vh; height: 8vh; border-radius: 35px;">
                         <div style="display: flex; flex-direction: column; margin-left: 5px; justify-content: center;">
@@ -443,7 +454,7 @@
                         <p class="heart_count black" style="font-size: 18px; margin: 0; margin-left: 8px;" >7</p>
                     </div>
                 </div>
-                <div style="margin: 8px;"></div>
+                <div style="margin: 8px;"></div> -->
                 
                 </div>
                 <div style="margin-bottom: 75px;"></div>
@@ -628,7 +639,7 @@
     });
 
     let vision = document.querySelectorAll('.vision-letter')
-    console.log(vision)
+    // console.log(vision)
 
 
 </script>
