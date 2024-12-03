@@ -504,11 +504,14 @@ async function loadPosts() {
         imagesContainer.setAttribute('data-count', post.img.length);
         postElement.appendChild(imagesContainer);
 
+
+        var heartcount
+        try {heartcount = post.heart.temporarily+post.heart.heart.length} catch {heartcount = post.heart}
         // 좋아요 버튼 추가
         postElement.innerHTML += `
             <div class="heart_btn_box ${postId}" onclick="click_the_button('${postId}')">
                 <img class="heart_button ${postId}" src="esset/heart-none.webp" alt="좋아요 버튼" style="width: 22px; height: 22px;">
-                <p class="heart_count black ${postId}" style="font-size: 18px; margin: 0; margin-left: 8px;">${post.heart}</p>
+                <p class="heart_count black ${postId}" style="font-size: 18px; margin: 0; margin-left: 8px;">${heartcount}</p>
             </div>
         `;
 
