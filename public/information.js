@@ -5,7 +5,7 @@ var community_test1 = 0
 var community_test2 = 0
 var community_test3 = 0
 
-function click_the_button(e) {
+async function click_the_button(e) {
     console.log(e);
     const likeCountElement = document.querySelector(`.${e}.heart_count`);
     const likeImgElement = document.querySelector(`.heart_button.${e}`);
@@ -17,14 +17,26 @@ function click_the_button(e) {
         likeImgElement.src = "esset/heart-full.webp";
         likeCountElement.style.color = "blueviolet";
         like_count += 1;
+        // 게시글 ID를 list 배열에 추가
+        await DB.collection('Community').doc('temporarily').update({
+          [`${e}.heart.heart`]: firebase.firestore.FieldValue.arrayUnion(user_IP)
+        });
     } else if (like_img.includes("heart-full.webp")) {
         likeImgElement.src = "esset/heart-none.webp";
         likeCountElement.style.color = "black";
         like_count -= 1;
+        // 게시글 ID를 list 배열에 추가
+        await DB.collection('Community').doc('temporarily').update({
+          [`${e}.heart.heart`]: firebase.firestore.FieldValue.arrayRemove(user_IP)
+        });
     }
 
+    const doc = await DB.collection('Community').doc('temporarily').get();
+    const data = doc.data();
+    console.log(data[e].heart)
+
     // 업데이트된 좋아요 개수 적용
-    likeCountElement.textContent = like_count;
+    likeCountElement.textContent = data[e].heart.heart.length + data[e].heart.temporarily;
 }
 
 function click_the_btn (e) {
@@ -442,6 +454,20 @@ document.getElementById('images').addEventListener('change', handleFileSelection
 // 추가 업로드 버튼에 파일 선택 이벤트 연결
 document.getElementById('extra-images').addEventListener('change', handleFileSelection);
 
+    // 전역 변수 선언
+    let user_IP = '';
+
+    // IP 가져오기
+    fetch('https://api.ipify.org?format=json')
+      .then(response => response.json())
+      .then(data => {
+        user_IP = data.ip; // 전역 변수에 IP 저장
+        console.log('Your IP:', user_IP); // 확인용 로그
+      })
+      .catch(error => {
+        console.error('Error fetching IP:', error);
+      });
+
 async function loadPosts() {
     const postsContainer = document.getElementById('Community_content_section');
     postsContainer.innerHTML = ''; // 기존 게시글 초기화
@@ -504,14 +530,18 @@ async function loadPosts() {
         imagesContainer.setAttribute('data-count', post.img.length);
         postElement.appendChild(imagesContainer);
 
-
         var heartcount
+        var heart_condition
         try {heartcount = post.heart.temporarily+post.heart.heart.length} catch {heartcount = post.heart}
+        try {
+            if (post.heart.heart.includes(user_IP)) {heart_condition = ["heart-full.webp", "blueviolet"]
+            } else {heart_condition = ["heart-none.webp", "black"]}
+          } catch {heart_condition = ["heart-none.webp", "black"]}
         // 좋아요 버튼 추가
         postElement.innerHTML += `
             <div class="heart_btn_box ${postId}" onclick="click_the_button('${postId}')">
-                <img class="heart_button ${postId}" src="esset/heart-none.webp" alt="좋아요 버튼" style="width: 22px; height: 22px;">
-                <p class="heart_count black ${postId}" style="font-size: 18px; margin: 0; margin-left: 8px;">${heartcount}</p>
+                <img class="heart_button ${postId}" src="esset/${heart_condition[0]}" alt="좋아요 버튼" style="width: 22px; height: 22px;">
+                <p class="heart_count black ${postId}" style="font-size: 18px; margin: 0; margin-left: 8px; color: ${heart_condition[1]};">${heartcount}</p>
             </div>
         `;
 
