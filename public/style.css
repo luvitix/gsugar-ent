@@ -430,6 +430,6 @@ input {
         display: none;
     }
     .image {
-        content: url('esset/world.jpg'); /* 큰 이미지로 교체 */
+        content: url('esset/space2.webp'); /* 큰 이미지로 교체 */
     }
 }
