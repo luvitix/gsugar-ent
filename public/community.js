@@ -323,7 +323,7 @@ async function submitPost() {
 
   // Storage에 이미지 업로드
   for (let i = 0; i < files.length && i < 10; i++) {
-    const fileRef = storage.ref().child(`community/temporarily/${postId+randomString}_${i + 1}.png`);
+    const fileRef = STORAGE.ref().child(`community/temporarily/${postId+randomString}_${i + 1}.png`);
     await fileRef.put(files[i]);
     const downloadURL = await fileRef.getDownloadURL();
     imgUrls.push(`community/temporarily/${postId+randomString}_${i + 1}.png`);
