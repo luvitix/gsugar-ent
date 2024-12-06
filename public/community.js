@@ -129,45 +129,48 @@ document.getElementById('images').addEventListener('change', handleFileSelection
 // 추가 업로드 버튼에 파일 선택 이벤트 연결
 document.getElementById('extra-images').addEventListener('change', handleFileSelection);
 
-    // 전역 변수 선언
-    let user_IP = '';
+// 전역 변수 선언
+let user_IP = "";
 
-    // IP 가져오기
-    fetch('https://api.ipify.org?format=json')
-      .then(response => response.json())
-      .then(data => {
-        // 전역 변수에 IP 저장
-        // console.log('Your IP:', user_IP); // 확인용 로그
-        // XOR 적용
-        const xorTransformed = xorTransform(data.ip);
+// IP 가져오기
+fetch("https://api.ipify.org?format=json")
+  .then(response => response.json())
+  .then(async data => {
+    try {
+      // XOR 적용
+      const xorTransformed = await xorTransform(data.ip);
 
-        // Base64 인코딩
-        const encodedData = btoa(xorTransformed);
+      // Base64 인코딩
+      const encodedData = btoa(xorTransformed);
 
-        console.log(":", encodedData);
-        user_IP = encodedData; 
-      })
-      .catch(error => {
-        console.error('Error fetching IP:', error);
-      });
-
-// XOR 키
-const key = 75;
-
-// // 실제 IP와 가짜 IP 결합
-// const combinedIp = `REAL:${realIp}|FAKE:${fakeIp}`;
+      console.log("난독화된 IP:", encodedData);
+      user_IP = encodedData; 
+    } catch (error) {
+      console.error("Error in XOR transform:", error);
+    }
+  })
+  .catch(error => {
+    console.error("Error fetching IP:", error);
+  });
 
 // XOR 변환 함수
 async function xorTransform(data) {
-  const doc = await DB.collection('Community').doc('temporarily').get();
+  // DB에서 보안 데이터 가져오기
+  const doc = await DB.collection("Community").doc("temporarily").get();
   const sec_dt = doc.data();
 
-    let transformed = '';
-    for (let i = 0; i < data.length; i++) {
-        transformed += String.fromCharCode(data.charCodeAt(i) ^ sec_dt['sec']);
-    }
-    return transformed;
+  // sec 값이 유효한지 확인
+  if (!sec_dt || typeof sec_dt["sec"] !== "number") {
+    throw new Error("Invalid security data in database.");
+  }
+
+  let transformed = "";
+  for (let i = 0; i < data.length; i++) {
+    transformed += String.fromCharCode(data.charCodeAt(i) ^ sec_dt["sec"]);
+  }
+  return transformed;
 }
+
 
 function openWriteSection() {
   document.getElementById("write_button").style.display = "block"
