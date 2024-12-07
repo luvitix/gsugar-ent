@@ -265,8 +265,7 @@ async function loadPosts() {
           <div class="heart_btn_box ${postId}" >
               <img class="heart_button ${postId}" src="esset/${heart_condition[0]}" alt="좋아요 버튼" style="width: 22px; height: 22px;" onclick="click_the_button('${postId}')">
               <p class="heart_count black ${postId}" style="font-size: 18px; margin: 0; margin-left: 8px; margin-right: 16px; color: ${heart_condition[1]};">${heartcount}</p>
-              <img class="heart_button" src="esset/comment.webp" alt="좋아요 버튼" style="width: 22px; height: 22px;">
-              <p class="heart_count black" style="font-size: 18px; margin: 0; margin-left: 8px; margin-right: 16px;">${commentcount}</p>
+              
           </div>
       `;
 
