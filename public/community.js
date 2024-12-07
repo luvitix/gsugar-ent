@@ -11,7 +11,7 @@ async function click_the_button(e) {
         likeCountElement.style.color = "blueviolet";
         like_count += 1;
         // 게시글 ID를 list 배열에 추가
-        await DB.collection('Community').doc('temporarily').update({
+        await DB.collection('Community').doc(open_lounge).update({
           [`${e}.heart.heart`]: firebase.firestore.FieldValue.arrayUnion(user_IP)
         });
     } else if (like_img.includes("heart-full.webp")) {
@@ -19,12 +19,12 @@ async function click_the_button(e) {
         likeCountElement.style.color = "black";
         like_count -= 1;
         // 게시글 ID를 list 배열에 추가
-        await DB.collection('Community').doc('temporarily').update({
+        await DB.collection('Community').doc(open_lounge).update({
           [`${e}.heart.heart`]: firebase.firestore.FieldValue.arrayRemove(user_IP)
         });
     }
 
-    const doc = await DB.collection('Community').doc('temporarily').get();
+    const doc = await DB.collection('Community').doc(open_lounge).get();
     const data = doc.data();
     console.log(data[e].heart)
 
@@ -143,7 +143,7 @@ fetch("https://api.ipify.org?format=json")
       // Base64 인코딩
       const encodedData = btoa(xorTransformed);
 
-      console.log("난독화된 IP:", encodedData);
+      // console.log("난독화된 IP:", encodedData);
       user_IP = encodedData; 
     } catch (error) {
       console.error("Error in XOR transform:", error);
@@ -156,7 +156,7 @@ fetch("https://api.ipify.org?format=json")
 // XOR 변환 함수
 async function xorTransform(data) {
   // DB에서 보안 데이터 가져오기
-  const doc = await DB.collection("Community").doc("temporarily").get();
+  const doc = await DB.collection("Community").doc(open_lounge).get();
   const sec_dt = doc.data();
 
   // sec 값이 유효한지 확인
@@ -194,7 +194,7 @@ async function loadPosts() {
   const postsContainer = document.getElementById('Community_content_section');
   postsContainer.innerHTML = ''; // 기존 게시글 초기화
 
-  const doc = await DB.collection('Community').doc('temporarily').get();
+  const doc = await DB.collection('Community').doc(open_lounge).get();
   const data = doc.data();
   const postIds = (data.list || []).reverse();
 
@@ -253,6 +253,7 @@ async function loadPosts() {
       postElement.appendChild(imagesContainer);
 
       var heartcount
+      var commentcount = 0
       var heart_condition
       try {heartcount = post.heart.temporarily+post.heart.heart.length} catch {heartcount = post.heart}
       try {
@@ -261,9 +262,11 @@ async function loadPosts() {
         } catch {heart_condition = ["heart-none.webp", "black"]}
       // 좋아요 버튼 추가
       postElement.innerHTML += `
-          <div class="heart_btn_box ${postId}" onclick="click_the_button('${postId}')">
-              <img class="heart_button ${postId}" src="esset/${heart_condition[0]}" alt="좋아요 버튼" style="width: 22px; height: 22px;">
-              <p class="heart_count black ${postId}" style="font-size: 18px; margin: 0; margin-left: 8px; color: ${heart_condition[1]};">${heartcount}</p>
+          <div class="heart_btn_box ${postId}" >
+              <img class="heart_button ${postId}" src="esset/${heart_condition[0]}" alt="좋아요 버튼" style="width: 22px; height: 22px;" onclick="click_the_button('${postId}')">
+              <p class="heart_count black ${postId}" style="font-size: 18px; margin: 0; margin-left: 8px; margin-right: 16px; color: ${heart_condition[1]};">${heartcount}</p>
+              <img class="heart_button" src="esset/comment.webp" alt="좋아요 버튼" style="width: 22px; height: 22px;">
+              <p class="heart_count black" style="font-size: 18px; margin: 0; margin-left: 8px; margin-right: 16px;">${commentcount}</p>
           </div>
       `;
 
@@ -299,9 +302,20 @@ document.querySelectorAll('.popup-image').forEach(function(img) {
       return `z${year}${month}${day}${hour}${minute}a`;
     }
 
+    function generateRandomString(length = 8) {
+      const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+      let result = '';
+      for (let i = 0; i < length; i++) {
+        const randomIndex = Math.floor(Math.random() * characters.length);
+        result += characters[randomIndex];
+      }
+      return result;
+    }
+
 async function submitPost() {
   const nickname = document.getElementById('nickname').value;
   const content = document.getElementById('content').value;
+  const submitButton = document.getElementById('submitButton')
   const files = selectedFiles;
   const postId = getCurrentFormattedTime();
   let imgUrls = [];
@@ -311,32 +325,25 @@ async function submitPost() {
     return;
   }
 
-  function generateRandomString(length = 8) {
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    let result = '';
-    for (let i = 0; i < length; i++) {
-      const randomIndex = Math.floor(Math.random() * characters.length);
-      result += characters[randomIndex];
-    }
-    return result;
-  }
+  submitButton.disabled = true;
+  submitButton.innerText = "업로드 중...";
 
   // 사용 예시
   const randomString = generateRandomString();
-
+  try {
   // Storage에 이미지 업로드
   for (let i = 0; i < files.length && i < 10; i++) {
-    const fileRef = STORAGE.ref().child(`community/temporarily/${postId+randomString}_${i + 1}.png`);
+    const fileRef = STORAGE.ref().child(`community/${open_lounge}/${postId+randomString}_${i + 1}.png`);
     await fileRef.put(files[i]);
     const downloadURL = await fileRef.getDownloadURL();
-    imgUrls.push(`community/temporarily/${postId+randomString}_${i + 1}.png`);
+    imgUrls.push(`community/${open_lounge}/${postId+randomString}_${i + 1}.png`);
   }
 
-    // IP 주소 가져오기
-const userIP = user_IP;
+  // IP 주소 가져오기
+  const userIP = user_IP;
 
   // Firestore에 게시글 정보 저장
-  await DB.collection('Community').doc('temporarily').set({
+  await DB.collection('Community').doc(open_lounge).set({
     [postId+randomString]: {
       nickname: nickname,
       content: content,
@@ -347,11 +354,20 @@ const userIP = user_IP;
   }, { merge: true });
 
   // 게시글 ID를 list 배열에 추가
-  await DB.collection('Community').doc('temporarily').update({
+  await DB.collection('Community').doc(open_lounge).update({
     list: firebase.firestore.FieldValue.arrayUnion(postId+randomString)
   });
 
   alert("글이 성공적으로 저장되었습니다.");
   loadPosts(); // 새로 저장된 글 표시
   closeWriteSecton();
+
+} catch (error) {
+  console.error("업로드 중 에러 발생:", error);
+  alert("업로드 중 오류가 발생했습니다. 다시 시도해주세요.");
+} finally {
+  // 버튼 활성화 및 원래 텍스트 복원
+  submitButton.disabled = false;
+  submitButton.innerText = "글쓰기";
+}
 }

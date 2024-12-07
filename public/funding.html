@@ -69,12 +69,9 @@
     <div style="width: 100%; display: flex; justify-content: center;">
         <div id="testbed" style="display: none; background-color: white;">
 
-            <!-- 아티스트 영역 선택 구역 -->
-            <div></div>
-
             <!-- 바 라인 -->
             <div id="var_line" style="position: fixed; background-color: rgb(14, 18, 32); color: white; top: 0; text-align: center; display: flex; height: 8.6vh;">
-                <h1 id="top_btn" style="font-size: 3.44vh;" class="white" onclick="closeSpecial()">◁</h1>
+                <h1 id="top_btn" style="font-size: 3.44vh;" class="white" onclick="ArtistLounge()">◁</h1>
                 <h1 id="top_line" style="color: white; font-size: 3.44vh;" class="black">GSUGAR</h1>
                 <div id="ticket_showWindow" style="margin-left: auto; display: flex;">
                     <!-- <div style="display: flex; flex-direction: column; justify-content: center;">
@@ -88,6 +85,11 @@
                         </button>
                     </div>
                 </div>
+            </div>
+
+            <!-- 아티스트 영역 선택 구역 -->
+            <div id="ArtistLounge" class="tab_box">
+
             </div>
 
 
@@ -437,7 +439,7 @@
                             <input type="file" id="extra-images" multiple accept="image/*" style="display: none;">
                         </div>
 
-                        <button class="hovering" style="color: white;" onclick="submitPost()">글쓰기</button>
+                        <button class="hovering" id="submitButton" style="color: white;" onclick="submitPost()">글쓰기</button>
                     </div>
                 </div>
                 <div id="write_button_mobile" onclick="openWriteSection()">

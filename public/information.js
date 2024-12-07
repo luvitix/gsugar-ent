@@ -5,6 +5,8 @@ var community_test1 = 0
 var community_test2 = 0
 var community_test3 = 0
 
+
+
 function openNowEvent() {
     document.getElementById('test_event_bar').innerHTML =
     `
@@ -53,7 +55,7 @@ async function sectionDesignAutosize(value, key) {
 }
 
 // Firestore에서 링크 가져오기
-async function openMediaLink2() {
+async function openMediaLink2(key) {
     document.getElementById("testbed").style.display = 'block'
     document.getElementById("var").style.display = 'none'
     document.getElementById("media").style.display = 'none'
@@ -61,7 +63,7 @@ async function openMediaLink2() {
     document.getElementById("capyright").style.display = 'none'
     // loadImage('testbed_album_1.png', 'albumImage');
             
-    const doc = await DB.collection('test').doc('md').get();
+    const doc = await DB.collection('md').doc(key).get();
         // document.getElementById('test_md').textContent = doc.data()['test']['title']
         // document.getElementById('test_md_price').textContent = doc.data()['test']['price']
         // loadImage(doc.data()['test']['img_link'], 'test_md_img');
@@ -88,7 +90,8 @@ async function openMediaLink2() {
    
 }
 
-openMediaLink2();
+var open_lounge = "temporarily"
+openMediaLink2(open_lounge);
 
 
 var ticket = 53
@@ -107,6 +110,10 @@ var open_detail = {
     "Collection_detail_section": null,
     "Product_section": null,
     "Event_detail_section": null
+}
+
+function ArtistLounge() {
+    
 }
 
 
@@ -258,7 +265,7 @@ function closeSection() {
 
 async function productSection(key) {
     open_detail['Product_section'] = key
-    const doc = await DB.collection('test').doc('md').get();
+    const doc = await DB.collection('md').doc(open_lounge).get();
     const storageRef = STORAGE.ref();
     const imageRef = storageRef.child(doc.data()[key]['img_link']);
     document.getElementById('goodsimage').src = await imageRef.getDownloadURL()
