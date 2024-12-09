@@ -15,8 +15,9 @@ fetch("https://api.ipify.org?format=json")
       // console.log("난독화된 IP:", encodedData);
       user_IP = encodedData; 
     } catch (error) {
+      const now = getCurrentFormattedTime()
       const randomString = generateRandomString()
-      user_IP = "24hDT"+randomString
+      user_IP = "24hDT"+randomString+now
       console.error("Error in XOR transform:", error);
     }
   })
@@ -46,6 +47,27 @@ async function callData() {
   const doc = await DB.collection('Community').doc(open_lounge).get();
   const data = doc.data();
   return data
+}
+
+// 현재 시간 가져오기
+function getCurrentFormattedTime() {
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, '0');
+  const day = String(now.getDate()).padStart(2, '0');
+  const hour = String(now.getHours()).padStart(2, '0');
+  const minute = String(now.getMinutes()).padStart(2, '0');
+  return `z${year}${month}${day}${hour}${minute}a`;
+}
+
+function generateRandomString(length = 8) {
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  let result = '';
+  for (let i = 0; i < length; i++) {
+    const randomIndex = Math.floor(Math.random() * characters.length);
+    result += characters[randomIndex];
+  }
+  return result;
 }
 
 async function getHeartImage(variable) {
@@ -293,7 +315,7 @@ async function loadPosts() {
           <div class="heart_btn_box ${postId}" >
               <img class="heart_button ${postId}" src="esset/${heart_condition[0]}" alt="좋아요 버튼" style="width: 22px; height: 22px;" onclick="click_the_button('${postId}')">
               <p class="heart_count black ${postId}" style="font-size: 18px; margin: 0; margin-left: 8px; margin-right: 16px; color: ${heart_condition[1]};">${heartcount}</p>
-              
+
           </div>
       `;
 
@@ -310,26 +332,7 @@ async function loadPosts() {
   });
 }
 
-    // 현재 시간 가져오기
-    function getCurrentFormattedTime() {
-      const now = new Date();
-      const year = now.getFullYear();
-      const month = String(now.getMonth() + 1).padStart(2, '0');
-      const day = String(now.getDate()).padStart(2, '0');
-      const hour = String(now.getHours()).padStart(2, '0');
-      const minute = String(now.getMinutes()).padStart(2, '0');
-      return `z${year}${month}${day}${hour}${minute}a`;
-    }
 
-    function generateRandomString(length = 8) {
-      const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-      let result = '';
-      for (let i = 0; i < length; i++) {
-        const randomIndex = Math.floor(Math.random() * characters.length);
-        result += characters[randomIndex];
-      }
-      return result;
-    }
 
 const submitButton = document.getElementById('submitButton')
 
