@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="special.css">
     <link rel="stylesheet" href="community.css">
+    <link rel="stylesheet" href="activeStyle.css">
 
     <!-- 스크립트 태그 -->
     <script src="information.js" defer></script>
@@ -70,9 +71,9 @@
         <div id="testbed" style="display: none; background-color: white;">
 
             <!-- 바 라인 -->
-            <div id="var_line" style="position: fixed; background-color: rgb(14, 18, 32); color: white; top: 0; text-align: center; display: flex; height: 8.6vh;">
-                <h1 id="top_btn" style="font-size: 3.44vh;" class="white" onclick="ArtistLounge()">◁</h1>
-                <h1 id="top_line" style="color: white; font-size: 3.44vh;" class="black">GSUGAR</h1>
+            <div id="var_line" style="position: fixed; background-color: var(--third-color); color: var(--white-tone); top: 0; text-align: center; display: flex; height: 8.6vh;">
+                <h1 id="top_btn" style="font-size: 3.44vh;" class="white_tone" onclick="ArtistLounge()">◁</h1>
+                <h1 id="top_line" style="color: var(--white-tone); font-size: 3.44vh;" class="black">GSUGAR</h1>
                 <div id="ticket_showWindow" style="margin-left: auto; display: flex;">
                     <!-- <div style="display: flex; flex-direction: column; justify-content: center;">
                         <button style="border-style: solid; border-radius: 1.83vh; border-width: 2px; font-size: 2.37vh; width: auto; height: 4.84vh; align-items: center; display: flex;">
@@ -102,7 +103,7 @@
                     <div class="home_section_preview" style="display: flex;">
                         <img src="esset/newsugar.png" alt="" width="20%" style="border-radius: 35px;">
                         <div style="display: flex; flex-direction: column; margin-left: 5px; justify-content: center;">
-                            <h4 style="color: blueviolet; margin: 0;" class="black">각설탕</h4>
+                            <h4 class="nickname_style black">각설탕</h4>
                             <p style="margin: 0;" class="black">K-POP 팬들과 아티스트가 함께 아름다운 문화를 만들면 조미료 "설탕"처럼 더 빛을 볼 수 있도록 해주겠다는 마음의 이름.</p>
                         </div>
                         <!-- <div style="display: flex; flex-direction: column; justify-content: center; margin-left: auto;">
@@ -110,7 +111,7 @@
                         </div> -->
                     </div>
                     <div class="hovering" onclick="showSection('home_tab', 'Artist_message_section')">
-                        <div class="white" style="text-align: center;">아티스트와 대화하기</div>
+                        <div class="white_tone" style="text-align: center;">아티스트와 대화하기</div>
                     </div>
                 </div>
 
@@ -122,7 +123,7 @@
                         <h3 class="black">[SUGAR-POP!] 설탕핑 무셔핑</h3>
                     </div>
                     <div class="hovering" onclick="showSection('home_tab', 'Artist_content_section')">
-                        <div class="white" style="text-align: center;">아티스트 컨텐츠 더보기</div>
+                        <div class="white_tone" style="text-align: center;">아티스트 컨텐츠 더보기</div>
                     </div>
                 </div>
 
@@ -172,7 +173,7 @@
                     </div>
 
                     <div class="hovering" id="Community_trigger"  onclick="showSection('home_tab', 'Community_section')">
-                        <div class="white" style="text-align: center;">함께 덕질하기</div>
+                        <div class="white_tone" style="text-align: center;">함께 덕질하기</div>
                     </div>
                 </div>
 
@@ -191,7 +192,7 @@
                 <div class="collection_tab_box">
                     <img id="albumImage" src="esset/testbed_album_1.png" alt="" width="35%">
                     <div style="display: flex; flex-direction: column; margin-left: 5px; justify-content: center; width: 100%;">
-                        <h4 style="color: blueviolet; margin: 0;" class="black">미니 1집 Sugar Fantasy 컬렉션</h4>
+                        <h4 class="nickname_style black">미니 1집 Sugar Fantasy 컬렉션</h4>
                         <p style="margin: 0; margin-top: 4px;" class="black">컬렉션 구성 : 앨범 3종</p>
                         <div style="display: flex; align-items: center;">
                             <p style="margin: 0;" class="black">완성 보상 : </p>
@@ -199,7 +200,7 @@
                             <p style="margin: 0;" class="black"> 5개</p>
                         </div>
                         <div class="hovering" onclick="showSection('collection_tab', 'Collection_detail_section')" style="margin-top: 4px; padding: 4px; border-radius: 11px; height: auto; display: flex; justify-content: center; align-items: center; width: 95%;">
-                            <div class="white" style="text-align: center;">컬렉션 모으기</div>
+                            <div class="white_tone" style="text-align: center;">컬렉션 모으기</div>
                         </div>
                     </div>
                 </div>
@@ -249,7 +250,7 @@
             <div id="event_tab" style="display: none;" class="tab_box">
                 <div style="margin: 8px;">
                     <div id="test_event_bar" style="text-align: center; display: flex;">
-                        <h2 id="nowEvent" class="event_control black" style=" color: white; background-color: blueviolet;">진행중 ( 3 )</h2>
+                        <h2 id="nowEvent" class="event_control black" style=" color: var(--white-tone); background-color: var(--main-color);">진행중 ( 3 )</h2>
                         <h2 id="endEvent" class="event_control black" onclick="openEndEvent()">종료 ( 0 )</h2>
                     </div>
                     <div id="test_event_list" style="display: flex; flex-direction: column;">
@@ -262,7 +263,7 @@
                                 <p class="black">3024. 10. 14 ~ 3024. 10. 21</p>
                             </div>
                             <div class="hovering" onclick="showSection('event_tab', 'Event_detail_section')">
-                                <div class="white" style="text-align: center;">더보기</div>
+                                <div class="white_tone" style="text-align: center;">더보기</div>
                             </div>
                         </div>
                     </div>
@@ -275,7 +276,7 @@
                                 <p class="black">3024. 10. 14 ~ 3024. 10. 21</p>
                             </div>
                             <div class="hovering" onclick="showSection('event_tab', 'Event_detail_section')">
-                                <div class="white" style="text-align: center;">더보기</div>
+                                <div class="white_tone" style="text-align: center;">더보기</div>
                             </div>
                         </div>
                     </div>
@@ -288,7 +289,7 @@
                                 <p class="black">3024. 10. 14 ~ 3024. 10. 21</p>
                             </div>
                             <div class="hovering" onclick="showSection('event_tab', 'Event_detail_section')">
-                                <div class="white" style="text-align: center;">더보기</div>
+                                <div class="white_tone" style="text-align: center;">더보기</div>
                             </div>
                         </div>
                     </div>
@@ -305,36 +306,36 @@
 
             <!-- 버튼 라인 -->
             <div id="button_line" style="position: fixed; background-color: black; color: white; bottom: 0; text-align: center; display: flex; height: 70px;">
-                <a onclick="bottom_button_style('home_tab')" class="whiteNpadding bottom_button" style="background-color: blueviolet;">홈<br>Home</a>
-                <a onclick="bottom_button_style('collection_tab')" class="whiteNpadding bottom_button">수집품<br>Collection</a>
-                <a onclick="bottom_button_style('shop_tab')" class="whiteNpadding bottom_button">상점<br>Shop</a>
-                <a onclick="bottom_button_style('event_tab'); Event_load();" class="whiteNpadding bottom_button">이벤트<br>Event</a>
+                <a onclick="change_tab('home_tab')" class="selected_button bottom_button">홈<br>Home</a>
+                <a onclick="change_tab('collection_tab')" class="un_button bottom_button">수집품<br>Collection</a>
+                <a onclick="change_tab('shop_tab')" class="un_button bottom_button">상점<br>Shop</a>
+                <a onclick="change_tab('event_tab'); Event_load();" class="un_button bottom_button">이벤트<br>Event</a>
             </div>
 
 
             <!-- 세부 섹션 : 마이페이지 -->
             <div id="MyPage_section" style="text-align: center; display: none;">
                 <img src="esset/artistticket.png" alt="" width="100%">
-                <h3 style="margin: 0; margin-top: -100px;" class="white">내가 보유한 티켓! (각설탕)</h3>
-                <h1 style="margin: 0;" class="white">53개</h1>
+                <h3 style="margin: 0; margin-top: -100px;" class="white_tone">내가 보유한 티켓! (각설탕)</h3>
+                <h1 style="margin: 0;" class="white_tone">53개</h1>
                 <div class="testshop-grid" style="margin-top: 20px;">
                     <div class="mypage_element">
                         <!-- 내용 -->
-                        <p class="white">계정 정보</p>
+                        <p class="white_tone">계정 정보</p>
                     </div>
                     <div class="mypage_element">
                         <!-- 내용 -->
-                        <p class="white">팔로우하는 아티스트</p>
+                        <p class="white_tone">팔로우하는 아티스트</p>
                     </div>
                     <div class="mypage_element">
                         <!-- 내용 -->
-                        <p class="white">문의하기</p>
+                        <p class="white_tone">문의하기</p>
                     </div>
                     <div onclick="locate('https://www.instagram.com/p/DBtHkT9Srao/')" class="mypage_element">
                         <!-- 내용 -->
                         <div style="margin-top: 1.29vh">
                             <img src="esset/ticketguidence.webp" alt="티켓 관련 가이드" width="80%">
-                            <p class="white">티켓 관련 가이드 및 규정<br>(2024. 10. 30 발간)</p>
+                            <p class="white_tone">티켓 관련 가이드 및 규정<br>(2024. 10. 30 발간)</p>
                         </div>
                     </div>
                 </div>
@@ -385,7 +386,7 @@
                             <h3 class="black" style="margin: 8px; padding-top: 8px; padding-bottom: 8px;">[SUGAR-POP!] 설탕핑 무셔핑</h3>
                         </div>
                         <div class="hovering" onclick="increaseProgress(100)">
-                            <div class="white" style="text-align: center;">시청하기</div>
+                            <div class="white_tone" style="text-align: center;">시청하기</div>
                         </div>
                     </div>
                 </div>
@@ -397,7 +398,7 @@
                             <h3 class="black" style="margin: 8px; padding-top: 8px; padding-bottom: 8px;">[SUGAR-POP!] 설탕이의 전생은?</h3>
                         </div>
                         <div class="hovering" onclick="increaseProgress(100)">
-                            <div class="white" style="text-align: center;">시청하기</div>
+                            <div class="white_tone" style="text-align: center;">시청하기</div>
                         </div>
                     </div>
                 </div>
@@ -418,6 +419,23 @@
 
             <!-- 세부 섹션 : 커뮤니티 -->
             <div id="Community_section" style="margin-top: 9.46vh; display: none;">
+
+                <div id="comment_section" class="community_media_style" style="display: none;">
+                    <div style="display: flex;">
+                        <img src="esset/newalien.png" alt="프로필 사진" style="width: 8vh; height: 8vh; border-radius: 50%;">
+          
+                        <div style="display: flex; flex-direction: column; margin-left: 10px; justify-content: center;">
+                            <div style="display: flex; flex-direction: column;">
+                                <h4 id="nickname_value" class="nickname_style black">닉네임 밸류</h4>
+                                <p id="time_value" class="time_style black">시간 밸류</p>
+                            </div>
+                        </div>
+                    </div>
+                <div id="content_value" class="black">컨텐츠 밸류</div><div id="photo_value" class="photo-grid" data-count="1" style="margin-top: 15px;"></div>
+                <div id="heart_box"></div>
+                </div>
+                
+
                 <!-- 글 쓰기 버튼 -->
                 <div id="write_button">
                     <!-- 글쓰기 섹션 -->
@@ -439,13 +457,12 @@
                             <input type="file" id="extra-images" multiple accept="image/*" style="display: none;">
                         </div>
 
-                        <button class="hovering" id="submitButton" style="color: white;" onclick="submitPost()">글쓰기</button>
+                        <button class="hovering" id="submitButton" style="color: var(--white-tone);" onclick="submitPost()">글쓰기</button>
                     </div>
                 </div>
                 <div id="write_button_mobile" onclick="openWriteSection()">
                     <div style="width: 50px; height: 50px; font-size: 28px;" class="white red_circle_box">+</div>
                 </div>
-
 
                 <div id="Community_content_section">
                 <!-- 커뮤니티 표시 예제 -->
@@ -470,7 +487,7 @@
 
             <!-- 세부 섹션 : 컬렉션 -->
             <div id="Collection_detail_section" style="margin-top: 8.6vh; text-align: center; display: none;">
-                <h1 class="white">미니 1집 Sugar Fantasy 앨범 컬렉션</h1>
+                <h1 class="white_tone">미니 1집 Sugar Fantasy 앨범 컬렉션</h1>
                 <div style="display: flex; flex-direction: column; justify-content: center; height: calc(91.4vh - 170px); align-items: center;">
                     <div style="display: flex; justify-content: center; align-items: center;">
                         <img src="esset/testbed_album_1.png" alt="" width="35%" style="margin: 8px; object-fit: contain;">
@@ -480,13 +497,13 @@
                 </div>
                 <div class="button_line" style="position: fixed; bottom: 55px; left: 0; right: 0; display: flex; justify-content: center; align-items: center;">
                     <div style="display: flex; align-items: center; justify-content: center;">
-                        <h2 class="white" style="margin-right: 10px;">완료 보상</h2><img src="esset/artistticket.png" alt="" style="width: 10vh;"><h2 class="white">x 5</h2>
+                        <h2 class="white_tone" style="margin-right: 10px;">완료 보상</h2><img src="esset/artistticket.png" alt="" style="width: 10vh;"><h2 class="white_tone">x 5</h2>
                     </div>
                 </div>                
 
-                <div id="button_line" style="position: fixed; background-color: rgb(14, 18, 32); color: white; bottom: 0; text-align: center; justify-items: center; height: 55px;">
+                <div id="button_line" style="position: fixed; background-color: var(--third-color); color: white; bottom: 0; text-align: center; justify-items: center; height: 55px;">
                     <div class="hovering" style="margin: 8px;">
-                        <div class="white" style="text-align: center;">완성하기</div>
+                        <div class="white_tone" style="text-align: center;">완성하기</div>
                     </div>
                 </div>
             </div>
@@ -506,7 +523,7 @@
                 <!-- 버튼 라인 -->
                 <div id="button_line" style="position: fixed; background-color: white; color: white; bottom: 70px; text-align: center; justify-items: center; height: 55px;">
                     <div class="hovering" style="margin: 8px;">
-                        <div class="white" style="text-align: center;">구매하기</div>
+                        <div class="white_tone" style="text-align: center;">구매하기</div>
                     </div>
                 </div>
             </div>
@@ -515,9 +532,9 @@
             <!-- 세부 섹션 : Event detail -->
             <div id="Event_detail_section" style="margin-top: 9.46vh; display: none;">
 
-                <div id="button_line" style="position: fixed; background-color: rgb(14, 18, 32); color: white; bottom: 0; text-align: center; justify-items: center; height: 55px;">
+                <div id="button_line" style="position: fixed; background-color: var(--third-color); color: white; bottom: 0; text-align: center; justify-items: center; height: 55px;">
                     <div class="hovering" style="margin: 8px;" onclick="EvnetPopup()">
-                        <div class="white" style="text-align: center;">응모하기</div>
+                        <div class="white_tone" style="text-align: center;">응모하기</div>
                     </div>
                 </div>
 
@@ -539,7 +556,7 @@
                     </div>
 
                     <div style="width: 100%; display: flex; justify-content: center; margin-top: 2vh;">
-                        <div class="white hovering" style="text-align: center; margin: 8px; width: 70%;">설탕이 babbel 가입하기</div>
+                        <div class="white_tone hovering" style="text-align: center; margin: 8px; width: 70%;">설탕이 babbel 가입하기</div>
                     </div>
                     
                 </div>
@@ -556,14 +573,14 @@
                     <!-- <div style="display: flex;">
                         <img src="esset/artistticket.png" alt="" width="10%"> -->
                         <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
-                            <div style="width: 50px; height: 50px; font-size: 28px;" class="white black_circle_box" onclick="eventTicket(0)">+</div>
-                            <textarea id="eventTicket" class="white" onkeyup="eventTicket()" style="font-size: 32px; background-color: black; resize: none; border: none; width: 85px; height: 60px; border-radius: 20px; margin: 8px; text-align: center; line-height: 55px;">1</textarea>
-                            <div style="width: 50px; height: 50px; font-size: 28px;" class="white black_circle_box" onclick="eventTicket(1)">-</div>
+                            <div style="width: 50px; height: 50px; font-size: 28px;" class="white_tone black_circle_box" onclick="eventTicket(0)">+</div>
+                            <textarea id="eventTicket" class="white_tone" onkeyup="eventTicket()" style="font-size: 32px; background-color: black; resize: none; border: none; width: 85px; height: 60px; border-radius: 20px; margin: 8px; text-align: center; line-height: 55px;">1</textarea>
+                            <div style="width: 50px; height: 50px; font-size: 28px;" class="white_tone black_circle_box" onclick="eventTicket(1)">-</div>
                         </div>
                     <!-- </div> -->
 
                     <div style="width: 100%; display: flex; justify-content: center; margin-top: 2vh;">
-                        <div class="white hovering" style="text-align: center; margin: 8px; width: 70%;">응모하기</div>
+                        <div class="white_tone hovering" style="text-align: center; margin: 8px; width: 70%;">응모하기</div>
                     </div>
                     
                 </div>

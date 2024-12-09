@@ -72,17 +72,7 @@
     font-size: 13px;
 }
 
-.event_control {
-    display: inline-block; 
-    width: 100%; 
-    font-size: 18px;
-    padding: 8px;
-}
-.event_control:hover {
-    cursor: pointer;
-    color: blueviolet;
-    background-color: #f6f6f6;
-}
+
 #new_var {
     background-color: #f6f6f6;
     margin: -8px;
@@ -202,11 +192,6 @@
     background-color: white;
     border-radius: 15px;
     height: auto;
-}
-
-.nickname_style {
-    color: blueviolet; 
-    margin: 0;
 }
 
 .time_style {

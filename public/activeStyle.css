@@ -1,0 +1,72 @@
+@font-face {
+    font-family: 'SUIT-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_suit@1.0/SUIT-Regular.woff2') format('woff2'),
+         url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_suit@1.0/SUIT-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    -webkit-font-smoothing: antialiased;
+}
+
+:root {
+    --main-color: blueviolet;
+    --selected-color: white;
+    --un-bg: black;
+    --un-color: white;
+    --third-color: rgb(14, 18, 32);
+    --white-tone: white;
+}
+
+.selected_button {
+    background-color: var(--main-color);
+    color: var(--selected-color);
+    font-family: 'SUIT-Regular';
+    padding-top: 10px;
+}
+
+.un_button {
+    background-color: var(--un-bg);
+    color: var(--un-color);
+    font-family: 'SUIT-Regular';
+    padding-top: 10px;
+}
+
+.hovering {
+    background-color: var(--main-color);
+    padding: 8px; 
+    border-radius: 15px; 
+    height: auto; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center;
+}
+
+.hovering:hover {
+    background-color: var(--un-bg);
+    cursor: pointer;
+}
+
+.nickname_style {
+    color: var(--main-color);
+    margin: 0;
+}
+
+.mainFontColor {
+    color: var(--main-color);
+}
+
+.event_control {
+    display: inline-block; 
+    width: 100%; 
+    font-size: 18px;
+    padding: 8px;
+}
+.event_control:hover {
+    cursor: pointer;
+    color: var(--main-color);
+    background-color: #f6f6f6;
+}
+
+.white_tone {
+    font-family: 'SUIT-Regular';
+    color: var(--white-tone);
+}

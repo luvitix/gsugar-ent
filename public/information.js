@@ -10,7 +10,7 @@ var community_test3 = 0
 function openNowEvent() {
     document.getElementById('test_event_bar').innerHTML =
     `
-    <h2 class="event_control black" style=" color: white; background-color: blueviolet;">진행중 ( 3 )</h2>
+    <h2 class="event_control black" style=" color: white; background-color: var(--main-color);">진행중 ( 3 )</h2>
     <h2 class="event_control black" onclick="openEndEvent()">종료 ( 0 )</h2>
     `
     document.getElementById('test_event_list').style.display = 'flex'
@@ -20,7 +20,7 @@ function openEndEvent() {
     document.getElementById('test_event_bar').innerHTML =
     `
     <h2 class="event_control black" onclick="openNowEvent()">진행중 ( 3 )</h2>
-    <h2 class="event_control black" style=" color: white; background-color: blueviolet;">종료 ( 0 )</h2>
+    <h2 class="event_control black" style=" color: white; background-color: var(--main-color);">종료 ( 0 )</h2>
     `
     document.getElementById('test_event_list').style.display = 'none'
 }
@@ -117,7 +117,7 @@ function ArtistLounge() {
 }
 
 
-function bottom_button_style(activeTabId) {
+function change_tab(activeTabId) {
     console.log(activeTabId, open_section[activeTabId])
     
     document.getElementById("testbed").style.backgroundColor = "white"
@@ -144,9 +144,15 @@ function bottom_button_style(activeTabId) {
     } 
     open_tab = activeTabId;
 
-    // 버튼 색상 설정: 선택된 버튼은 보라색, 나머지는 검정색
-    document.querySelectorAll(".bottom_button").forEach((button, index) => {
-        button.style.backgroundColor = button.getAttribute('onclick').includes(activeTabId) ? "blueviolet" : "black";
+    // 버튼 클래스 설정: 선택된 버튼은 'selected_button', 나머지는 'un_button'
+    document.querySelectorAll(".bottom_button").forEach((button) => {
+        if (button.getAttribute('onclick').includes(activeTabId)) {
+            button.classList.remove('un_button');
+            button.classList.add('selected_button');
+        } else {
+            button.classList.remove('selected_button');
+            button.classList.add('un_button');
+        }
     });
 }
 
@@ -156,7 +162,7 @@ function showMypage() {
         closeMypage()
     }
     document.getElementById("button_line").style.display = "none"
-    document.getElementById("testbed").style.backgroundColor = "rgb(14, 18, 32)"
+    document.getElementById("testbed").style.backgroundColor = getComputedStyle(document.documentElement).getPropertyValue('--third-color').trim();
     document.getElementById("ticket_showWindow").style.display = "none"
     document.getElementById("MyPage_section").style.display = "block"
 
@@ -224,7 +230,7 @@ function showSection(key, sectionType) {
         document.getElementById('MyPage_img_element').src = "esset/artistpoint.webp";
         document.getElementById('MyPage_value').textContent = point
     } else if (sectionType === "Collection_detail_section" || "Event_detail_section") {
-        document.getElementById("testbed").style.backgroundColor = "rgb(14, 18, 32)"
+        document.getElementById("testbed").style.backgroundColor = getComputedStyle(document.documentElement).getPropertyValue('--third-color').trim();
         document.getElementById('top_line').textContent = ""
         document.getElementById("button_line").style.display = "none"
     }
@@ -333,7 +339,7 @@ function resetProgress() {
 function updateProgressBar() {
     document.getElementById("progress_Bar").style.width = progress + "%";
     document.getElementById("progress_text").textContent = `컨텐츠 시청 ( ${progress/100} / 1 )`
-    if (progress > 0) {document.getElementById("progress_Bar").style.color = "blueviolet"}
+    if (progress > 0) {document.getElementById("progress_Bar").style.color = getComputedStyle(document.documentElement).getPropertyValue('--main-color').trim();}
     else {document.getElementById("progress_Bar").style.color = "#f0f0f0"}
     if (progress == 100 && progress_trigger == 0) {
         progress_trigger += 1
