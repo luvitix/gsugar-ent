@@ -49,6 +49,23 @@ async function callData() {
   return data
 }
 
+let lastScrollPosition = 0; // 스크롤 위치를 저장할 변수
+
+// 스크롤 위치 저장
+function saveScrollPosition() {
+    lastScrollPosition = window.scrollY; // 현재 스크롤 위치 저장
+    console.log("스크롤 위치 저장됨:", lastScrollPosition);
+}
+
+// 스크롤 위치 복원
+function restoreScrollPosition() {
+    window.scrollTo(0, lastScrollPosition); // 저장된 위치로 스크롤 이동
+    console.log("스크롤 위치 복원됨:", lastScrollPosition);
+}
+
+// 스크롤 이벤트와 버튼으로 제어
+// document.addEventListener("scroll", saveScrollPosition); // 스크롤 시 위치 저장
+
 // 현재 시간 가져오기
 function getCurrentFormattedTime() {
   const now = new Date();
@@ -122,7 +139,7 @@ async function click_the_button(e) {
     likeCountElement.textContent = data[e].heart.heart.length + data[e].heart.temporarily;
 }
 
-const selectedFiles = []; // 업로드된 모든 파일을 관리할 배열
+var selectedFiles = []; // 업로드된 모든 파일을 관리할 배열
 const MAX_FILES = 9; // 최대 파일 개수
 
 // 비동기적으로 FileReader 작업을 처리하는 함수
@@ -223,6 +240,7 @@ document.getElementById('extra-images').addEventListener('change', handleFileSel
 
 
 function openWriteSection() {
+  saveScrollPosition();
   document.getElementById("write_button").style.display = "block"
   document.getElementById('top_btn').onclick = function() {closeWriteSecton();};
   document.getElementById("write_button_mobile").style.display = "none"
@@ -232,13 +250,17 @@ function openWriteSection() {
 }
 
 function closeWriteSecton() {
+  
   document.getElementById("write_button").style.display = ""
   document.getElementById('top_btn').onclick = function() {closeSection("Community_section");};
   document.getElementById("write_button_mobile").style.display = ""
   document.getElementById("Community_content_section").style.display = "block"
   document.getElementById("button_line").style.display = "flex"
   document.getElementById("ticket_showWindow").style.display = "flex"
+  restoreScrollPosition();
 }
+
+let shouldStopLoading = false;
 
 async function loadPosts() {
   const postsContainer = document.getElementById('Community_content_section');
@@ -247,8 +269,11 @@ async function loadPosts() {
   const data = await callData();
   const postIds = (data.list || []).reverse();
 
+  shouldStopLoading = false
+
   // 게시글 하나씩 로드
   for (const postId of postIds) {
+    if (shouldStopLoading == false) {
       const post = data[postId];
       const postElement = document.createElement('div');
       postElement.classList.add('community_media_style');
@@ -297,29 +322,33 @@ async function loadPosts() {
           } catch (error) {
               console.error("Error fetching image URL for path:", imgPath, error);
           }
-      }
-      imagesContainer.setAttribute('data-count', post.img.length);
-      postElement.appendChild(imagesContainer);
+        }
+        imagesContainer.setAttribute('data-count', post.img.length);
+        postElement.appendChild(imagesContainer);
 
-      var heartcount
-      var commentcount = 0
-      var heart_condition
-      try {heartcount = post.heart.temporarily+post.heart.heart.length} catch {heartcount = post.heart}
-      try {commentcount = post.comment.length} catch {commentcount = 0}
-      try {
-          if (post.heart.heart.includes(user_IP)) {heart_condition = [await getHeartImage(open_lounge), "var(--main-color);"]
-          } else {heart_condition = ["heart-none.webp", "black"]}
-        } catch {heart_condition = ["heart-none.webp", "black"]}
-      // 좋아요 버튼 추가
-      postElement.innerHTML += `
-          <div class="heart_btn_box ${postId}" >
-              <img class="heart_button ${postId}" src="esset/${heart_condition[0]}" alt="좋아요 버튼" style="width: 22px; height: 22px;" onclick="click_the_button('${postId}')">
-              <p class="heart_count black ${postId}" style="font-size: 18px; margin: 0; margin-left: 8px; margin-right: 16px; color: ${heart_condition[1]};">${heartcount}</p>
+        var heartcount
+        var commentcount = 0
+        var heart_condition
+        try {heartcount = post.heart.temporarily+post.heart.heart.length} catch {heartcount = post.heart}
+        try {commentcount = post.comment.length} catch {commentcount = 0}
+        try {
+            if (post.heart.heart.includes(user_IP)) {heart_condition = [await getHeartImage(open_lounge), "var(--main-color);"]
+            } else {heart_condition = ["heart-none.webp", "black"]}
+          } catch {heart_condition = ["heart-none.webp", "black"]}
+        // 좋아요 버튼 추가
+        postElement.innerHTML += `
+            <div class="heart_btn_box ${postId}" >
+                <img class="heart_button ${postId}" src="esset/${heart_condition[0]}" alt="좋아요 버튼" style="width: 22px; height: 22px;" onclick="click_the_button('${postId}')">
+                <p class="heart_count black ${postId}" style="font-size: 18px; margin: 0; margin-left: 8px; margin-right: 16px; color: ${heart_condition[1]};">${heartcount}</p>
+                <img class="heart_button" src="esset/comment.webp" alt="좋아요 버튼" style="width: 22px; height: 22px;" onclick="commentWriteButton('${postId}')">
+                <p class="heart_count black" style="font-size: 18px; margin: 0; margin-left: 8px; margin-right: 16px;">${commentcount}</p>
+            </div>
+        `;
 
-          </div>
-      `;
-
-      postsContainer.appendChild(postElement);
+        if (shouldStopLoading == false) {
+          postsContainer.appendChild(postElement);
+        } else {console.log('추가STOP')}
+    } else {console.log('중단 요청됨')}
   }
 
   // 이미지 클릭 이벤트 위임 설정 (popup-image 클래스만 대상)
@@ -337,10 +366,10 @@ async function loadPosts() {
 const submitButton = document.getElementById('submitButton')
 
 async function commentWriteButton(key) {
-  
+  // shouldStopLoading = true
   openWriteSection()
   document.getElementById('top_btn').onclick = function() {closeCommentButton();};
-  document.getElementById('Community_content_section').style.display = "block"
+  document.getElementById('Community_comment_section').style.display = "block"
   document.getElementById('comment_section').style.display = "block"
   loadComment(key);
 
@@ -382,6 +411,8 @@ async function commentWriteButton(key) {
   const imagesContainer = document.getElementById('photo_value');
   imagesContainer.style.cssText = "margin-top: 15px";
   imagesContainer.innerHTML = ""
+
+  const imageElements = []; // 이미지를 담을 배
   
   // 각 이미지를 비동기적으로 가져와 추가
   for (const imgPath of data[key].img) {
@@ -393,11 +424,14 @@ async function commentWriteButton(key) {
           img.setAttribute('data-url', url); // 데이터 속성에 URL 저장
           img.classList.add('popup-image'); // 특정 클래스 추가
 
-          imagesContainer.appendChild(img);
+          imageElements.push(img); // 이미지 요소를 배열에 추가
       } catch (error) {
           console.error("Error fetching image URL for path:", imgPath, error);
       }
   }
+
+  // 배열에 담긴 모든 이미지를 한 번에 DOM에 추가
+  imagesContainer.append(...imageElements);
   imagesContainer.setAttribute('data-count', data[key].img.length);
   // postElement.appendChild(imagesContainer);
   
@@ -406,12 +440,12 @@ async function commentWriteButton(key) {
 async function closeCommentButton() {
   document.getElementById('comment_section').style.display = "none"
   closeWriteSecton()
+  document.getElementById('Community_comment_section').style.display = "none"
   document.getElementById('heart_box').innerHTML = `<div id='heart_box'></div>`
   
   submitButton.innerText = "글쓰기";
   submitButton.onclick = function() {submitPost();};
   document.getElementById('top_btn').onclick = function() {closeSection('Community_section');};
-  loadPosts();
 }
 
 async function submitPost() {
@@ -470,6 +504,11 @@ async function submitPost() {
   // 버튼 활성화 및 원래 텍스트 복원
   submitButton.disabled = false;
   submitButton.innerText = "글쓰기";
+  document.getElementById('nickname').value = ""
+  document.getElementById('content').value = ""
+  selectedFiles = [];
+  document.getElementById('preview-section').innerHTML = ""
+  updateUI();
 }
 }
 
@@ -524,13 +563,18 @@ async function submitComment(key) {
   // 버튼 활성화 및 원래 텍스트 복원
   submitButton.disabled = false;
   submitButton.innerText = "댓글 남기기";
-  
-  loadComment(key); // 새로 저장된 글 표시
+  commentWriteButton(key);
+
+  document.getElementById('nickname').value = ""
+  document.getElementById('content').value = ""
+  selectedFiles = [];
+  document.getElementById('preview-section').innerHTML = ""
+  updateUI();
 }
 }
 
 async function loadComment(key) {
-  const postsContainer = document.getElementById('Community_content_section');
+  const postsContainer = document.getElementById('Community_comment_section');
   postsContainer.innerHTML = ''; // 기존 게시글 초기화
 
   const data = await callData();

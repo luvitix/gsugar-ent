@@ -140,6 +140,8 @@
     border-radius: 15px;
     height: auto;
     box-shadow: 0px 0px 20px rgba(117, 117, 117, 0.36);
+    display: flex;
+    flex-direction: column;
 }
 
 .collection_tab_box {
@@ -200,22 +202,7 @@
     font-size: 12px;
 }
 
-.progress-container {
-    width: 100%;
-    background-color: #f0f0f0;
-    border-radius: 10px;
-    overflow: hidden;
-}
 
-.progress-bar {
-    height: 100%;
-    width: 0%;
-    background-color: blueviolet;
-    text-align: center;
-    color: #f0f0f0;
-    line-height: 20px;
-    border-radius: 10px;
-}
 
 @media (max-width: 900px) {
     #testbed {

@@ -70,3 +70,25 @@
     font-family: 'SUIT-Regular';
     color: var(--white-tone);
 }
+
+.title_section {
+    font-family: 'SUIT-Regular';
+    color: var(--title-color);
+}
+
+.progress-container {
+    width: 100%;
+    background-color: #f0f0f0;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    width: 0%;
+    background-color: var(--main-color);
+    text-align: center;
+    color: #f0f0f0;
+    line-height: 20px;
+    border-radius: 10px;
+}

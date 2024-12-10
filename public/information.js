@@ -10,7 +10,7 @@ var community_test3 = 0
 function openNowEvent() {
     document.getElementById('test_event_bar').innerHTML =
     `
-    <h2 class="event_control black" style=" color: white; background-color: var(--main-color);">진행중 ( 3 )</h2>
+    <h2 class="event_control black" style=" color: var(--white-tone); background-color: var(--main-color);">진행중 ( 3 )</h2>
     <h2 class="event_control black" onclick="openEndEvent()">종료 ( 0 )</h2>
     `
     document.getElementById('test_event_list').style.display = 'flex'
@@ -20,7 +20,7 @@ function openEndEvent() {
     document.getElementById('test_event_bar').innerHTML =
     `
     <h2 class="event_control black" onclick="openNowEvent()">진행중 ( 3 )</h2>
-    <h2 class="event_control black" style=" color: white; background-color: var(--main-color);">종료 ( 0 )</h2>
+    <h2 class="event_control black" style=" color: var(--white-tone); background-color: var(--main-color);">종료 ( 0 )</h2>
     `
     document.getElementById('test_event_list').style.display = 'none'
 }
@@ -91,8 +91,29 @@ async function openMediaLink2(key) {
 }
 
 var open_lounge = "temporarily"
+var loungeName = ""
 openMediaLink2(open_lounge);
+changeLounge();
 
+async function changeLounge() {
+    const doc = await DB.collection('ArtistLounge').doc(open_lounge).get()
+    const data = doc.data()
+    document.documentElement.style.setProperty('--main-color', data.color.maincolor);
+    document.documentElement.style.setProperty('--selected-color', data.color.selectedcolor);
+    document.documentElement.style.setProperty('--un-bg', data.color.unselected_BGcolor);
+    document.documentElement.style.setProperty('--un-color', data.color.unselected_fontColor);
+    document.documentElement.style.setProperty('--third-color', data.color.third_color);
+    document.documentElement.style.setProperty('--white-tone', data.color.white_tone);
+    document.documentElement.style.setProperty('--title-color', data.color.title_color);
+    
+    loungeName = data.loungeName
+    document.getElementById('top_line').textContent = loungeName
+    document.getElementById('ArtistName').textContent = data.artistName
+    document.getElementById('ArtistDescription').textContent = data.artistDescription
+    document.getElementById('Agency_credit').textContent = `Artist Agency : ${data.agency}`
+    document.getElementById('Supporter_credit').textContent = `App Supporter : ${data.supporter}`
+    document.getElementById('Artist_thumbnail').src = `esset/${open_lounge}.webp`
+}
 
 var ticket = 53
 var point = 301
@@ -113,15 +134,38 @@ var open_detail = {
 }
 
 function ArtistLounge() {
-    
+    Object.keys(open_detail).forEach(key => {
+        open_detail[key] = null;
+    });
+    try {document.getElementById(open_section[open_tab]).style.display = "none";} catch {document.getElementById(open_tab).style.display = "none";}
+    document.getElementById("button_line").style.display = "none"
+    document.getElementById('top_line').textContent = ""
+    document.documentElement.style.setProperty('--third-color', "#f6f6f6");
+    document.documentElement.style.setProperty('--title-color', "grey");
+    document.getElementById("testbed").style.backgroundColor = getComputedStyle(document.documentElement).getPropertyValue('--third-color').trim();
+    document.getElementById("ticket_showWindow").style.display = "none"
+    Object.keys(open_section).forEach(key => {
+        open_section[key] = null;
+    });
+    document.getElementById('ArtistLounge').style.display = "flex";
+}
+
+async function openLounge(key) {
+    open_lounge = key
+    openMediaLink2(open_lounge);
+    await changeLounge(); 
+    change_tab('home_tab')
+    closeMypage()
+    document.getElementById('ArtistLounge').style.display = "none";
 }
 
 
 function change_tab(activeTabId) {
+    
     console.log(activeTabId, open_section[activeTabId])
     
     document.getElementById("testbed").style.backgroundColor = "white"
-    document.getElementById('top_line').textContent = "GSUGAR";
+    document.getElementById('top_line').textContent = loungeName
     document.getElementById('MyPage_img_element').src = "esset/artistticket.png";
     document.getElementById('MyPage_value').textContent = ticket
 
@@ -172,7 +216,7 @@ function showMypage() {
 
 function closeMypage() {
     // 공통사안
-    document.getElementById('top_line').textContent = "GSUGAR"
+    document.getElementById('top_line').textContent = loungeName
     document.getElementById("MyPage_section").style.display = "none"
     document.getElementById("button_line").style.display = "flex"
     document.getElementById("ticket_showWindow").style.display = "flex"
@@ -185,7 +229,7 @@ function closeMypage() {
     // 오픈한 세부 섹션이 없을 경우
     } else {
         document.getElementById('top_btn').onclick = function() {
-            closeSpecial()
+            ArtistLounge()
         }
         document.getElementById(open_tab).style.display = "block"
     }
@@ -240,14 +284,14 @@ function showSection(key, sectionType) {
 
 function closeSection() {
     // 기본 설정
-    document.getElementById('top_btn').onclick = function() {closeSpecial();};
+    document.getElementById('top_btn').onclick = function() {ArtistLounge();};
     document.getElementById(open_tab).style.display = "block";
     document.getElementById("testbed").style.backgroundColor = "white";
     document.getElementById(open_section[open_tab]).style.display = "none";
     
     // 섹션별 설정
     if (open_section[open_tab] === "Community_section") {
-        document.getElementById('top_line').textContent = "GSUGAR";
+        document.getElementById('top_line').textContent = loungeName
     } else if (open_section[open_tab] === "Artist_message_section") {
         document.getElementById('MyPage_img_element').src = "esset/artistticket.png";
         document.getElementById('MyPage_value').textContent = ticket
@@ -260,7 +304,7 @@ function closeSection() {
         document.getElementById('MyPage_img_element').src = "esset/artistticket.png";
         document.getElementById('MyPage_value').textContent = ticket
     } else if (open_section[open_tab] === "Collection_detail_section" || open_section[open_tab] === "Event_detail_section") {
-        document.getElementById('top_line').textContent = "GSUGAR"
+        document.getElementById('top_line').textContent = loungeName
         document.getElementById("button_line").style.display = "flex"
     }
 
@@ -278,6 +322,7 @@ async function productSection(key) {
     document.getElementById('goods-title').textContent = doc.data()[key]['title']
     document.getElementById('Product_description').textContent = doc.data()[key]['description']
     document.getElementById('Product_price').textContent = doc.data()[key]['price']
+    document.getElementById('extra_description').innerText = doc.data()[key]['extra_description']
 }
 
 // 이미지 클릭 시 팝업 열기
