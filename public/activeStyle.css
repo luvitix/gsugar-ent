@@ -92,3 +92,7 @@
     line-height: 20px;
     border-radius: 10px;
 }
+
+.bottom_button {
+    display: flex; justify-content: center; align-items: center; margin: 0; padding: 0;
+}
