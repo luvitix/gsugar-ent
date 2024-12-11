@@ -285,6 +285,7 @@ function showSection(key, sectionType) {
 
 function closeSection() {
     // 기본 설정
+    shouldStopLoading = true
     document.getElementById('top_btn').onclick = function() {ArtistLounge();};
     document.getElementById(open_tab).style.display = "block";
     document.getElementById("testbed").style.backgroundColor = "white";
