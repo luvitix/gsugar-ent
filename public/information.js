@@ -148,6 +148,7 @@ function ArtistLounge() {
         open_section[key] = null;
     });
     document.getElementById('ArtistLounge').style.display = "flex";
+    shouldStopLoading = true
 }
 
 async function openLounge(key) {

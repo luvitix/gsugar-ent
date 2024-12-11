@@ -347,8 +347,8 @@ async function loadPosts() {
 
         if (shouldStopLoading == false) {
           postsContainer.appendChild(postElement);
-        } else {console.log('추가STOP')}
-    } else {console.log('중단 요청됨')}
+        } else {console.log('추가STOP')};
+    } else {console.log('중단 요청됨'); break;}
   }
 
   // 이미지 클릭 이벤트 위임 설정 (popup-image 클래스만 대상)
