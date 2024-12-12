@@ -2,7 +2,7 @@
     font-family: 'Pretendard';
     src: url('esset/Pretendard-Regular.woff2') format('woff2'),
          url('esset/Pretendard-Regular.woff') format('woff');
-    font-family: normal;
+    font-weight: normal;
     font-style: normal;
     -webkit-font-smoothing: antialiased;
 }
