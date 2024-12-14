@@ -91,12 +91,18 @@ async function openMediaLink2(key) {
 }
 
 var open_lounge = "temporarily"
+var open_theme = open_lounge
+var theme_yn = false
 var loungeName = ""
 openMediaLink2(open_lounge);
 changeLounge();
 
-async function changeLounge() {
-    const doc = await DB.collection('ArtistLounge').doc(open_lounge).get()
+async function themeChange(key) {
+    shouldStopLoading = true
+    dontAgainLoading = false
+    open_theme = key
+    theme_yn = true
+    const doc = await DB.collection('ArtistLounge').doc(key).get()
     const data = doc.data()
     document.documentElement.style.setProperty('--main-color', data.color.maincolor);
     document.documentElement.style.setProperty('--selected-color', data.color.selectedcolor);
@@ -105,6 +111,24 @@ async function changeLounge() {
     document.documentElement.style.setProperty('--third-color', data.color.third_color);
     document.documentElement.style.setProperty('--white-tone', data.color.white_tone);
     document.documentElement.style.setProperty('--title-color', data.color.title_color);
+    loadPosts();
+}
+
+async function changeLounge() {
+    const doc = await DB.collection('ArtistLounge').doc(open_lounge).get()
+    const data = doc.data()
+    
+    if (theme_yn == true) {
+        themeChange(open_theme)
+    } else {
+        document.documentElement.style.setProperty('--main-color', data.color.maincolor);
+        document.documentElement.style.setProperty('--selected-color', data.color.selectedcolor);
+        document.documentElement.style.setProperty('--un-bg', data.color.unselected_BGcolor);
+        document.documentElement.style.setProperty('--un-color', data.color.unselected_fontColor);
+        document.documentElement.style.setProperty('--third-color', data.color.third_color);
+        document.documentElement.style.setProperty('--white-tone', data.color.white_tone);
+        document.documentElement.style.setProperty('--title-color', data.color.title_color);
+    }
     
     loungeName = data.loungeName
     document.getElementById('top_line').textContent = loungeName

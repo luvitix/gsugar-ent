@@ -97,7 +97,7 @@ async function getHeartImage(variable) {
       
       // 파일이 존재하면, 존재하는 이미지 URL을 반환
       if (response.ok) {
-          return `heart-full-${open_lounge}.webp`;
+          return `heart-full-${open_theme}.webp`;
       } else {
           // 파일이 없으면 대체 이미지 반환
           return "heart-full-temporarily.webp";
@@ -117,7 +117,7 @@ async function click_the_button(e) {
     let like_img = likeImgElement.src;
     
     if (like_img.includes("heart-none.webp")) {
-        likeImgElement.src = `esset/${await getHeartImage(open_lounge)}`
+        likeImgElement.src = `esset/${await getHeartImage(open_theme)}`
         likeCountElement.style.color = getComputedStyle(document.documentElement).getPropertyValue('--main-color').trim();
         // 게시글 ID를 list 배열에 추가
         await DB.collection('Community').doc(open_lounge).update({
@@ -261,16 +261,21 @@ function closeWriteSecton() {
 }
 
 let shouldStopLoading = false;
+let dontAgainLoading = false;
 
 async function loadPosts() {
   const postsContainer = document.getElementById('Community_content_section');
-  postsContainer.innerHTML = ''; // 기존 게시글 초기화
+  
 
   const data = await callData();
   const postIds = (data.list || []).reverse();
 
   shouldStopLoading = false
-
+  
+if (dontAgainLoading === false) {
+  
+    dontAgainLoading = true
+    postsContainer.innerHTML = ''; // 기존 게시글 초기화
   // 게시글 하나씩 로드
   for (const postId of postIds) {
     if (shouldStopLoading == false) {
@@ -332,7 +337,7 @@ async function loadPosts() {
         try {heartcount = post.heart.temporarily+post.heart.heart.length} catch {heartcount = post.heart}
         try {commentcount = post.comment.length} catch {commentcount = 0}
         try {
-            if (post.heart.heart.includes(user_IP)) {heart_condition = [await getHeartImage(open_lounge), "var(--main-color);"]
+            if (post.heart.heart.includes(user_IP)) {heart_condition = [await getHeartImage(open_theme), "var(--main-color);"]
             } else {heart_condition = ["heart-none.webp", "black"]}
           } catch {heart_condition = ["heart-none.webp", "black"]}
         // 좋아요 버튼 추가
@@ -350,6 +355,9 @@ async function loadPosts() {
         } else {console.log('추가STOP')};
     } else {console.log('중단 요청됨'); break;}
   }
+} else {
+  console.log('이미 작동됨')
+}
 
   // 이미지 클릭 이벤트 위임 설정 (popup-image 클래스만 대상)
   postsContainer.addEventListener('click', function(event) {
@@ -392,7 +400,7 @@ async function commentWriteButton(key) {
   try {commentcount = data[key].comment.length} catch {commentcount = 0}
   
   try {
-      if (data[key].heart.heart.includes(user_IP)) {heart_condition = [await getHeartImage(open_lounge), "var(--main-color);"]
+      if (data[key].heart.heart.includes(user_IP)) {heart_condition = [await getHeartImage(open_theme), "var(--main-color);"]
       } else {heart_condition = ["heart-none.webp", "black"]}
     } catch {heart_condition = ["heart-none.webp", "black"]}
   // 좋아요 버튼 추가
@@ -463,54 +471,92 @@ async function submitPost() {
   submitButton.disabled = true;
   submitButton.innerText = "업로드 중...";
 
-  // 사용 예시
   const randomString = generateRandomString();
+
   try {
-  // Storage에 이미지 업로드
-  for (let i = 0; i < files.length && i < 10; i++) {
-    const fileRef = STORAGE.ref().child(`community/${open_lounge}/${postId+randomString}_${i + 1}.png`);
-    await fileRef.put(files[i]);
-    const downloadURL = await fileRef.getDownloadURL();
-    imgUrls.push(`community/${open_lounge}/${postId+randomString}_${i + 1}.png`);
+    // IP 주소 가져오기
+    const userIP = user_IP;
+
+    // Storage에 이미지 업로드
+    for (let i = 0; i < files.length && i < 10; i++) {
+      const webpFile = await convertImageToWebP(files[i]);
+      const fileRef = STORAGE.ref().child(`community/${open_lounge}/${postId + randomString}_${i + 1}.webp`);
+      await fileRef.put(webpFile);
+      const downloadURL = await fileRef.getDownloadURL();
+      imgUrls.push(`community/${open_lounge}/${postId + randomString}_${i + 1}.webp`);
+    }
+
+    // Firestore에 게시글 정보 저장
+    await DB.collection('Community').doc(open_lounge).set({
+      [postId + randomString]: {
+        nickname: nickname,
+        content: content,
+        img: imgUrls,
+        ip: userIP, // IP 주소 추가
+        heart: { heart: [], temporarily: 0 }
+      }
+    }, { merge: true });
+
+    // 게시글 ID를 list 배열에 추가
+    await DB.collection('Community').doc(open_lounge).update({
+      list: firebase.firestore.FieldValue.arrayUnion(postId + randomString)
+    });
+
+    alert("글이 성공적으로 저장되었습니다.");
+    dontAgainLoading = false;
+    loadPosts(); // 새로 저장된 글 표시
+    closeWriteSecton();
+
+  } catch (error) {
+    console.error("업로드 중 에러 발생:", error);
+    alert("업로드 중 오류가 발생했습니다. 다시 시도해주세요.");
+  } finally {
+    // 버튼 활성화 및 원래 텍스트 복원
+    submitButton.disabled = false;
+    submitButton.innerText = "글쓰기";
+    document.getElementById('nickname').value = "";
+    document.getElementById('content').value = "";
+    selectedFiles = [];
+    document.getElementById('preview-section').innerHTML = "";
+    updateUI();
+  }
+}
+
+async function convertImageToWebP(file) {
+  const fileType = file.type;
+
+  // GIF 또는 동영상 파일은 변환하지 않음
+  if (fileType === 'image/gif' || fileType.startsWith('video/')) {
+    console.log('GIF 또는 동영상은 변환하지 않습니다.');
+    return file;
   }
 
-  // IP 주소 가져오기
-  const userIP = user_IP;
-
-  // Firestore에 게시글 정보 저장
-  await DB.collection('Community').doc(open_lounge).set({
-    [postId+randomString]: {
-      nickname: nickname,
-      content: content,
-      img: imgUrls,
-      ip: userIP, // IP 주소 추가
-      heart: {heart:[], temporarily:0}
-    }
-  }, { merge: true });
-
-  // 게시글 ID를 list 배열에 추가
-  await DB.collection('Community').doc(open_lounge).update({
-    list: firebase.firestore.FieldValue.arrayUnion(postId+randomString)
+  // 나머지 이미지만 WebP로 변환
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = function(event) {
+      const img = new Image();
+      img.onload = function() {
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = img.width;
+        canvas.height = img.height;
+        ctx.drawImage(img, 0, 0);
+        const webpDataURL = canvas.toDataURL('image/webp', 0.9);
+        fetch(webpDataURL)
+          .then(res => res.blob())
+          .then(resolve)
+          .catch(reject);
+      };
+      img.onerror = reject;
+      img.src = event.target.result;
+    };
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
   });
-
-  alert("글이 성공적으로 저장되었습니다.");
-  loadPosts(); // 새로 저장된 글 표시
-  closeWriteSecton();
-
-} catch (error) {
-  console.error("업로드 중 에러 발생:", error);
-  alert("업로드 중 오류가 발생했습니다. 다시 시도해주세요.");
-} finally {
-  // 버튼 활성화 및 원래 텍스트 복원
-  submitButton.disabled = false;
-  submitButton.innerText = "글쓰기";
-  document.getElementById('nickname').value = ""
-  document.getElementById('content').value = ""
-  selectedFiles = [];
-  document.getElementById('preview-section').innerHTML = ""
-  updateUI();
 }
-}
+
+
 
 async function submitComment(key) {
   const nickname = document.getElementById('nickname').value;
@@ -638,7 +684,7 @@ async function loadComment(key) {
       var heart_condition
       try {heartcount = post.heart.temporarily+post.heart.heart.length} catch {heartcount = post.heart}
       try {
-          if (post.heart.heart.includes(user_IP)) {heart_condition = [await getHeartImage(open_lounge), "var(--main-color);"]
+          if (post.heart.heart.includes(user_IP)) {heart_condition = [await getHeartImage(open_theme), "var(--main-color);"]
           } else {heart_condition = ["heart-none.webp", "black"]}
         } catch {heart_condition = ["heart-none.webp", "black"]}
       // 좋아요 버튼 추가
