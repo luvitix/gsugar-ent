@@ -272,6 +272,11 @@ window.addEventListener('load', function() {
     // URL에 '?community'가 포함되어 있으면 showSection 호출
     if (currentUrl.includes('?community')) {
         showSection('home_tab', 'Community_section');
+        if (currentUrl.includes('?query=')) {
+            query_load = currentUrl.split('query=')[1]
+            commentWriteButton(query_load.split('%end')[0])
+        }
+        
     }
 });
 
