@@ -139,6 +139,16 @@ async function click_the_button(e) {
     likeCountElement.textContent = data[e].heart.heart.length + data[e].heart.temporarily;
 }
 
+async function share_button(e) {
+  navigator.clipboard.writeText(`https://gsugar-ent.netlify.app/funding?community?query=${e}%end`)
+  .then(() => {
+    alert('게시물의 링크가 복사되었어요!!');
+  })
+  .catch(err => {
+    console.error('클립보드 복사 실패:', err);
+  });
+}
+
 var selectedFiles = []; // 업로드된 모든 파일을 관리할 배열
 const MAX_FILES = 9; // 최대 파일 개수
 
@@ -347,6 +357,7 @@ if (dontAgainLoading === false) {
                 <p class="heart_count black ${postId}" style="font-size: 18px; margin: 0; margin-left: 8px; margin-right: 16px; color: ${heart_condition[1]};">${heartcount}</p>
                 <img class="heart_button" src="esset/comment.webp" alt="좋아요 버튼" style="width: 22px; height: 22px;" onclick="commentWriteButton('${postId}')">
                 <p class="heart_count black" style="font-size: 18px; margin: 0; margin-left: 8px; margin-right: 16px;">${commentcount}</p>
+                <img class="heart_button" src="esset/share.webp" alt="공유 버튼" style="width: 22px; height: 22px;" onclick="share_button('${postId}')">
             </div>
         `;
 
@@ -409,8 +420,9 @@ async function commentWriteButton(key) {
       <div id="heart_box" class="heart_btn_box ${key}" >
           <img class="heart_button ${key}" src="esset/${heart_condition[0]}" alt="좋아요 버튼" style="width: 22px; height: 22px;" onclick="click_the_button('${key}')">
           <p class="heart_count black ${key}" style="font-size: 18px; margin: 0; margin-left: 8px; margin-right: 16px; color: ${heart_condition[1]};">${heartcount}</p>
-          <img class="heart_button" src="esset/comment.webp" alt="좋아요 버튼" style="width: 22px; height: 22px;">
+          <img class="heart_button" src="esset/comment.webp" alt="댓글 버튼" style="width: 22px; height: 22px;">
           <p class="heart_count black" style="font-size: 18px; margin: 0; margin-left: 8px; margin-right: 16px;">${commentcount}</p>
+          <img class="heart_button" src="esset/share.webp" alt="공유 버튼" style="width: 22px; height: 22px;" onclick="share_button('${key}')">
       </div>
   `;
   
