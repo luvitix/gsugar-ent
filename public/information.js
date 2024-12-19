@@ -112,6 +112,7 @@ async function themeChange(key) {
     document.documentElement.style.setProperty('--white-tone', data.color.white_tone);
     document.documentElement.style.setProperty('--title-color', data.color.title_color);
     loadPosts();
+    closeMypage();
 }
 
 async function changeLounge() {
