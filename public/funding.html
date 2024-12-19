@@ -316,9 +316,22 @@
 
             <!-- 세부 섹션 : 마이페이지 -->
             <div id="MyPage_section" style="text-align: center; display: none;">
-                <img src="esset/artistticket.png" alt="" width="100%">
-                <h3 style="margin: 0; margin-top: -100px;" class="white_tone">내가 보유한 티켓! (각설탕)</h3>
-                <h1 style="margin: 0;" class="white_tone">53개</h1>
+                <div style="display: flex; margin-top: 8vh;">
+                    <div style="width: 50%;">
+                        <img src="esset/artistticket.png" alt="" width="50%">
+                        <h2 style="margin: 0;" class="white_tone">53개</h2>
+                    </div>
+                    <div style="width: 50%;">
+                        <img src="esset/artistpoint.webp" alt="" width="50%">
+                        <h2 style="margin: 0;" class="white_tone">301개</h2>
+                    </div>
+                </div>
+
+                <div class="tab_box" style="display: flex; background-color: var(--third-color); width: 100%; flex-direction: column; align-items: center; justify-content: center;">
+                    <div style="width: 80%; font-size: 4vh; background-color: #ED93BE; color: white; text-align: center; border-radius: 10px; padding: 8px; margin: 8px;" class="white_tone" onclick="themeChange('smtown')">SM테마</div>
+                    <div style="width: 80%; font-size: 4vh; background-color: blueviolet; color: white; text-align: center; border-radius: 10px; padding: 8px; margin: 8px;" class="white_tone" onclick="themeChange('temporarily')">기본 테마</div>
+                </div>
+                
                 <div class="testshop-grid" style="margin-top: 20px;">
                     <div class="mypage_element">
                         <!-- 내용 -->

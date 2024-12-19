@@ -313,7 +313,7 @@ if (dontAgainLoading === false) {
 
       // 글 내용 추가
       const contentElement = document.createElement('div');
-      contentElement.textContent = post.content;
+      contentElement.innerText = post.content;
       contentElement.classList.add('black');
       postElement.appendChild(contentElement);
 
