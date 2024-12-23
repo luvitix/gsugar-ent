@@ -273,20 +273,66 @@ function closeWriteSecton() {
 let shouldStopLoading = false;
 let dontAgainLoading = false;
 
-async function loadPosts() {
-  const postsContainer = document.getElementById('Community_content_section');
-  
+function timerate(e, over) {
+  // postId에서 날짜와 시간 추출 및 포맷팅
+  const dateTime = e.match(/z(\d{12})a/)[1]; // YYYYMMDDhhmm 추출
+  const formattedTime = `${dateTime.slice(0, 4)}-${dateTime.slice(4, 6)}-${dateTime.slice(6, 8)}T${dateTime.slice(8, 10)}:${dateTime.slice(10, 12)}`;
+  const date = new Date(formattedTime);
+  const now = new Date();
+  return now.getTime() - date.getTime() + over;
+}
 
+async function loadlistup(e, over) {
   const data = await callData();
   const postIds = (data.list || []).reverse();
+  const like_rate = (postIds.sort((a, b) => 
+    (((data[b].heart.heart.length+data[b].heart.temporarily)**e)/timerate(b, over)) - (((data[a].heart.heart.length+data[a].heart.temporarily)**e)/timerate(a, over))
+  ))
+  //console.log(like_rate)
+  return like_rate;
+}
 
-  shouldStopLoading = false
-  
-if (dontAgainLoading === false) {
+bestPosts()
+
+async function bestPosts() {
+  const postsContainer = document.getElementById('best_community_media');
+  const like_rate = await loadlistup(2, 7200000);
+  const best = like_rate.slice(0, 2);
+  await PostGenerator(best, postsContainer, 0);
+    // 이미지 클릭 이벤트 위임 설정 (popup-image 클래스만 대상)
+    postsContainer.addEventListener('click', function(event) {
+      if (event.target.classList.contains('popup-image')) { // 특정 클래스가 있는지 확인
+        const imgUrl = event.target.getAttribute('data-url'); // 데이터 속성에서 URL 가져오기
+        console.log("Image clicked, URL:", imgUrl);
+        openPopup(imgUrl);
+      }
+    });
+}
+
+async function loadPosts() {
+  const postsContainer = document.getElementById('Community_content_section');
+  const data = await callData();
+  const postIds = (data.list || []).reverse();
+  if (dontAgainLoading === false) {
   
     dontAgainLoading = true
     postsContainer.innerHTML = ''; // 기존 게시글 초기화
-  // 게시글 하나씩 로드
+    await PostGenerator(postIds, postsContainer);
+  } else {
+    console.log('이미 작동됨')
+  }
+  // 이미지 클릭 이벤트 위임 설정 (popup-image 클래스만 대상)
+  postsContainer.addEventListener('click', function(event) {
+    if (event.target.classList.contains('popup-image')) { // 특정 클래스가 있는지 확인
+      const imgUrl = event.target.getAttribute('data-url'); // 데이터 속성에서 URL 가져오기
+      console.log("Image clicked, URL:", imgUrl);
+      openPopup(imgUrl);
+    }
+  });
+}
+
+async function PostGenerator(postIds, container, element) {
+  const data = await callData();
   for (const postId of postIds) {
     if (shouldStopLoading == false) {
       const post = data[postId];
@@ -351,6 +397,7 @@ if (dontAgainLoading === false) {
             } else {heart_condition = ["heart-none.webp", "black"]}
           } catch {heart_condition = ["heart-none.webp", "black"]}
         // 좋아요 버튼 추가
+        if (element == 1 || element == null) {
         postElement.innerHTML += `
             <div class="heart_btn_box ${postId}" >
                 <img class="heart_button ${postId}" src="esset/${heart_condition[0]}" alt="좋아요 버튼" style="width: 22px; height: 22px;" onclick="click_the_button('${postId}')">
@@ -360,24 +407,20 @@ if (dontAgainLoading === false) {
                 <img class="heart_button" src="esset/share.webp" alt="공유 버튼" style="width: 22px; height: 22px;" onclick="share_button('${postId}')">
             </div>
         `;
+        } else {
+        postElement.innerHTML += `
+          <div class="heart_btn_box ${postId}" >
+              <img class="heart_button ${postId}" src="esset/${heart_condition[0]}" alt="좋아요 버튼" style="width: 22px; height: 22px;" onclick="click_the_button('${postId}')">
+              <p class="heart_count black ${postId}" style="font-size: 18px; margin: 0; margin-left: 8px; margin-right: 16px; color: ${heart_condition[1]};">${heartcount}</p>
+          </div>
+      `;
+        }
 
         if (shouldStopLoading == false) {
-          postsContainer.appendChild(postElement);
+          container.appendChild(postElement);
         } else {console.log('추가STOP')};
     } else {console.log('중단 요청됨'); break;}
   }
-} else {
-  console.log('이미 작동됨')
-}
-
-  // 이미지 클릭 이벤트 위임 설정 (popup-image 클래스만 대상)
-  postsContainer.addEventListener('click', function(event) {
-      if (event.target.classList.contains('popup-image')) { // 특정 클래스가 있는지 확인
-          const imgUrl = event.target.getAttribute('data-url'); // 데이터 속성에서 URL 가져오기
-          console.log("Image clicked, URL:", imgUrl);
-          openPopup(imgUrl);
-      }
-  });
 }
 
 
