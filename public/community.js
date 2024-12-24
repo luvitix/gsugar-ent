@@ -50,6 +50,7 @@ async function callData() {
 }
 
 let lastScrollPosition = 0; // 스크롤 위치를 저장할 변수
+let Scroll_Position = 0;
 
 // 스크롤 위치 저장
 function saveScrollPosition() {
@@ -62,6 +63,18 @@ function restoreScrollPosition() {
     window.scrollTo(0, lastScrollPosition); // 저장된 위치로 스크롤 이동
     console.log("스크롤 위치 복원됨:", lastScrollPosition);
 }
+
+// 뷰포인트 감지 이벤트 설정
+window.addEventListener("scroll", () => {
+  const scrollPosition = window.scrollY;
+
+  // 1000px 간격으로 호출
+  if (scrollPosition >= Scroll_Position + 2000) {
+      loadPosts();
+      Scroll_Position += 2000; // 다음 호출을 위한 기준점 업데이트
+  }
+});
+
 
 // 스크롤 이벤트와 버튼으로 제어
 // document.addEventListener("scroll", saveScrollPosition); // 스크롤 시 위치 저장
@@ -119,6 +132,12 @@ async function click_the_button(e) {
     if (like_img.includes("heart-none.webp")) {
         likeImgElement.src = `esset/${await getHeartImage(open_theme)}`
         likeCountElement.style.color = getComputedStyle(document.documentElement).getPropertyValue('--main-color').trim();
+        try {
+          document.querySelector(`.${e}best.heart_count`).style.color = getComputedStyle(document.documentElement).getPropertyValue('--main-color').trim();
+          document.querySelector(`.heart_button.${e}best`).src = `esset/${await getHeartImage(open_theme)}`
+        } catch {
+          console.log("best글이 아닙니다")
+        }
         // 게시글 ID를 list 배열에 추가
         await DB.collection('Community').doc(open_lounge).update({
           [`${e}.heart.heart`]: firebase.firestore.FieldValue.arrayUnion(user_IP)
@@ -126,6 +145,12 @@ async function click_the_button(e) {
     } else if (like_img.includes(`heart-full`)) {
         likeImgElement.src = "esset/heart-none.webp";
         likeCountElement.style.color = "black";
+        try {
+          document.querySelector(`.${e}best.heart_count`).style.color = "black";
+          document.querySelector(`.heart_button.${e}best`).src = "esset/heart-none.webp";
+        } catch {
+          console.log("best글이 아닙니다")
+        }
         // 게시글 ID를 list 배열에 추가
         await DB.collection('Community').doc(open_lounge).update({
           [`${e}.heart.heart`]: firebase.firestore.FieldValue.arrayRemove(user_IP)
@@ -137,6 +162,11 @@ async function click_the_button(e) {
 
     // 업데이트된 좋아요 개수 적용
     likeCountElement.textContent = data[e].heart.heart.length + data[e].heart.temporarily;
+    try {
+      document.querySelector(`.${e}best.heart_count`).textContent = data[e].heart.heart.length + data[e].heart.temporarily;
+    } catch {
+      console.log("best글이 아닙니다")
+    }
 }
 
 async function share_button(e) {
@@ -270,7 +300,6 @@ function closeWriteSecton() {
   restoreScrollPosition();
 }
 
-let shouldStopLoading = false;
 let dontAgainLoading = false;
 
 function timerate(e, over) {
@@ -293,12 +322,67 @@ async function loadlistup(e, over) {
 }
 
 bestPosts()
+let list_up
+
+async function best_heart_button(e) {
+  let realheart = (e.classList[1]).split('best')[0]
+  const likeCountElement = document.querySelector(`.${e.classList[1]}.heart_count`);
+  const likeImgElement = document.querySelector(`.heart_button.${e.classList[1]}`);
+    
+  let like_count = Number(likeCountElement.textContent);
+  let like_img = likeImgElement.src;
+    
+  if (like_img.includes("heart-none.webp")) {
+    likeImgElement.src = `esset/${await getHeartImage(open_theme)}`
+    likeCountElement.style.color = getComputedStyle(document.documentElement).getPropertyValue('--main-color').trim();
+    // 게시글 ID를 list 배열에 추가
+    await DB.collection('Community').doc(open_lounge).update({
+      [`${realheart}.heart.heart`]: firebase.firestore.FieldValue.arrayUnion(user_IP)
+        });
+    } else if (like_img.includes(`heart-full`)) {
+        likeImgElement.src = "esset/heart-none.webp";
+        likeCountElement.style.color = "black";
+        // 게시글 ID를 list 배열에 추가
+        await DB.collection('Community').doc(open_lounge).update({
+          [`${realheart}.heart.heart`]: firebase.firestore.FieldValue.arrayRemove(user_IP)
+        });
+    }
+
+    const data = await callData();
+    console.log(data[realheart].heart)
+
+    // 업데이트된 좋아요 개수 적용
+    likeCountElement.textContent = data[realheart].heart.heart.length + data[realheart].heart.temporarily;
+}
 
 async function bestPosts() {
   const postsContainer = document.getElementById('best_community_media');
   const like_rate = await loadlistup(2, 7200000);
   const best = like_rate.slice(0, 2);
   await PostGenerator(best, postsContainer, 0);
+
+  // 하트 버튼 이벤트 설정
+  const heartButtons = postsContainer.querySelectorAll('.heart_button');
+  heartButtons.forEach(button => {
+    button.onclick = null
+    button.classList.value = `${button.classList.value}best`
+  });
+
+  // 하트 버튼 이벤트 설정
+  const heartCount = postsContainer.querySelectorAll('.heart_count');
+  heartCount.forEach(button => {
+    button.onclick = null
+    button.classList.value = `${button.classList.value}best`
+  });
+
+  // 하트 버튼 클릭 이벤트 처리
+  postsContainer.addEventListener('click', function(event) {
+    if (event.target.classList.contains('heart_button')) {
+      best_heart_button(event.target);
+    }
+  });
+
+
     // 이미지 클릭 이벤트 위임 설정 (popup-image 클래스만 대상)
     postsContainer.addEventListener('click', function(event) {
       if (event.target.classList.contains('popup-image')) { // 특정 클래스가 있는지 확인
@@ -309,18 +393,23 @@ async function bestPosts() {
     });
 }
 
+let call_checker = false
+
 async function loadPosts() {
   const postsContainer = document.getElementById('Community_content_section');
   const data = await callData();
-  const postIds = (data.list || []).reverse();
-  if (dontAgainLoading === false) {
-  
-    dontAgainLoading = true
-    postsContainer.innerHTML = ''; // 기존 게시글 초기화
-    await PostGenerator(postIds, postsContainer);
+  if (call_checker == true) {
+    console.log('이미 불러옴')
   } else {
-    console.log('이미 작동됨')
+    postsContainer.innerHTML = ''
+    const postIds = (data.list || []).reverse();
+    list_up = postIds
+    call_checker = true
   }
+
+
+  await PostGenerator(list_up.splice(0,10), postsContainer);
+
   // 이미지 클릭 이벤트 위임 설정 (popup-image 클래스만 대상)
   postsContainer.addEventListener('click', function(event) {
     if (event.target.classList.contains('popup-image')) { // 특정 클래스가 있는지 확인
@@ -334,7 +423,7 @@ async function loadPosts() {
 async function PostGenerator(postIds, container, element) {
   const data = await callData();
   for (const postId of postIds) {
-    if (shouldStopLoading == false) {
+    
       const post = data[postId];
       const postElement = document.createElement('div');
       postElement.classList.add('community_media_style');
@@ -416,10 +505,8 @@ async function PostGenerator(postIds, container, element) {
       `;
         }
 
-        if (shouldStopLoading == false) {
-          container.appendChild(postElement);
-        } else {console.log('추가STOP')};
-    } else {console.log('중단 요청됨'); break;}
+      container.appendChild(postElement);
+        
   }
 }
 
@@ -428,7 +515,6 @@ async function PostGenerator(postIds, container, element) {
 const submitButton = document.getElementById('submitButton')
 
 async function commentWriteButton(key) {
-  // shouldStopLoading = true
   openWriteSection()
   document.getElementById('top_btn').onclick = function() {closeCommentButton();};
   document.getElementById('Community_comment_section').style.display = "block"

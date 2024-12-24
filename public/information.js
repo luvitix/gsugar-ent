@@ -99,7 +99,8 @@ changeLounge();
 
 async function themeChange(key) {
     shouldStopLoading = true
-    dontAgainLoading = false
+    call_checker = false
+    Scroll_Position = 0
     open_theme = key
     theme_yn = true
     const doc = await DB.collection('ArtistLounge').doc(key).get()
@@ -227,6 +228,7 @@ function change_tab(activeTabId) {
 }
 
 function showMypage() {
+    window.scrollTo(0, 0);
     document.getElementById('top_line').textContent = "MyPage"
     document.getElementById('top_btn').onclick = function() {
         closeMypage()
@@ -273,6 +275,7 @@ window.addEventListener('load', function() {
     // URL에 '?community'가 포함되어 있으면 showSection 호출
     if (currentUrl.includes('?community')) {
         showSection('home_tab', 'Community_section');
+        loadPosts();
         if (currentUrl.includes('query=')) {
             query_load = currentUrl.split('query=')[1]
             commentWriteButton(query_load.split('%')[0])
@@ -295,7 +298,7 @@ function showSection(key, sectionType) {
     // 섹션별 설정
     if (sectionType === "Community_section") {
         document.getElementById('top_line').textContent = "Community";
-        loadPosts();
+        // loadPosts();
     } else if (sectionType === "Artist_message_section") {
         document.getElementById('MyPage_img_element').src = "esset/artistpoint.webp";
         document.getElementById('MyPage_value').textContent = point
