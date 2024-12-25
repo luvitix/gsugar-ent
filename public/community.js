@@ -308,7 +308,7 @@ function timerate(e, over) {
   const formattedTime = `${dateTime.slice(0, 4)}-${dateTime.slice(4, 6)}-${dateTime.slice(6, 8)}T${dateTime.slice(8, 10)}:${dateTime.slice(10, 12)}`;
   const date = new Date(formattedTime);
   const now = new Date();
-  return now.getTime() - date.getTime() + over;
+  return (now.getTime() - date.getTime() + over)/100;
 }
 
 async function loadlistup(e, over) {
@@ -644,7 +644,7 @@ async function submitPost() {
     });
 
     alert("글이 성공적으로 저장되었습니다.");
-    dontAgainLoading = false;
+    call_checker = false;
     loadPosts(); // 새로 저장된 글 표시
     closeWriteSecton();
 
