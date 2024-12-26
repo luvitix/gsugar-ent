@@ -67,11 +67,16 @@ function restoreScrollPosition() {
 // 뷰포인트 감지 이벤트 설정
 window.addEventListener("scroll", () => {
   const scrollPosition = window.scrollY;
+  const windowHeight = window.innerHeight;
+  let documentHeight = 1000;
 
   // 1000px 간격으로 호출
-  if (scrollPosition >= Scroll_Position + 2000) {
-      loadPosts();
-      Scroll_Position += 2000; // 다음 호출을 위한 기준점 업데이트
+  if (scrollPosition >= documentHeight && open_tab == "home_tab" && open_section['home_tab'] == "Community_section" && scroll_function == false) {
+    scroll_function = true
+    loadPosts(5);
+    documentHeight += 1000;
+  } else {
+    
   }
 });
 
@@ -322,6 +327,7 @@ async function loadlistup(e, over) {
 }
 
 bestPosts()
+loadPosts(5)
 let list_up
 
 async function best_heart_button(e) {
@@ -395,7 +401,7 @@ async function bestPosts() {
 
 let call_checker = false
 
-async function loadPosts() {
+async function loadPosts(e) {
   const postsContainer = document.getElementById('Community_content_section');
   const data = await callData();
   if (call_checker == true) {
@@ -408,7 +414,7 @@ async function loadPosts() {
   }
 
 
-  await PostGenerator(list_up.splice(0,10), postsContainer);
+  await PostGenerator(list_up.splice(0,e), postsContainer);
 
   // 이미지 클릭 이벤트 위임 설정 (popup-image 클래스만 대상)
   postsContainer.addEventListener('click', function(event) {
@@ -422,13 +428,14 @@ async function loadPosts() {
 
 async function PostGenerator(postIds, container, element) {
   const data = await callData();
+  try {
   for (const postId of postIds) {
     
       const post = data[postId];
       const postElement = document.createElement('div');
       postElement.classList.add('community_media_style');
 
-      console.log(((post.heart.heart.length+post.heart.temporarily)**1.8)/timerate(postId, 10800000))
+      // console.log(((post.heart.heart.length+post.heart.temporarily)**1.8)/timerate(postId, 10800000))
 
       // postId에서 날짜와 시간 추출 및 포맷팅
       const dateTime = postId.match(/z(\d{12})a/)[1]; // YYYYMMDDhhmm 추출
@@ -509,6 +516,8 @@ async function PostGenerator(postIds, container, element) {
 
       container.appendChild(postElement);
         
+  }} finally {
+    scroll_function = false
   }
 }
 

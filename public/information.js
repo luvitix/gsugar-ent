@@ -298,6 +298,7 @@ function showSection(key, sectionType) {
     // 섹션별 설정
     if (sectionType === "Community_section") {
         document.getElementById('top_line').textContent = "Community";
+        window.scrollTo(0, 0);
         // loadPosts();
     } else if (sectionType === "Artist_message_section") {
         document.getElementById('MyPage_img_element').src = "esset/artistpoint.webp";
