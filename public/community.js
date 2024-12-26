@@ -308,14 +308,14 @@ function timerate(e, over) {
   const formattedTime = `${dateTime.slice(0, 4)}-${dateTime.slice(4, 6)}-${dateTime.slice(6, 8)}T${dateTime.slice(8, 10)}:${dateTime.slice(10, 12)}`;
   const date = new Date(formattedTime);
   const now = new Date();
-  return (now.getTime() - date.getTime() + over)/100;
+  return (now.getTime() - date.getTime() + over)/1000;
 }
 
 async function loadlistup(e, over) {
   const data = await callData();
   const postIds = (data.list || []).reverse();
   const like_rate = (postIds.sort((a, b) => 
-    (((data[b].heart.heart.length+data[b].heart.temporarily)**e)/timerate(b, over)) - (((data[a].heart.heart.length+data[a].heart.temporarily)**e)/timerate(a, over))
+    (((data[b].heart.heart.length+data[b].heart.temporarily+1)**e)/timerate(b, over)) - (((data[a].heart.heart.length+data[a].heart.temporarily+1)**e)/timerate(a, over))
   ))
   //console.log(like_rate)
   return like_rate;
@@ -357,7 +357,7 @@ async function best_heart_button(e) {
 
 async function bestPosts() {
   const postsContainer = document.getElementById('best_community_media');
-  const like_rate = await loadlistup(2, 7200000);
+  const like_rate = await loadlistup(1.8, 10800000);
   const best = like_rate.slice(0, 2);
   await PostGenerator(best, postsContainer, 0);
 
@@ -427,6 +427,8 @@ async function PostGenerator(postIds, container, element) {
       const post = data[postId];
       const postElement = document.createElement('div');
       postElement.classList.add('community_media_style');
+
+      console.log(((post.heart.heart.length+post.heart.temporarily)**1.8)/timerate(postId, 10800000))
 
       // postId에서 날짜와 시간 추출 및 포맷팅
       const dateTime = postId.match(/z(\d{12})a/)[1]; // YYYYMMDDhhmm 추출
