@@ -206,11 +206,11 @@ fileInput.addEventListener("change", handleFileSelection);
 extraInput.addEventListener("change", handleFileSelection);
 
 // 이미지 제거 함수
-function removeImage(index) {
-    selectedFiles.splice(index, 1); // 배열에서 제거
-    updateUI();
-    renderPreviews();
-  }
+async function removeImage(index) {
+  selectedFiles.splice(index, 1); // 배열에서 제거
+  await renderPreviews();
+  await updateUI();
+}
 
 // 이미지 미리보기 렌더링 함수
 async function renderPreviews() {
@@ -240,40 +240,38 @@ async function renderPreviews() {
 }
 
 // 파일 선택 이벤트 처리 함수
-function handleFileSelection(event) {
+async function handleFileSelection(event) {
     const files = event.target.files;
   
     // 현재 파일 개수와 새로 추가될 파일 개수 확인
     if (selectedFiles.length + files.length > MAX_FILES) {
       alert(`최대 ${MAX_FILES}개 파일만 업로드할 수 있습니다.`);
-      return;
+    } else {
+      // 파일 추가
+      Array.from(files).forEach((file) => {
+        selectedFiles.push(file);
+      });
+      await renderPreviews();
+      await updateUI();
     }
+}
   
-    // 파일 추가
-    Array.from(files).forEach((file) => {
-      selectedFiles.push(file);
-    });
+// UI 업데이트 함수
+async function updateUI() {
+  const imguploaderLabel = document.getElementById("imguploader-label");
+  const plusimgLabel = document.getElementById("plusimg-label");
   
-    updateUI();
-    renderPreviews();
+  if (selectedFiles.length === 0) {
+    imguploaderLabel.style.display = "block";
+    plusimgLabel.style.display = "none";
+  } else if (selectedFiles.length < MAX_FILES) {
+    imguploaderLabel.style.display = "none";
+    plusimgLabel.style.display = "block";
+  } else if (selectedFiles.length === MAX_FILES) {
+    imguploaderLabel.style.display = "none";
+    plusimgLabel.style.display = "none";
   }
-  
-  // UI 업데이트 함수
-  function updateUI() {
-    const imguploaderLabel = document.getElementById("imguploader-label");
-    const plusimgLabel = document.getElementById("plusimg-label");
-  
-    if (selectedFiles.length === 0) {
-      imguploaderLabel.style.display = "block";
-      plusimgLabel.style.display = "none";
-    } else if (selectedFiles.length < MAX_FILES) {
-      imguploaderLabel.style.display = "none";
-      plusimgLabel.style.display = "block";
-    } else if (selectedFiles.length === MAX_FILES) {
-      imguploaderLabel.style.display = "none";
-      plusimgLabel.style.display = "none";
-    }
-  }
+}
 
 // 초기 파일 선택 이벤트 연결
 document.getElementById('images').addEventListener('change', handleFileSelection);
@@ -632,10 +630,9 @@ async function submitPost() {
     // Storage에 이미지 업로드
     for (let i = 0; i < files.length && i < 10; i++) {
       const webpFile = await convertImageToWebP(files[i]);
-      const fileRef = STORAGE.ref().child(`community/${open_lounge}/${postId + randomString}_${i + 1}.webp`);
+      const fileRef = STORAGE.ref().child(`community/${open_lounge}/${postId + randomString}_${i + 1}`);
       await fileRef.put(webpFile);
-      const downloadURL = await fileRef.getDownloadURL();
-      imgUrls.push(`community/${open_lounge}/${postId + randomString}_${i + 1}.webp`);
+      imgUrls.push(`community/${open_lounge}/${postId + randomString}_${i + 1}`);
     }
 
     // Firestore에 게시글 정보 저장
