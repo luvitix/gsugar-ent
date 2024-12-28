@@ -188,7 +188,7 @@ var selectedFiles = []; // 업로드된 모든 파일을 관리할 배열
 const MAX_FILES = 9; // 최대 파일 개수
 
 // 비동기적으로 FileReader 작업을 처리하는 함수
-function readFileAsDataURL(file) {
+async function readFileAsDataURL(file) {
   return new Promise((resolve) => {
     const reader = new FileReader();
     reader.onload = function (e) {
@@ -207,9 +207,12 @@ extraInput.addEventListener("change", handleFileSelection);
 
 // 이미지 제거 함수
 async function removeImage(index) {
-  selectedFiles.splice(index, 1); // 배열에서 제거
-  await renderPreviews();
-  await updateUI();
+  try {
+    selectedFiles.splice(index, 1); // 배열에서 제거
+  } finally {
+    await renderPreviews();
+    await updateUI();
+  }
 }
 
 // 이미지 미리보기 렌더링 함수
@@ -247,12 +250,15 @@ async function handleFileSelection(event) {
     if (selectedFiles.length + files.length > MAX_FILES) {
       alert(`최대 ${MAX_FILES}개 파일만 업로드할 수 있습니다.`);
     } else {
-      // 파일 추가
-      Array.from(files).forEach((file) => {
-        selectedFiles.push(file);
-      });
-      await renderPreviews();
-      await updateUI();
+      try {
+        // 파일 추가
+        Array.from(files).forEach((file) => {
+          selectedFiles.push(file);
+        });
+      } finally {
+        await renderPreviews();
+        await updateUI();
+      }
     }
 }
   
