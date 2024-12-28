@@ -272,17 +272,30 @@ async function renderPreviews() {
 
 // 파일 선택 이벤트 처리 함수
 async function handleFileSelection(event) {
+    const pastFiles = selectedFiles
     const files = event.target.files;
 
     try {
-    // 현재 파일 개수와 새로 추가될 파일 개수 확인
-    if (selectedFiles.length + files.length > MAX_FILES) {
-      alert(`최대 ${MAX_FILES}개 파일만 업로드할 수 있습니다.`);
-    } else {
-      Array.from(files).forEach((file) => {
+      // 현재 파일 개수와 새로 추가될 파일 개수 확인
+      if (pastFiles.length + files.length > MAX_FILES) {
+        alert(`최대 ${MAX_FILES}개 파일만 업로드할 수 있습니다.`);
+      } else {
+        Array.from(files).forEach((file) => {
+          selectedFiles.push(file);
+        });
+      }
+    } catch {
+      selectedFiles = []
+      Array.from(pastFiles).forEach((file) => {
         selectedFiles.push(file);
       });
-    }
+      if (pastFiles.length + files.length > MAX_FILES) {
+        alert(`최대 ${MAX_FILES}개 파일만 업로드할 수 있습니다.`);
+      } else {
+        Array.from(files).forEach((file) => {
+          selectedFiles.push(file);
+        });
+      }
     } finally {
       await renderPreviews();
     }
