@@ -212,13 +212,13 @@ extraInput.addEventListener("change", handleFileSelection);
 async function removeImage(index) {
   if (img_handle == true) {
     try {
-      img_handle == false;
+      img_handle = false;
       selectedFiles.splice(index, 1); // 배열에서 제거
     } catch {
-      img_handle == true;
+      img_handle = true;
       await renderPreviews();
     } finally {
-      img_handle == true;
+      img_handle = true;
       await renderPreviews();
     }
   } else {
@@ -235,7 +235,7 @@ async function renderPreviews() {
   if (img_handle == true) {
   try {
     
-    img_handle == false;
+    img_handle = false;
     previewSection.innerHTML = ""; // 기존 미리보기 초기화
     for (let i = 0; i < selectedFiles.length; i++) {
       const file = selectedFiles[i];
@@ -258,10 +258,10 @@ async function renderPreviews() {
       previewSection.appendChild(img); // 미리보기 섹션에 추가
     }
   } catch {
-    img_handle == true;
+    img_handle = true;
     await renderPreviews();
   } finally {
-    img_handle == true;
+    img_handle = true;
     await updateUI();
   }
 
