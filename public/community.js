@@ -257,6 +257,9 @@ async function renderPreviews() {
 
       previewSection.appendChild(img); // 미리보기 섹션에 추가
     }
+  } catch {
+    img_handle == true;
+    await renderPreviews();
   } finally {
     img_handle == true;
     await updateUI();
