@@ -223,9 +223,9 @@ async function renderPreviews() {
   
   imguploaderLabel.style.display = "none";
   plusimgLabel.style.display = "none";
-
+  if (img_handle == true) {
   try {
-    if (img_handle == true) {
+    
     img_handle == false;
     previewSection.innerHTML = ""; // 기존 미리보기 초기화
     for (let i = 0; i < selectedFiles.length; i++) {
@@ -248,13 +248,14 @@ async function renderPreviews() {
 
       previewSection.appendChild(img); // 미리보기 섹션에 추가
     }
-    } else {
-      
-    }
   } finally {
     img_handle == true;
     await updateUI();
   }
+
+} else {
+  
+}
 }
 
 // 파일 선택 이벤트 처리 함수
