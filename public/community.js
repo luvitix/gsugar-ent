@@ -214,6 +214,9 @@ async function removeImage(index) {
     try {
       img_handle == false;
       selectedFiles.splice(index, 1); // 배열에서 제거
+    } catch {
+      img_handle == true;
+      await renderPreviews();
     } finally {
       img_handle == true;
       await renderPreviews();
