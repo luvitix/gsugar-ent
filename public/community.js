@@ -273,11 +273,11 @@ async function updateUI() {
   }
 }
 
-// 초기 파일 선택 이벤트 연결
-document.getElementById('images').addEventListener('change', handleFileSelection);
+// // 초기 파일 선택 이벤트 연결
+// document.getElementById('images').addEventListener('change', handleFileSelection);
 
-// 추가 업로드 버튼에 파일 선택 이벤트 연결
-document.getElementById('extra-images').addEventListener('change', handleFileSelection);
+// // 추가 업로드 버튼에 파일 선택 이벤트 연결
+// document.getElementById('extra-images').addEventListener('change', handleFileSelection);
 
 
 
