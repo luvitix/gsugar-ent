@@ -205,7 +205,10 @@ async function readFileAsDataURL(file) {
 const fileInput = document.getElementById("images");
 const extraInput = document.getElementById("extra-images");
 
-fileInput.addEventListener("change", handleFileSelection);
+fileInput.addEventListener("change", async (event) => {
+  await handleFileSelection(event);
+  fileInput.value = ""; // 파일 입력 초기화
+});
 extraInput.addEventListener("change", handleFileSelection);
 
 // 이미지 제거 함수
@@ -284,18 +287,18 @@ async function handleFileSelection(event) {
           selectedFiles.push(file);
         });
       }
-    } catch {
-      selectedFiles = []
-      Array.from(pastFiles).forEach((file) => {
-        selectedFiles.push(file);
-      });
-      if (pastFiles.length + files.length > MAX_FILES) {
-        alert(`최대 ${MAX_FILES}개 파일만 업로드할 수 있습니다.`);
-      } else {
-        Array.from(files).forEach((file) => {
-          selectedFiles.push(file);
-        });
-      }
+    // } catch {
+    //   selectedFiles = []
+    //   Array.from(pastFiles).forEach((file) => {
+    //     selectedFiles.push(file);
+    //   });
+    //   if (pastFiles.length + files.length > MAX_FILES) {
+    //     alert(`최대 ${MAX_FILES}개 파일만 업로드할 수 있습니다.`);
+    //   } else {
+    //     Array.from(files).forEach((file) => {
+    //       selectedFiles.push(file);
+    //     });
+    //   }
     } finally {
       await renderPreviews();
     }
