@@ -186,6 +186,9 @@ async function share_button(e) {
 
 var selectedFiles = []; // 업로드된 모든 파일을 관리할 배열
 const MAX_FILES = 9; // 최대 파일 개수
+const imguploaderLabel = document.getElementById("imguploader-label");
+const plusimgLabel = document.getElementById("plusimg-label");
+let img_handle = true;
 
 // 비동기적으로 FileReader 작업을 처리하는 함수
 async function readFileAsDataURL(file) {
@@ -211,34 +214,46 @@ async function removeImage(index) {
     selectedFiles.splice(index, 1); // 배열에서 제거
   } finally {
     await renderPreviews();
-    await updateUI();
   }
 }
 
 // 이미지 미리보기 렌더링 함수
 async function renderPreviews() {
   const previewSection = document.getElementById('preview-section');
-  previewSection.innerHTML = ""; // 기존 미리보기 초기화
+  
+  imguploaderLabel.style.display = "none";
+  plusimgLabel.style.display = "none";
 
-  for (let i = 0; i < selectedFiles.length; i++) {
-    const file = selectedFiles[i];
-    const dataURL = await readFileAsDataURL(file); // 파일 순서대로 읽기
+  try {
+    if (img_handle == true) {
+    img_handle == false;
+    previewSection.innerHTML = ""; // 기존 미리보기 초기화
+    for (let i = 0; i < selectedFiles.length; i++) {
+      const file = selectedFiles[i];
+      const dataURL = await readFileAsDataURL(file); // 파일 순서대로 읽기
 
-    const img = document.createElement('img');
-    img.src = dataURL;
-    img.style.width = "50px";
-    img.style.height = "50px";
-    img.style.objectFit = "cover";
-    img.style.border = "1px solid #ddd";
-    img.style.borderRadius = "5px";
-    img.style.cursor = "pointer";
+      const img = document.createElement('img');
+      img.src = dataURL;
+      img.style.width = "50px";
+      img.style.height = "50px";
+      img.style.objectFit = "cover";
+      img.style.border = "1px solid #ddd";
+      img.style.borderRadius = "5px";
+      img.style.cursor = "pointer";
 
-    // 클릭 이벤트: 이미지를 클릭하면 배열에서 제거
-    img.addEventListener('click', function () {
-      removeImage(i);
-    });
+      // 클릭 이벤트: 이미지를 클릭하면 배열에서 제거
+      img.addEventListener('click', function () {
+        removeImage(i);
+      });
 
-    previewSection.appendChild(img); // 미리보기 섹션에 추가
+      previewSection.appendChild(img); // 미리보기 섹션에 추가
+    }
+    } else {
+      
+    }
+  } finally {
+    img_handle == true;
+    await updateUI();
   }
 }
 
@@ -257,7 +272,6 @@ async function handleFileSelection(event) {
         });
       } finally {
         await renderPreviews();
-        await updateUI();
       }
     }
 }
