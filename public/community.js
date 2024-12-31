@@ -662,7 +662,7 @@ async function submitPost() {
 
     alert("글이 성공적으로 저장되었습니다.");
     call_checker = false;
-    loadPosts(); // 새로 저장된 글 표시
+    loadPosts(5); // 새로 저장된 글 표시
     closeWriteSecton();
 
   } catch (error) {
