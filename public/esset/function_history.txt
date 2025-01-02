@@ -138,3 +138,68 @@ function bottom_button_style(key) {
         showMypage(key)
     }
 }
+
+async function submitPost() {
+  const nickname = document.getElementById('nickname').value;
+  const content = document.getElementById('content').value;
+  const files = selectedFiles;
+  const postId = getCurrentFormattedTime();
+  let imgUrls = [];
+
+  if (!nickname || !content) {
+    alert("닉네임과 내용을 입력하세요.");
+    return;
+  }
+
+  submitButton.disabled = true;
+  submitButton.innerText = "업로드 중...";
+
+  const randomString = generateRandomString();
+
+  try {
+    // IP 주소 가져오기
+    const userIP = user_IP;
+
+    // Storage에 이미지 업로드
+    for (let i = 0; i < files.length && i < 10; i++) {
+      const webpFile = await convertImageToWebP(files[i]);
+      const fileRef = STORAGE.ref().child(`community/${open_lounge}/${postId + randomString}_${i + 1}`);
+      await fileRef.put(webpFile);
+      imgUrls.push(`community/${open_lounge}/${postId + randomString}_${i + 1}`);
+    }
+
+    // Firestore에 게시글 정보 저장
+    await DB.collection('Community').doc(open_lounge).set({
+      [postId + randomString]: {
+        nickname: nickname,
+        content: content,
+        img: imgUrls,
+        ip: userIP, // IP 주소 추가
+        heart: { heart: [], temporarily: 0 }
+      }
+    }, { merge: true });
+
+    // 게시글 ID를 list 배열에 추가
+    await DB.collection('Community').doc(open_lounge).update({
+      list: firebase.firestore.FieldValue.arrayUnion(postId + randomString)
+    });
+
+    alert("글이 성공적으로 저장되었습니다.");
+    call_checker = false;
+    loadPosts(5); // 새로 저장된 글 표시
+    closeWriteSecton();
+
+  } catch (error) {
+    console.error("업로드 중 에러 발생:", error);
+    alert("업로드 중 오류가 발생했습니다. 다시 시도해주세요.");
+  } finally {
+    // 버튼 활성화 및 원래 텍스트 복원
+    submitButton.disabled = false;
+    submitButton.innerText = "글쓰기";
+    document.getElementById('nickname').value = "";
+    document.getElementById('content').value = "";
+    selectedFiles = [];
+    document.getElementById('preview-section').innerHTML = "";
+    updateUI();
+  }
+}

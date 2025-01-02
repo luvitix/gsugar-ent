@@ -106,26 +106,33 @@
         async function loadFilteredWorkRecords() {
             const startDate = getStartDate(); // 7일 전 00:00으로 설정된 시작 날짜
             const formattedStartDate = formatDateToYMD(startDate);
-            const doc = await DB.collection('company').doc('work').get();
+            const response = await fetch("https://workrecordrequest-eno2n4pmqq-uc.a.run.app", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
+            const doc = await response.json();
+            const data = doc.work_data
             
-            if (doc.exists) {
-                let worklist = doc.data()['worklist'] || [];
+            if (data && Array.isArray(data.worklist)) {
+                let worklist = data.worklist || [];
 
                 // null 또는 undefined 항목을 DB에서 제거하는 비동기 작업
-                const validWorklist = await Promise.all(worklist.map(async (item) => {
-                if (!doc.data()[item]) {
-                    // null 또는 undefined 항목일 경우 DB에서 삭제
-                    await DB.collection('company').doc('work').update({
-                    [item]: firebase.firestore.FieldValue.delete(),
-                    worklist: firebase.firestore.FieldValue.arrayRemove(item),
-                    });
-                    return null; // null을 반환하여 필터링에 사용
-                }
-                return item; // 유효한 항목일 경우 그대로 반환
-                }));
+                // const validWorklist = await Promise.all(worklist.map(async (item) => {
+                // // if (!doc.data()[item]) {
+                // //     // null 또는 undefined 항목일 경우 DB에서 삭제
+                // //     await DB.collection('company').doc('work').update({
+                // //     [item]: firebase.firestore.FieldValue.delete(),
+                // //     worklist: firebase.firestore.FieldValue.arrayRemove(item),
+                // //     });
+                // //     return null; // null을 반환하여 필터링에 사용
+                // // }
+                // return item; // 유효한 항목일 경우 그대로 반환
+                // }));
 
                 // 유효한 항목만 필터링하여 날짜 비교
-                const filteredWorklist = validWorklist.reverse().filter(item => {
+                const filteredWorklist = worklist.reverse().filter(item => {
                 if (!item) return false; // null인 항목 제외
 
                 // 'z202411071611a'에서 '202411071611' 추출
@@ -144,7 +151,7 @@
                 });
 
                 // 필터링된 기록 표시
-                const workItems = filteredWorklist.map(item => `<p class="black worklist">${doc.data()[item]}</p>`).join('');
+                const workItems = filteredWorklist.map(item => `<p class="black worklist">${data[item]}</p>`).join('');
                 document.getElementById('workrecord').innerHTML = `<h3>내역 (${formattedStartDate} 이후)</h3>${workItems}`;
             }
         }
