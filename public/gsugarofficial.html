@@ -8,24 +8,21 @@
     <link rel="stylesheet" href="style.css">
     <link rel="script" href="script.js">
     <link rel="icon" href="favicon.ico">
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <!-- <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script> -->
     <script>
-        const firebaseConfig = {
-            apiKey: "AIzaSyCbg4hzNgHuHLPPf-p81tOR9NokHUkJEYU",
-            authDomain: "wav-page.firebaseapp.com",
-            projectId: "wav-page",
-            storageBucket: "wav-page.appspot.com",
-            messagingSenderId: "177402832992",
-            appId: "1:177402832992:web:f9e73201becffd901cfb05",
-            measurementId: "G-7LRKNDFK7B"
-        };
-        // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
 
-
-        // Initialize Cloud Firestore and get a reference to the service
-        const DB = firebase.firestore();
+        let data_field
+        data_call();
+        async function data_call() {
+            const response = await fetch("https://officialrequest-eno2n4pmqq-uc.a.run.app", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
+            data_field = await response.json();
+        }
 
         function myinfo() {
             // Get the value from the input field
@@ -51,38 +48,45 @@
         }
         // Firestore에서 정보 가져오기
         async function openMediaContent() {
+            const response = await fetch("https://officialrequest-eno2n4pmqq-uc.a.run.app", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
+            const data_field = await response.json();
             const [doc, doc1, doc2, doc3, doc4, doc5] = await Promise.all([
-                DB.collection('company').doc('detail').get(),
-                DB.collection('company').doc('stocks').get(),
-                DB.collection('company').doc('cash').get(),
-                DB.collection('company').doc('work').get(),
-                DB.collection('company').doc('team').get(),
-                DB.collection('company').doc('spendlist').get()
+                data_field.detail_data,
+                data_field.stock_data,
+                data_field.cash_data,
+                data_field.work_data,
+                data_field.team_data,
+                data_field.spend_data,
             ]);
 
-            if (!doc.exists || !doc1.exists || !doc2.exists || !doc3.exists || !doc4.exists || !doc5.exists) {
-                console.log("No such document!");
-                return;
-            }
+            // if (!doc.exists || !doc1.exists || !doc2.exists || !doc3.exists || !doc4.exists || !doc5.exists) {
+            //     console.log("No such document!");
+            //     return;
+            // }
 
             // Firestore에서 가져온 데이터로 HTML 업데이트
-            document.getElementById('team').innerHTML = doc.data()['1team'];
-            document.getElementById('money').innerHTML = doc.data()['2money'];
-            document.getElementById('project_').innerHTML = doc.data()['3project'];
-            document.getElementById('level').innerHTML = doc.data()['4level'];
-            document.getElementById('cash').innerHTML = doc2.data()['cash'];
+            document.getElementById('team').innerHTML = doc['1team'];
+            document.getElementById('money').innerHTML = doc['2money'];
+            document.getElementById('project_').innerHTML = doc['3project'];
+            document.getElementById('level').innerHTML = doc['4level'];
+            document.getElementById('cash').innerHTML = doc2['cash'];
 
             // stocks 처리
-            let stockslist = doc1.data()['list'].map(item => doc1.data()[item]).join('');
+            let stockslist = doc1['list'].map(item => doc1[item]).join('');
             document.getElementById('finance').innerHTML = stockslist;
 
             // team history 처리
-            let team_history = doc4.data()['history'].reverse().map(item => `<p class="black worklist">${doc4.data()[item]}</p>`).join('');
+            let team_history = doc4['history'].reverse().map(item => `<p class="black worklist">${doc4[item]}</p>`).join('');
             document.getElementById('teamhistory').innerHTML = `<h3>입사 및 퇴사 기록</h3>${team_history}`;
 
             // team history 처리
-            let spend_history = doc5.data()['history'].reverse().map(item => `<p class="black worklist">${doc5.data()[item]}</p>`).join('');
-            document.getElementById('spendlist').innerHTML = `${doc5.data()['title']}${spend_history}`;
+            let spend_history = doc5['history'].reverse().map(item => `<p class="black worklist">${doc5[item]}</p>`).join('');
+            document.getElementById('spendlist').innerHTML = `${doc5['title']}${spend_history}`;
         }
         window.onload = openMediaContent();
 
@@ -106,7 +110,7 @@
         async function loadFilteredWorkRecords() {
             const startDate = getStartDate(); // 7일 전 00:00으로 설정된 시작 날짜
             const formattedStartDate = formatDateToYMD(startDate);
-            const response = await fetch("https://workrecordrequest-eno2n4pmqq-uc.a.run.app", {
+            const response = await fetch("https://officialrequest-eno2n4pmqq-uc.a.run.app", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
