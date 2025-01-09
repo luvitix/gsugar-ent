@@ -11,20 +11,7 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
     <script>
-        const firebaseConfig = {
-            apiKey: "AIzaSyCbg4hzNgHuHLPPf-p81tOR9NokHUkJEYU",
-            authDomain: "wav-page.firebaseapp.com",
-            projectId: "wav-page",
-            storageBucket: "wav-page.appspot.com",
-            messagingSenderId: "177402832992",
-            appId: "1:177402832992:web:f9e73201becffd901cfb05",
-            measurementId: "G-7LRKNDFK7B"
-        };
-        // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
 
-        // Initialize Cloud Firestore and get a reference to the service
-        const DB = firebase.firestore();
 
         var currentUrl = window.location.href;
         var id2_ready = currentUrl.substring(currentUrl.lastIndexOf('/') + 1);
@@ -33,20 +20,31 @@
 
         //이벤트 세부사항을 불러오는 함수
         async function openMediaContent() {
-            event_detail = await DB.collection('event').doc(id2).get()
+            const response = await fetch("https://eventdetailrequest-eno2n4pmqq-uc.a.run.app", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ 
+                    eventid: id2,
+                }),
+            });
+
+            const result = await response.json();
+            const event_detail = result.eventDB
             
-            document.getElementById('event_image_id').src = event_detail.data()['img_link'];
-            document.getElementById('event_title_id').textContent = event_detail.data()['title'];
-            document.getElementById('event_host').textContent = `주최 : ${event_detail.data()['host']}`;
-            document.getElementById('event_period').textContent = event_detail.data()['period'];
-            document.getElementById('event_reward').textContent = event_detail.data()['reward'];
-            document.getElementById('event_method').innerHTML = event_detail.data()['method'];
-            document.getElementById('event_alert').textContent = event_detail.data()['alert'];
-            document.getElementById('extra_title').textContent = `${event_detail.data()['extra_title']}`;
-            document.getElementById('extra_description').innerHTML = `${event_detail.data()['extra_description']}`;
+            document.getElementById('event_image_id').src = event_detail['img_link'];
+            document.getElementById('event_title_id').textContent = event_detail['title'];
+            document.getElementById('event_host').textContent = `주최 : ${event_detail['host']}`;
+            document.getElementById('event_period').textContent = event_detail['period'];
+            document.getElementById('event_reward').textContent = event_detail['reward'];
+            document.getElementById('event_method').innerHTML = event_detail['method'];
+            document.getElementById('event_alert').textContent = event_detail['alert'];
+            document.getElementById('extra_title').textContent = `${event_detail['extra_title']}`;
+            document.getElementById('extra_description').innerHTML = `${event_detail['extra_description']}`;
             var extra_img = ""
-            for (var i = 0; i < event_detail.data()['extra_img_link'].length; i++) {
-                extra_img += `<img src="${event_detail.data()['extra_img_link'][i]}" class="extra_img">`
+            for (var i = 0; i < event_detail['extra_img_link'].length; i++) {
+                extra_img += `<img src="${event_detail['extra_img_link'][i]}" class="extra_img">`
             }
             document.getElementById('extra_description_img').innerHTML = extra_img;
         }
