@@ -57,11 +57,11 @@
 
                     // 모든 Promise가 완료된 후에 storeContent 적용
                     Promise.all(promises).then(() => {
-                        document.getElementById('event_tag').innerHTML = event_contents;
+                        document.getElementById('event_tag_now').innerHTML = event_contents;
                         document.getElementById('event_list_now').innerHTML = `
                         <div style="margin: 8px; text-align: center; display: flex; ">
-                            <h2 class="event_select" style=" color: white; background-color: blueviolet;">진행중 ( ${event_list.length} )</h2>
-                            <h2 class="event_select" onclick="openEndEvent()">종료 ( ${event_end.length} )</h2>
+                            <h2 class="event_select" id="now" style=" color: white; background-color: blueviolet;" onclick="NowEvent()">진행중 ( ${event_list.length} )</h2>
+                            <h2 class="event_select" id="end" onclick="EndEvent()">종료 ( ${event_end.length} )</h2>
                         </div>`
                     });
 
@@ -105,12 +105,7 @@
 
                     // 모든 Promise가 완료된 후에 storeContent 적용
                     Promise.all(promises).then(() => {
-                        document.getElementById('event_tag').innerHTML = event_contents;
-                        document.getElementById('event_list_now').innerHTML = `
-                        <div style="margin: 8px; text-align: center; display: flex; ">
-                            <h2 class="event_select" onclick="openMediaContent()">진행중 ( ${event_list.length} )</h2>
-                            <h2 class="event_select" style="color: white; background-color: blueviolet;">종료 ( ${event_end.length} )</h2>
-                        </div>`
+                        document.getElementById('event_tag_end').innerHTML = event_contents;
                     });
 
                 } else {
@@ -121,7 +116,23 @@
                 console.log("Error getting document:", error);
             });
         }
+        
+        window.onload = openEndEvent();
         window.onload = openMediaContent();
+
+        function NowEvent() {
+            document.getElementById('event_tag_now').style.display = ""
+            document.getElementById('event_tag_end').style.display = "none"
+            document.getElementById('now').style.cssText = "color: white; background-color: blueviolet;"
+            document.getElementById('end').style.cssText = ""
+        }
+
+        function EndEvent() {
+            document.getElementById('event_tag_now').style.display = "none"
+            document.getElementById('event_tag_end').style.display = ""
+            document.getElementById('end').style.cssText = "color: white; background-color: blueviolet;"
+            document.getElementById('now').style.cssText = ""
+        }
     </script>
 </head>
 <body>
@@ -138,11 +149,20 @@
         <!-- <h2 class="logo-text black">아직 준비 중이에요!🥺</h2> -->
         <div id="event_list_now">
             <div style="margin: 8px; text-align: center; display: flex; ">
-                <h2 class="event_select" style=" color: white; background-color: blueviolet;">진행중 ( 519,961 )</h2>
-                <h2 class="event_select" onclick="openEndEvent()">종료 ( 22,561,009 )</h2>
+                <h2 class="event_select" id="now" style=" color: white; background-color: blueviolet;">진행중 ( 519,961 )</h2>
+                <h2 class="event_select" id="end" onclick="openEndEvent()">종료 ( 22,561,009 )</h2>
             </div>
         </div>
-        <div id="event_tag">
+        <div id="event_tag_now">
+            <div class="event_control" style="background-color: #f6f6f6;">
+                <img class="event_image" src="https://mblogthumb-phinf.pstatic.net/MjAyNDA5MTRfMTg4/MDAxNzI2MjM5OTAwOTI2.85rhl9Vt7vHbHQ2Sn-rYtkPJ6IkTc92mTepjPulFH0sg.DDdLL8JsAxAHJbg2WkRoPgcc6_RcUCV_-LshrHGXCTwg.PNG/%25EC%25B6%2594%25EC%2584%259D.png?type=w966" alt="">
+                <a href="/event/chsck" style="margin-left: 8px;">
+                    <h1 class="event_title">추석 기념 문화상품권 이벤트</h1>
+                    <p>주최 : GSUGAR Ent.</p>
+                </a>
+            </div>
+        </div>
+        <div id="event_tag_end" style="display: none;">
             <div class="event_control" style="background-color: #f6f6f6;">
                 <img class="event_image" src="https://mblogthumb-phinf.pstatic.net/MjAyNDA5MTRfMTg4/MDAxNzI2MjM5OTAwOTI2.85rhl9Vt7vHbHQ2Sn-rYtkPJ6IkTc92mTepjPulFH0sg.DDdLL8JsAxAHJbg2WkRoPgcc6_RcUCV_-LshrHGXCTwg.PNG/%25EC%25B6%2594%25EC%2584%259D.png?type=w966" alt="">
                 <a href="/event/chsck" style="margin-left: 8px;">
