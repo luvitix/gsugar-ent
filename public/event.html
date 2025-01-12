@@ -27,97 +27,60 @@
         const DB = firebase.firestore();
 
         // Firestore에서 정보 가져오기
-        function openMediaContent() {
-            DB.collection('mediaLinks').doc('showEvent').get().then((doc) => {
-                if (doc.exists) {
-                    // Firestore에서 가져와서 HTML만들기
-                    var event_list = doc.data()['event_list']
-                    var event_end = doc.data()['event_end']
-                    var event_contents = ""
-                    // 모든 비동기 작업을 처리할 Promise 배열 생성
-                    var promises = event_list.reverse().map((item) => {
-                        return DB.collection('event').doc(item).get().then((doc1) => {
-                            if (doc1.exists) {
-                                event_contents += `
-                                    <div id="event_tag" class="event_control" style="background-color: #f6f6f6;">
-                                        
-                                        <a href="/event/${item}" class="event_image">
-                                            <img src="${doc1.data()['img_link']}" alt="" width="100%">
-                                        </a>
-                                        <a href="/event/${item}" class="event_button">
-                                            <h1 class="event_title">${doc1.data()['title']}</h1>
-                                            <p>주최 : ${doc1.data()['host']}</p>
-                                        </a>
-                                    </div>`;
-                            } else {
-                                console.log("No such document!");
-                            }
-                        });
-                    });
-
-                    // 모든 Promise가 완료된 후에 storeContent 적용
-                    Promise.all(promises).then(() => {
-                        document.getElementById('event_tag_now').innerHTML = event_contents;
-                        document.getElementById('event_list_now').innerHTML = `
-                        <div style="margin: 8px; text-align: center; display: flex; ">
-                            <h2 class="event_select" id="now" style=" color: white; background-color: blueviolet;" onclick="NowEvent()">진행중 ( ${event_list.length} )</h2>
-                            <h2 class="event_select" id="end" onclick="EndEvent()">종료 ( ${event_end.length} )</h2>
-                        </div>`
-                    });
-
-                } else {
-                    console.log("No such document!");
+        async function openMediaContent() {
+            const doc = await DB.collection('mediaLinks').doc('showEvent').get()
+            if (doc.exists) {
+                // Firestore에서 가져와서 HTML만들기
+                var event_list = doc.data()['event_list']
+                var event_end = doc.data()['event_end']
+                var event_contents = ""
+                var event_end_contents = ""
+                // 모든 비동기 작업을 처리할 Promise 배열 생성
+                
+                for (const eventID of event_list.reverse()) {
+                    const data = await DB.collection('event').doc(eventID).get()
+                    if (data.exists) {
+                        event_contents += `
+                            <div id="event_tag" class="event_control" style="background-color: #f6f6f6;">
+                                
+                                <a href="/event/${eventID}" class="event_image">
+                                    <img src="${data.data()['img_link']}" alt="" width="100%">
+                                </a>
+                                <a href="/event/${eventID}" class="event_button">
+                                    <h1 class="event_title">${data.data()['title']}</h1>
+                                    <p>주최 : ${data.data()['host']}</p>
+                                </a>
+                            </div>`;
+                    } else {console.log("No such document!")};
                 }
-            })
-            .catch((error) => {
-                console.log("Error getting document:", error);
-            });
+
+                for (const eventID of event_end.reverse()) {
+                    const data = await DB.collection('event').doc(eventID).get()
+                    if (data.exists) {
+                        event_end_contents += `
+                            <div id="event_tag" class="event_control" style="background-color: #f6f6f6;">
+                                
+                                <a href="/event/${eventID}" class="event_image">
+                                    <img src="${data.data()['img_link']}" alt="" width="100%">
+                                </a>
+                                <a href="/event/${eventID}" class="event_button">
+                                    <h1 class="event_title">${data.data()['title']}</h1>
+                                    <p>주최 : ${data.data()['host']}</p>
+                                </a>
+                            </div>`;
+                    } else {console.log("No such document!")};
+                }
+
+                document.getElementById('event_tag_now').innerHTML = event_contents;
+                document.getElementById('event_tag_end').innerHTML = event_end_contents;
+                document.getElementById('event_list_now').innerHTML = `
+                    <div style="margin: 8px; text-align: center; display: flex; ">
+                        <h2 class="event_select" id="now" style=" color: white; background-color: blueviolet;" onclick="NowEvent()">진행중 ( ${event_list.length} )</h2>
+                        <h2 class="event_select" id="end" onclick="EndEvent()">종료 ( ${event_end.length} )</h2>
+                    </div>`
+            } else {console.log("No such document!")};
         }
 
-        // Firestore에서 정보 가져오기
-        function openEndEvent() {
-            DB.collection('mediaLinks').doc('showEvent').get().then((doc) => {
-                if (doc.exists) {
-                    // Firestore에서 가져와서 HTML만들기
-                    var event_list = doc.data()['event_list']
-                    var event_end = doc.data()['event_end']
-                    var event_contents = ""
-                    // 모든 비동기 작업을 처리할 Promise 배열 생성
-                    var promises = event_end.reverse().map((item) => {
-                        return DB.collection('event').doc(item).get().then((doc1) => {
-                            if (doc1.exists) { //
-                                event_contents += `
-                                    <div id="event_tag" class="event_control" style="background-color: #f6f6f6;">
-                                        
-                                        <a href="/event/${item}" class="event_image">
-                                            <img src="${doc1.data()['img_link']}" alt="" width="100%">
-                                        </a>
-                                        <a href="/event/${item}" class="event_button">
-                                            <h1 class="event_title">${doc1.data()['title']}</h1>
-                                            <p>주최 : ${doc1.data()['host']}</p>
-                                        </a>
-                                    </div>`;
-                            } else {
-                                console.log("No such document!");
-                            }
-                        });
-                    });
-
-                    // 모든 Promise가 완료된 후에 storeContent 적용
-                    Promise.all(promises).then(() => {
-                        document.getElementById('event_tag_end').innerHTML = event_contents;
-                    });
-
-                } else {
-                    console.log("No such document!");
-                }
-            })
-            .catch((error) => {
-                console.log("Error getting document:", error);
-            });
-        }
-        
-        window.onload = openEndEvent();
         window.onload = openMediaContent();
 
         function NowEvent() {
