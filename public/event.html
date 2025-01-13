@@ -28,47 +28,48 @@
 
         // Firestore에서 정보 가져오기
         async function openMediaContent() {
-            const doc = await DB.collection('mediaLinks').doc('showEvent').get()
-            if (doc.exists) {
+            const response = await fetch("https://eventlistrequest-eno2n4pmqq-uc.a.run.app", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
+
+            const result = await response.json();
                 // Firestore에서 가져와서 HTML만들기
-                var event_list = doc.data()['event_list']
-                var event_end = doc.data()['event_end']
+                var event_list = result.eventNowDB
+                var event_end = result.eventEndDB
                 var event_contents = ""
                 var event_end_contents = ""
                 // 모든 비동기 작업을 처리할 Promise 배열 생성
                 
-                for (const eventID of event_list.reverse()) {
-                    const data = await DB.collection('event').doc(eventID).get()
-                    if (data.exists) {
-                        event_contents += `
+                for (const eventID of event_list) {
+                    event_contents += `
                             <div id="event_tag" class="event_control" style="background-color: #f6f6f6;">
                                 
-                                <a href="/event/${eventID}" class="event_image">
-                                    <img src="${data.data()['img_link']}" alt="" width="100%">
+                                <a href="/event/${eventID.key}" class="event_image">
+                                    <img src="${eventID.img}" alt="" width="100%">
                                 </a>
-                                <a href="/event/${eventID}" class="event_button">
-                                    <h1 class="event_title">${data.data()['title']}</h1>
-                                    <p>주최 : ${data.data()['host']}</p>
+                                <a href="/event/${eventID.key}" class="event_button">
+                                    <h1 class="event_title">${eventID.title}</h1>
+                                    <p>주최 : ${eventID.host}</p>
                                 </a>
                             </div>`;
-                    } else {console.log("No such document!")};
                 }
 
-                for (const eventID of event_end.reverse()) {
-                    const data = await DB.collection('event').doc(eventID).get()
-                    if (data.exists) {
+                for (const eventID of event_end) {
+                    
                         event_end_contents += `
                             <div id="event_tag" class="event_control" style="background-color: #f6f6f6;">
                                 
-                                <a href="/event/${eventID}" class="event_image">
-                                    <img src="${data.data()['img_link']}" alt="" width="100%">
+                                <a href="/event/${eventID.key}" class="event_image">
+                                    <img src="${eventID.img}" alt="" width="100%">
                                 </a>
-                                <a href="/event/${eventID}" class="event_button">
-                                    <h1 class="event_title">${data.data()['title']}</h1>
-                                    <p>주최 : ${data.data()['host']}</p>
+                                <a href="/event/${eventID.key}" class="event_button">
+                                    <h1 class="event_title">${eventID.title}</h1>
+                                    <p>주최 : ${eventID.host}</p>
                                 </a>
                             </div>`;
-                    } else {console.log("No such document!")};
                 }
 
                 document.getElementById('event_tag_now').innerHTML = event_contents;
@@ -78,7 +79,6 @@
                         <h2 class="event_select" id="now" style=" color: white; background-color: blueviolet;" onclick="NowEvent()">진행중 ( ${event_list.length} )</h2>
                         <h2 class="event_select" id="end" onclick="EndEvent()">종료 ( ${event_end.length} )</h2>
                     </div>`
-            } else {console.log("No such document!")};
         }
 
         window.onload = openMediaContent();
@@ -112,27 +112,27 @@
         <!-- <h2 class="logo-text black">아직 준비 중이에요!🥺</h2> -->
         <div id="event_list_now">
             <div style="margin: 8px; text-align: center; display: flex; ">
-                <h2 class="event_select" id="now" style=" color: white; background-color: blueviolet;">진행중 ( 519,961 )</h2>
-                <h2 class="event_select" id="end" onclick="openEndEvent()">종료 ( 22,561,009 )</h2>
+                <h2 class="event_select" id="now" style=" color: white; background-color: blueviolet;">진행중 ( 로딩 중 )</h2>
+                <h2 class="event_select" id="end" onclick="openEndEvent()">종료 ( 로딩 중 )</h2>
             </div>
         </div>
         <div id="event_tag_now">
-            <div class="event_control" style="background-color: #f6f6f6;">
+            <!-- <div class="event_control" style="background-color: #f6f6f6;">
                 <img class="event_image" src="https://mblogthumb-phinf.pstatic.net/MjAyNDA5MTRfMTg4/MDAxNzI2MjM5OTAwOTI2.85rhl9Vt7vHbHQ2Sn-rYtkPJ6IkTc92mTepjPulFH0sg.DDdLL8JsAxAHJbg2WkRoPgcc6_RcUCV_-LshrHGXCTwg.PNG/%25EC%25B6%2594%25EC%2584%259D.png?type=w966" alt="">
                 <a href="/event/chsck" style="margin-left: 8px;">
                     <h1 class="event_title">추석 기념 문화상품권 이벤트</h1>
                     <p>주최 : GSUGAR Ent.</p>
                 </a>
-            </div>
+            </div> -->
         </div>
         <div id="event_tag_end" style="display: none;">
-            <div class="event_control" style="background-color: #f6f6f6;">
+            <!-- <div class="event_control" style="background-color: #f6f6f6;">
                 <img class="event_image" src="https://mblogthumb-phinf.pstatic.net/MjAyNDA5MTRfMTg4/MDAxNzI2MjM5OTAwOTI2.85rhl9Vt7vHbHQ2Sn-rYtkPJ6IkTc92mTepjPulFH0sg.DDdLL8JsAxAHJbg2WkRoPgcc6_RcUCV_-LshrHGXCTwg.PNG/%25EC%25B6%2594%25EC%2584%259D.png?type=w966" alt="">
                 <a href="/event/chsck" style="margin-left: 8px;">
                     <h1 class="event_title">추석 기념 문화상품권 이벤트</h1>
                     <p>주최 : GSUGAR Ent.</p>
                 </a>
-            </div>
+            </div> -->
         </div>
 
 
