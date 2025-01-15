@@ -63,20 +63,29 @@
           optionsContainer.style.display = optionsContainer.style.display === 'block' ? 'none' : 'block';
         }
     
-        function selectOption(option) {
-            DB.collection('goods').doc(id1)
-            .get()
-            .then((doc) => {
-                document.getElementById('goodsname').textContent = doc.data()['name'] + ` (${doc.data()['option'][option]['name']})`;
-                document.getElementById('price').textContent = doc.data()['option'][option]['price'];
-                document.getElementById('toggleButton').textContent = `${doc.data()['option'][option]['name']} (${doc.data()['option'][option]['price']})`
-                document.getElementById('buy_button').onclick = function() {
-                    window.location.replace(doc.data()['option'][option]['linkconnect'], '_blank');
-                };
-            })
-            document.getElementById('optionsContainer').style.display = 'none';
-            
-        }
+    async function selectOption(option) {
+        const response = await fetch("https://mddetailrequest-eno2n4pmqq-uc.a.run.app", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ 
+                mdid: id1,
+            }),
+        });
+
+        const result = await response.json();
+        const doc = result.mdDB
+
+        document.getElementById('goodsname').textContent = doc.name + ` (${doc['option'][option]['name']})`;
+        document.getElementById('price').textContent = doc['option'][option]['price'];
+        document.getElementById('toggleButton').textContent = `${doc['option'][option]['name']} (${doc['option'][option]['price']})`
+        document.getElementById('buy_button').onclick = function() {
+            window.location.replace(doc['option'][option]['linkconnect'], '_blank');
+        };
+
+        document.getElementById('optionsContainer').style.display = 'none';
+    }
     
         // 외부 클릭 시 드롭다운 닫기
         window.addEventListener('click', function(event) {
@@ -87,22 +96,6 @@
         });
       </script>
     <script>
-        const firebaseConfig = {
-            apiKey: "AIzaSyCbg4hzNgHuHLPPf-p81tOR9NokHUkJEYU",
-            authDomain: "wav-page.firebaseapp.com",
-            projectId: "wav-page",
-            storageBucket: "wav-page.appspot.com",
-            messagingSenderId: "177402832992",
-            appId: "1:177402832992:web:f9e73201becffd901cfb05",
-            measurementId: "G-7LRKNDFK7B"
-        };
-        // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
-
-
-        // Initialize Cloud Firestore and get a reference to the service
-        const DB = firebase.firestore();
-
         var currentUrl = window.location.href;
         var id1_ready = currentUrl.substring(currentUrl.lastIndexOf('/') + 1);
         var id1 = id1_ready.substring(0, 10);
@@ -184,58 +177,61 @@
 
 
         // Firestore에서 링크 가져오기
-        function openMediaLink(id1) {
-            DB.collection('goods').doc(id1)
-              .get()
-              .then((doc) => {
-                  if (doc.exists) {
-                      // Firestore에서 가져온 링크를 새 창으로 열기
-                      window.location.replace(doc.data()['linkconnect'], '_blank');
-                  } else {
-                      console.log("No such document!");
-                  }
-              })
-              .catch((error) => {
-                  console.log("Error getting document:", error);
-              });
-        }
-            // Firestore에서 정보 가져오기
-        function openMediaContent() {
-        DB.collection('goods').doc(id1)
-            .get()
-            .then((doc) => {
-                if (doc.exists) {
-                    design_module(doc.data()['design_key'])
-                    // Firestore에서 가져온 링크를 새 창으로 열기
-                    document.getElementById('goodsname').textContent = doc.data()['name'];
-                    document.getElementById('description').innerHTML = doc.data()['description'];
-                    document.getElementById('price').textContent = doc.data()['price'];
-                    document.getElementById('goodsimage').src = `${doc.data()['img_link']}`;
-                    document.getElementById('extra_title').textContent = `${doc.data()['extra_title']}`;
-                    document.getElementById('extra_description').textContent = `${doc.data()['extra_description']}`;
-                    var extra_img = ""
-                    for (var i = 0; i < doc.data()['extra_img_link'].length; i++) {
-                        extra_img += `<img src="${doc.data()['extra_img_link'][i]}" class="extra_img">`
-                    }
-                    document.getElementById('extra_description_img').innerHTML = extra_img;
+    async function openMediaLink(id1) {
+        const response = await fetch("https://mddetailrequest-eno2n4pmqq-uc.a.run.app", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ 
+                mdid: id1,
+            }),
+        });
 
-                    if (doc.data()['option']) {
-                        var option_list = ""
-                        for (var i = 0; i < doc.data()['option'].length; i++) {
-                            option_list += `<div class="option" onclick="selectOption(${i})">${doc.data()['option'][i]['name']} (${doc.data()['option'][i]['price']})</div>`
-                        }
-                        document.getElementById('optionsContainer').innerHTML = option_list
-                    } else {
-                        document.getElementById('option').style.display = "none"
-                    }
-                } else {
-                    console.log("No such document!");
-                }
-            })
-            .catch((error) => {
-                console.log("Error getting document:", error);
-            });
+        const result = await response.json();
+        const doc = result.mdDB
+        // Firestore에서 가져온 링크를 새 창으로 열기
+        window.location.replace(doc['linkconnect'], '_blank');
+    }
+            // Firestore에서 정보 가져오기
+    async function openMediaContent() {
+        const response = await fetch("https://mddetailrequest-eno2n4pmqq-uc.a.run.app", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ 
+                mdid: id1,
+            }),
+        });
+
+        const result = await response.json();
+        const doc = result.mdDB
+        
+        design_module(doc.design_key)
+        // Firestore에서 가져온 링크를 새 창으로 열기
+        document.getElementById('goodsname').textContent = doc.name;
+        document.getElementById('description').innerHTML = doc.description;
+        document.getElementById('price').textContent = doc.price;
+        document.getElementById('goodsimage').src = `${doc.img_link}`;
+        document.getElementById('extra_title').textContent = `${doc.extra_title}`;
+        document.getElementById('extra_description').textContent = `${doc.extra_description}`;
+        var extra_img = ""
+        for (var i = 0; i < doc.extra_img_link.length; i++) {
+            extra_img += `<img src="${doc.extra_img_link[i]}" class="extra_img">`
         }
+        document.getElementById('extra_description_img').innerHTML = extra_img;
+
+        if (doc.option) {
+            var option_list = ""
+            for (var i = 0; i < doc.option.length; i++) {
+                option_list += `<div class="option" onclick="selectOption(${i})">${doc.option[i]['name']} (${doc['option'][i]['price']})</div>`
+            }
+            document.getElementById('optionsContainer').innerHTML = option_list
+        } else {
+            document.getElementById('option').style.display = "none"
+        }
+    }
         // window.onload = openMediaLink(instagram_error);
         // window.onload = openMediaLink(id1);
         window.onload = openMediaContent(id1);

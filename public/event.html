@@ -8,24 +8,7 @@
     <link rel="stylesheet" href="style.css">
     <link rel="script" href="script.js">
     <link rel="icon" href="favicon.ico">
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
     <script>
-        const firebaseConfig = {
-            apiKey: "AIzaSyCbg4hzNgHuHLPPf-p81tOR9NokHUkJEYU",
-            authDomain: "wav-page.firebaseapp.com",
-            projectId: "wav-page",
-            storageBucket: "wav-page.appspot.com",
-            messagingSenderId: "177402832992",
-            appId: "1:177402832992:web:f9e73201becffd901cfb05",
-            measurementId: "G-7LRKNDFK7B"
-        };
-        // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
-
-        // Initialize Cloud Firestore and get a reference to the service
-        const DB = firebase.firestore();
-
         // Firestore에서 정보 가져오기
         async function openMediaContent() {
             const response = await fetch("https://eventlistrequest-eno2n4pmqq-uc.a.run.app", {
@@ -36,49 +19,46 @@
             });
 
             const result = await response.json();
-                // Firestore에서 가져와서 HTML만들기
-                var event_list = result.eventNowDB
-                var event_end = result.eventEndDB
-                var event_contents = ""
-                var event_end_contents = ""
-                // 모든 비동기 작업을 처리할 Promise 배열 생성
                 
-                for (const eventID of event_list) {
-                    event_contents += `
-                            <div id="event_tag" class="event_control" style="background-color: #f6f6f6;">
-                                
-                                <a href="/event/${eventID.key}" class="event_image">
-                                    <img src="${eventID.img}" alt="" width="100%">
-                                </a>
-                                <a href="/event/${eventID.key}" class="event_button">
-                                    <h1 class="event_title">${eventID.title}</h1>
-                                    <p>주최 : ${eventID.host}</p>
-                                </a>
-                            </div>`;
-                }
+            // Firestore에서 가져와서 HTML만들기
+            var event_list = result.eventNowDB
+            var event_end = result.eventEndDB
+            var event_contents = ""
+            var event_end_contents = ""
+                
+            for (const eventID of event_list) {
+                event_contents += `
+                    <div id="event_tag" class="event_control" style="background-color: #f6f6f6;">           
+                        <a href="/event/${eventID.key}" class="event_image">
+                            <img src="${eventID.img}" alt="" width="100%">
+                        </a>
+                        <a href="/event/${eventID.key}" class="event_button">
+                            <h1 class="event_title">${eventID.title}</h1>
+                            <p>주최 : ${eventID.host}</p>
+                        </a>
+                    </div>`;
+            }
 
-                for (const eventID of event_end) {
-                    
-                        event_end_contents += `
-                            <div id="event_tag" class="event_control" style="background-color: #f6f6f6;">
-                                
-                                <a href="/event/${eventID.key}" class="event_image">
-                                    <img src="${eventID.img}" alt="" width="100%">
-                                </a>
-                                <a href="/event/${eventID.key}" class="event_button">
-                                    <h1 class="event_title">${eventID.title}</h1>
-                                    <p>주최 : ${eventID.host}</p>
-                                </a>
-                            </div>`;
-                }
+            for (const eventID of event_end) {        
+                event_end_contents += `
+                    <div id="event_tag" class="event_control" style="background-color: #f6f6f6;">                        
+                        <a href="/event/${eventID.key}" class="event_image">
+                            <img src="${eventID.img}" alt="" width="100%">
+                        </a>
+                        <a href="/event/${eventID.key}" class="event_button">
+                            <h1 class="event_title">${eventID.title}</h1>
+                            <p>주최 : ${eventID.host}</p>
+                        </a>
+                    </div>`;
+            }
 
-                document.getElementById('event_tag_now').innerHTML = event_contents;
-                document.getElementById('event_tag_end').innerHTML = event_end_contents;
-                document.getElementById('event_list_now').innerHTML = `
-                    <div style="margin: 8px; text-align: center; display: flex; ">
-                        <h2 class="event_select" id="now" style=" color: white; background-color: blueviolet;" onclick="NowEvent()">진행중 ( ${event_list.length} )</h2>
-                        <h2 class="event_select" id="end" onclick="EndEvent()">종료 ( ${event_end.length} )</h2>
-                    </div>`
+            document.getElementById('event_tag_now').innerHTML = event_contents;
+            document.getElementById('event_tag_end').innerHTML = event_end_contents;
+            document.getElementById('event_list_now').innerHTML = `
+                <div style="margin: 8px; text-align: center; display: flex; ">
+                    <h2 class="event_select" id="now" style=" color: white; background-color: blueviolet;" onclick="NowEvent()">진행중 ( ${event_list.length} )</h2>
+                    <h2 class="event_select" id="end" onclick="EndEvent()">종료 ( ${event_end.length} )</h2>
+                </div>`
         }
 
         window.onload = openMediaContent();
@@ -109,7 +89,7 @@
         <a href="mypage" class="whiteNpadding">마이페이지<br>MyPage</a>
     </div>
     <div id="store">
-        <!-- <h2 class="logo-text black">아직 준비 중이에요!🥺</h2> -->
+        
         <div id="event_list_now">
             <div style="margin: 8px; text-align: center; display: flex; ">
                 <h2 class="event_select" id="now" style=" color: white; background-color: blueviolet;">진행중 ( 로딩 중 )</h2>
