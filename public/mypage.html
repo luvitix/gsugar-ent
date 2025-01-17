@@ -38,41 +38,35 @@
 
         // Firestore에서 정보 가져오기
         async function infoSearching(id1, id2) {
-            var doc = await DB.collection('ticket').doc('userlist').get();
-            var userlist = doc.data()['userlist']
-            if (doc.exists) {
-                // 데이터 획득
-                if (userlist.includes(id1) == true) {
-                    DB.collection('ticket').doc(id1).get().then((doc1) => {
-                    document.getElementById('nickname').textContent = `${id1}님 | @${doc1.data()['insta_id']}님`
-                    document.getElementById('ticket').textContent = `보유한 티켓 : ${doc1.data()['ticket']}`
-                    });
-                } else if (id1 == "" || id2.length > 0) {
-                    const insta_id_list = []
-                    // 모든 비동기 작업을 처리하기 위한 배열
-                    const promises = userlist.map(async (user) => {
-                        const doc2 = await DB.collection('ticket').doc(user).get();
-                        if (doc2.exists) {
-                            insta_id_list.push(doc2.data()['insta_id']);
-                        }
-                    });
+            const response = await fetch("https://temporarilyuser-eno2n4pmqq-uc.a.run.app", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ 
+                    id1: id1,
+                    id2: id2
+                }),
+            });
 
-                    // 모든 비동기 작업이 완료될 때까지 기다림
-                    await Promise.all(promises);
-                    if (insta_id_list.includes(id2) == true) {
-                        DB.collection('ticket').doc(userlist[insta_id_list.indexOf(id2)]).get().then((doc3) => {
-                        document.getElementById('nickname').textContent = `${userlist[insta_id_list.indexOf(id2)]}님 | ${doc3.data()['insta_id']}님`
-                        document.getElementById('ticket').textContent = `보유한 티켓 : ${doc3.data()['ticket']}`
-                        });
-                    } else {
-                        document.getElementById('nickname').textContent = `${id2}님은 참여 기록이 없어요`
-                        document.getElementById('ticket').textContent = `보유한 티켓 : 0`
-                    }
+            const result = await response.json();
+            const userlist = result.user.userlist
+            const userdoc = result.mypage
+
+                // 데이터 획득
+                if (id1 !== "" && userdoc !== "없음") {
+                    document.getElementById('nickname').textContent = `${id1}님 | @${userdoc['insta_id']}님`
+                    document.getElementById('ticket').textContent = `보유한 티켓 : ${userdoc['ticket']}`
+                    
+                } else if (id1 == "" || id2.length > 0) {
+
+                    document.getElementById('nickname').textContent = `${id2}님`
+                    document.getElementById('ticket').textContent = `보유한 티켓 : ${userdoc['ticket']}`
+
                 } else {
                     document.getElementById('nickname').textContent = `${id1}님은 참여 기록이 없어요`
                     document.getElementById('ticket').textContent = `보유한 티켓 : 0`
                 }
-            }
                 //     // 모든 비동기 작업을 처리할 Promise 배열 생성
                 //     var promises = goodslist.map((item) => {
                 //         return DB.collection('goods').doc(item).get().then((doc1) => {

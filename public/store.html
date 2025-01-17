@@ -8,62 +8,35 @@
     <link rel="stylesheet" href="style.css">
     <link rel="script" href="script.js">
     <link rel="icon" href="favicon.ico">
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
     <script>
-        const firebaseConfig = {
-            apiKey: "AIzaSyCbg4hzNgHuHLPPf-p81tOR9NokHUkJEYU",
-            authDomain: "wav-page.firebaseapp.com",
-            projectId: "wav-page",
-            storageBucket: "wav-page.appspot.com",
-            messagingSenderId: "177402832992",
-            appId: "1:177402832992:web:f9e73201becffd901cfb05",
-            measurementId: "G-7LRKNDFK7B"
-        };
-        // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
 
-
-        // Initialize Cloud Firestore and get a reference to the service
-        const DB = firebase.firestore();
-
-        // Firestore에서 정보 가져오기
-        function openMediaContent() {
-            DB.collection('goods').doc('goodslist').get().then((doc) => {
-                if (doc.exists) {
-                    // Firestore에서 가져와서 HTML만들기
-                    var goodslist = doc.data()['list']
-                    var storeContent = ""
-                    // 모든 비동기 작업을 처리할 Promise 배열 생성
-                    var promises = goodslist.reverse().map((item) => {
-                        return DB.collection('goods').doc(item).get().then((doc1) => {
-                            if (doc1.exists) {
-                                storeContent += `
-                                    <div><a href="${item}">
-                                        <img src="${doc1.data()['img_link']}" alt="" width="100%">
-                                        <h1 class="goods-title black">${doc1.data()['name']}</h1>
-                                        <p class="goods-content black">${doc1.data()['description']}<br>티켓 ×${doc1.data()['ticket']} 지급</p>
-                                        <h2 class="goods-price black">${doc1.data()['price']}</h2>
-                                    </a></div>`;
-                            } else {
-                                console.log("No such document!");
-                            }
-                        });
-                    });
-
-                    // 모든 Promise가 완료된 후에 storeContent 적용
-                    Promise.all(promises).then(() => {
-                        document.getElementById('storeContent').innerHTML = storeContent;
-                    });
-
-                } else {
-                    console.log("No such document!");
-                }
-            })
-            .catch((error) => {
-                console.log("Error getting document:", error);
-            });
+    async function openMediaContent() {
+        const response = await fetch("https://mdlistrequest-eno2n4pmqq-uc.a.run.app", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
+        const result = await response.json();
+                
+        // Firestore에서 가져와서 HTML만들기
+        var md_list = result.mdDB
+        var storeContent = ""
+        console.log(result.mdDB)
+        
+        for (const mdID of result.mdDB) {
+            storeContent += `
+                <div><a href="${mdID.key}">
+                    <img src="${mdID.img}" alt="" width="100%">
+                    <h1 class="goods-title black">${mdID.name}</h1>
+                    <p class="goods-content black">${mdID.description}<br>티켓 ×${mdID.ticket} 지급</p>
+                    <h2 class="goods-price black">${mdID.price}</h2>
+                </a></div>`;
         }
+
+        document.getElementById("storeContent").innerHTML = storeContent
+    }
+
         function openMyPage() {
             window.location.replace("login.html")
         }
@@ -86,11 +59,11 @@
         <div><button onclick="openMyPage()" style="float: right; font-size: 20px; padding: 8px;">LOGIN</button></div>
         <h2 class="logo-text black">GOODS</h2>
         <div id="storeContent" class="goods-grid black" style="margin-top: 10px;">
-            <a href="test">
+            <!-- <a href="test">
                 <img src="esset/ticket.jpg" alt="" width="100%">
                 <h1 id="goodsname" class="vision-text">굳즈 이름</h1>
                 <h2 id="price">가격</h2>
-            </a>
+            </a> -->
         </div>
     </div>
 
