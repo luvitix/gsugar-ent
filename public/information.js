@@ -62,19 +62,31 @@ async function openMediaLink2(key) {
     document.getElementById("project").style.display = 'none'
     document.getElementById("capyright").style.display = 'none'
     // loadImage('testbed_album_1.png', 'albumImage');
+
+    const response = await fetch("https://storerequest-eno2n4pmqq-uc.a.run.app", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ 
+            key: key,
+        }),
+    });
+
+    const result = await response.json();
             
-    const doc = await DB.collection('md').doc(key).get();
+    const doc = result.mdDoc
         // document.getElementById('test_md').textContent = doc.data()['test']['title']
         // document.getElementById('test_md_price').textContent = doc.data()['test']['price']
         // loadImage(doc.data()['test']['img_link'], 'test_md_img');
-    let storeContentArray = new Array(doc.data()['list'].length);
+    let storeContentArray = new Array(doc['list'].length);
     // 모든 비동기 작업을 처리할 Promise 배열 생성
-    var promises = doc.data()['list'].reverse().map(async (item, index) => {
-        if (doc.data()[item]['design_key'] == "full") {
-            let content = await sectionDesignFullsize(doc.data()[item], item);
+    var promises = doc['list'].reverse().map(async (item, index) => {
+        if (doc[item]['design_key'] == "full") {
+            let content = await sectionDesignFullsize(doc[item], item);
             storeContentArray[index] = content;
-        } else if (doc.data()[item]['design_key'] == "auto") {
-            let content = await sectionDesignAutosize(doc.data()[item], item);
+        } else if (doc[item]['design_key'] == "auto") {
+            let content = await sectionDesignAutosize(doc[item], item);
             storeContentArray[index] = content;
         }
     });
@@ -103,8 +115,18 @@ async function themeChange(key) {
     Scroll_Position = 0
     open_theme = key
     theme_yn = true
-    const doc = await DB.collection('ArtistLounge').doc(key).get()
-    const data = doc.data()
+    const response = await fetch("https://artistloungerequest-eno2n4pmqq-uc.a.run.app", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ 
+            key: key,
+        }),
+    });
+
+    const result = await response.json();
+    const data = result.ALDoc
     document.documentElement.style.setProperty('--main-color', data.color.maincolor);
     document.documentElement.style.setProperty('--selected-color', data.color.selectedcolor);
     document.documentElement.style.setProperty('--un-bg', data.color.unselected_BGcolor);
@@ -117,8 +139,18 @@ async function themeChange(key) {
 }
 
 async function changeLounge() {
-    const doc = await DB.collection('ArtistLounge').doc(open_lounge).get()
-    const data = doc.data()
+    const response = await fetch("https://artistloungerequest-eno2n4pmqq-uc.a.run.app", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ 
+            key: open_lounge,
+        }),
+    });
+
+    const result = await response.json();
+    const data = result.ALDoc
     
     if (theme_yn == true) {
         themeChange(open_theme)
@@ -351,14 +383,26 @@ function closeSection() {
 
 async function productSection(key) {
     open_detail['Product_section'] = key
-    const doc = await DB.collection('md').doc(open_lounge).get();
+    const response = await fetch("https://storerequest-eno2n4pmqq-uc.a.run.app", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ 
+            key: open_lounge,
+        }),
+    });
+
+    const result = await response.json();
+            
+    const doc = result.mdDoc
     const storageRef = STORAGE.ref();
-    const imageRef = storageRef.child(doc.data()[key]['img_link']);
+    const imageRef = storageRef.child(doc[key]['img_link']);
     document.getElementById('goodsimage').src = await imageRef.getDownloadURL()
-    document.getElementById('goods-title').textContent = doc.data()[key]['title']
-    document.getElementById('Product_description').textContent = doc.data()[key]['description']
-    document.getElementById('Product_price').textContent = doc.data()[key]['price']
-    document.getElementById('extra_description').innerText = doc.data()[key]['extra_description']
+    document.getElementById('goods-title').textContent = doc[key]['title']
+    document.getElementById('Product_description').textContent = doc[key]['description']
+    document.getElementById('Product_price').textContent = doc[key]['price']
+    document.getElementById('extra_description').innerText = doc[key]['extra_description']
 }
 
 // 이미지 클릭 시 팝업 열기
@@ -388,9 +432,20 @@ function closePopup() {
 }
 
 async function Event_load() {
-    const doc = await DB.collection('test').doc('event').get();
-    document.getElementById("nowEvent").textContent = `진행중 ( ${doc.data()['list'].length} )`
-    document.getElementById("endEvent").textContent = `종료 ( ${doc.data()['end_list'].length} )`
+    const response = await fetch("https://eventrequest-eno2n4pmqq-uc.a.run.app", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ 
+        }),
+    });
+
+    const result = await response.json();
+            
+    const doc = result.EVDoc
+    document.getElementById("nowEvent").textContent = `진행중 ( ${doc['list'].length} )`
+    document.getElementById("endEvent").textContent = `종료 ( ${doc['end_list'].length} )`
 }
 
 

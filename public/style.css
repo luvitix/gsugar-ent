@@ -57,21 +57,34 @@ input {
 }
 
 #var {
-    background-color: rgb(14, 18, 32);
+    /* background-color: rgb(14, 18, 32); */
+    height: 10.75vh;
     margin: -8px;
     padding: 1px;
     text-align: center;
 }
 
+#main_var {
+    margin-left: 20px;
+}
+
+ul, ol, li	{ list-style:none; }
+
+li:hover { font-size: 18px; border-bottom: 1px solid white; cursor: pointer; }
+
+.select_bottom_line {
+    border-bottom: 1px solid white;
+}
+
 #contact {
-    background-color: rgb(14, 18, 32);
+    background-color: white;
     margin: -8px;
     padding: 50px;
     text-align: center;
 }
 
 #media {
-    background-color: rgb(36, 26, 100);
+    background-color: rgb(62, 0, 144);
     margin: -8px;
     margin-top: -4px;
     padding: 50px;
@@ -114,7 +127,7 @@ input {
 
 
 .logo-text {
-    font-size: clamp(10px, 5vh, 46.5px);
+    font-size: clamp(10px, 4vh, 46.5px);
 }
 
 .white {
@@ -318,6 +331,14 @@ input {
     border-radius: 15px;
 }
 
+#pc_controler {
+    list-style: none; align-items: center; margin: -13px; display: flex;
+}
+#mobile_controler {
+    display: none;
+}
+
+
 @media (max-width: 900px) {
     .vision-grid {
         grid-template-columns: repeat(1, 1fr);
@@ -430,6 +451,36 @@ input {
         width: 100%;
         text-align: center;
     }
+    #pc_controler {
+        display: none;
+        flex-direction: column;
+        padding: 0;
+        margin: 0;
+        margin-top: 25px;
+        /* font-size: 4vh; */
+    }
+    #mobile_controler {
+        display: flex;
+    }
+    #main_var {
+        /* padding: 0; */
+        width: 100%;
+        margin-left: 9%;
+        text-align: center;
+        align-items: center;
+        justify-content: center;
+        align-content: center;
+    }
+    #var {
+        flex-direction: column;
+    }
+    #main_var_box {
+        width: 100%;
+        height: 100%;
+    }
+    #mobile_nav {
+        padding: 0;
+    }
 }
 
 @media (min-width: 901px) {
@@ -438,5 +489,8 @@ input {
     }
     .image {
         content: url('esset/space2.webp'); /* 큰 이미지로 교체 */
+    }
+    #mobile_nav {
+        display: none;
     }
 }

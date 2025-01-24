@@ -8,107 +8,175 @@
     <link rel="stylesheet" href="style.css">
     <link rel="script" href="script.js">
     <link rel="icon" href="favicon.ico">
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js"></script> <!-- Firebase Storage 추가 -->
     <script>
-        const firebaseConfig = {
-            apiKey: "AIzaSyCbg4hzNgHuHLPPf-p81tOR9NokHUkJEYU",
-            authDomain: "wav-page.firebaseapp.com",
-            projectId: "wav-page",
-            storageBucket: "wav-page.appspot.com",
-            messagingSenderId: "177402832992",
-            appId: "1:177402832992:web:f9e73201becffd901cfb05",
-            measurementId: "G-7LRKNDFK7B"
-        };
-        // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
 
+    let result
 
-    // Initialize Cloud Firestore and get a reference to the service
-    const DB = firebase.firestore();
-    const STORAGE = firebase.storage();
+    async function DBload() {
+        const response = await fetch("https://mainpage-eno2n4pmqq-uc.a.run.app", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
+        
+        result = await response.json();
+    }
 
     // Firestore에서 career링크 가져오기
     async function openCareerLink() {
-        const doc = await DB.collection('mediaLinks').doc('careerButtonLink').get()
-        if (doc.exists) {
-            // Firestore에서 가져온 링크를 새 창으로 열기
-            window.location.replace(doc.data()['link'], '_blank');
-        } else {console.log("No such document!")}
-    }
-
-    async function openCareerContent() {
-        const doc = await DB.collection('mediaLinks').doc('careerButtonLink').get()
-        if (doc.exists) {
-            // Firestore에서 가져온 링크를 새 창으로 열기
-            document.getElementById('career_img').src = doc.data()['image'];
-        } else {console.log("No such document!")}
+        const doc = result.career
+        // Firestore에서 가져온 링크를 새 창으로 열기
+        window.location.replace(doc['link'], '_blank');
     }
 
     // Firestore에서 링크 가져오기
     async function openMediaLink() {
-        const doc = await DB.collection('mediaLinks').doc('mediaButtonLink').get()
-        if (doc.exists) {
-            // Firestore에서 가져온 링크를 새 창으로 열기
-            window.location.replace(doc.data()['link'], '_blank');
-        } else {console.log("No such document!")}
+        const doc = result.media
+        // Firestore에서 가져온 링크를 새 창으로 열기
+        window.location.replace(doc['link'], '_blank');
     }
 
     // Firestore에서 정보 가져오기
     async function openMediaContent() {
-        const doc = await DB.collection('mediaLinks').doc('mediaButtonLink').get()
-        if (doc.exists) {
-            // Firestore에서 가져와서 HTML만들기
-            var medialist = doc.data()['list']
-            var storeContent = ""
-            // 모든 비동기 작업을 처리할 Promise 배열 생성
-            for (const item of medialist.reverse()) {
-                const doc1 = await DB.collection('media').doc(item).get()
-                if (doc1.exists) {
-                    storeContent += `
-                    <div class="white">
-                        <img id="artimage" src="${doc1.data()['image']}" alt="" width="100%">
-                        <h1 id="arti" class="vision-text">${doc1.data()['media']}</h1>
-                        <div>
-                            <a href=${doc1.data()['link']}><button style="border-style: solid; border-color: aliceblue; border-radius: 50px; font-size: 20px; padding: 8px;">아티클 보러가기</button></a>
-                        </div>
-                    </div>`;
-                } else {console.log("No such document!")}
-            }
 
-            document.getElementsByClassName('news-grid')[1].innerHTML = storeContent
+        const response = await fetch("https://mainpage-eno2n4pmqq-uc.a.run.app", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
+        
+        const result = await response.json();
 
-        } else {console.log("No such document!")}
+        const doc = result.career
+        document.getElementById('career_img').src = doc['image'];
+
+        var storeContent = ""
+        // 모든 비동기 작업을 처리할 Promise 배열 생성
+        for (const item of result.mediaContent) {
+            storeContent += `
+            <div class="white">
+                <img id="artimage" src="${item['image']}" alt="" width="100%">
+                <h3 id="arti" class="vision-text">${item['media']}</h3>
+                <div>
+                    <a href=${item['link']}><button style="border-style: solid; border-color: aliceblue; border-radius: 50px; font-size: 20px; padding: 8px;">아티클 보러가기</button></a>
+                </div>
+            </div>`;
+        }
+
+        document.getElementsByClassName('news-grid')[1].innerHTML = storeContent
+
+        var control = result.goods
+
+        document.getElementById('goods_description1').textContent = control['description'][0];
+        document.getElementById('goods_description2').textContent = control['description'][1];
+        document.getElementById('goods_img1').src = control['img_link'][0];
+        document.getElementById('goods_img2').src = control['img_link'][1];
     }
-      
-      // Firestore에서 링크 가져오기
-    async function openGoodsContent() {
-        var control = await DB.collection('mediaLinks').doc('showgoods').get()
-        if (control.exists) {
-            document.getElementById('goods_description1').textContent = control.data()['description'][0];
-            document.getElementById('goods_description2').textContent = control.data()['description'][1];
-            document.getElementById('goods_img1').src = control.data()['img_link'][0];
-            document.getElementById('goods_img2').src = control.data()['img_link'][1];
-        } else {console.log("No such document!")}
+        
+    // }
+    window.onload = function() {
+        DBload(); // 가장 먼저 실행
+        openMediaContent();
+    };
+
+    // 페이지 로드 시 URL에 '?community'가 포함되어 있는지 확인
+    window.addEventListener('load', function() {
+        // 현재 URL 확인
+        const currentUrl = window.location.href;
+
+        console.log(currentUrl)
+
+        // URL에 '?community'가 포함되어 있으면 showSection 호출
+        if (currentUrl.includes('?project')) {
+            const projectLi = document.querySelectorAll('#pc_controler li')[1];
+            click_main_var(projectLi, 1)
+        }
+    });
+
+    function click_main_var(clickedElement, key) {
+        // 모든 <li> 태그의 select_bottom_line 클래스 제거
+        document.querySelectorAll('#pc_controler li').forEach((li) => {
+            li.classList.remove('select_bottom_line');
+        });
+        console.log(clickedElement)
+        // 클릭된 <li> 요소에 select_bottom_line 클래스 추가
+        clickedElement.classList.add('select_bottom_line');
+
+        document.getElementById('career').style.display = "";
+        document.getElementById('contact').style.display = "";
+        document.getElementById('capyright').style.display = "";
+        
+        if (key == 0) {
+            document.getElementById('main').style.display = "";
+            document.getElementById('project').style.display = "none";
+            document.getElementById('store').style.display = "";
+            document.getElementById('media').style.display = "";
+        } else if (key == 1) {
+            document.getElementById('main').style.display = "none";
+            document.getElementById('project').style.display = "";
+            document.getElementById('store').style.display = "none";
+            document.getElementById('media').style.display = "none";
+        } else if (key == 2) {
+            window.location.href = '/store';
+        } else if (key == 3) {
+            document.getElementById('main').style.display = "none";
+            document.getElementById('project').style.display = "none";
+            document.getElementById('store').style.display = "none";
+            document.getElementById('media').style.display = "none";
+        } else if (key == 4) {
+            window.location.href = '/mypage';
+        }
+
+        if (window.innerWidth <= 900) {
+            document.getElementById('pc_controler').style.display = ""
+        } else {
+            console.log("넌 위에 있잖아")
+        }
     }
 
-    window.onload = openMediaContent();
-    window.onload = openGoodsContent();
-    window.onload = openCareerContent();
+    // 디바이스 크기가 변경될 때도 동작하도록 추가
+    function test() {
+        if (window.innerWidth <= 900) {
+            document.getElementById('pc_controler').style.display = "flex"
+            document.getElementById('main').style.display = "none";
+            document.getElementById('project').style.display = "none";
+            document.getElementById('store').style.display = "none";
+            document.getElementById('media').style.display = "none";
+            document.getElementById('career').style.display = "none";
+            document.getElementById('contact').style.display = "none";
+            document.getElementById('capyright').style.display = "none";
+        } else {
+            console.log("넌 위에 있잖아")
+        }
+    };
 
     </script>
+    
 </head>
 <body>
-    <div id="var">
-        <h1 class="logo-text white">GSUGAR Ent.</h1>
+    <div id="var" style="display: flex; margin-bottom: 5px;">
+        <!-- <img src="esset/newsugar.png" alt="" height="100%"> -->
+        <div id="main_var_box" style="display: flex;">
+            <h1 id="main_var" class="logo-text white">GSUGAR Ent.</h1>
+            <button id="mobile_nav" class="black" style="width: 10%; font-size: 24px; background-color: white;" onclick="test()">⋮</button>
+        </div>
+ 
+        <ul id="pc_controler">
+            <li style="margin: 13px;" class="white select_bottom_line" onclick="click_main_var(this, 0)">About</li>
+            <li style="margin: 13px;" class="white" onclick="click_main_var(this, 1)">Project</li>
+            <li style="margin: 13px;" class="white" onclick="click_main_var(this, 2)">Store</li>
+            <li style="margin: 13px;" class="white" onclick="click_main_var(this, 3)">Audition</li>
+            <li style="margin: 13px;" class="white" onclick="click_main_var(this, 4)">MyPage</li>
+        </ul>
     </div>
 
     <!-- App Section (Placeholder) -->
 
 
-    <div class=" white" >
-        <p style="border-style: solid; border-color: black; border-left: none; border-right: none;"></p>
+    <div id="main" class=" white">
+        <!-- <p style="border-style: solid; border-color: black; border-left: none; border-right: none;"></p> -->
         <!-- 이 부분이 이미지와 텍스트를 포함하는 섹션입니다. -->
         <div class="image-container" style="position: relative; text-align: center;">
             <img src="esset/cosmic.jpg" alt="" class="image" style="width: 100%; height: auto; filter: brightness(50%);">
@@ -121,12 +189,14 @@
     </div>
 
     <!-- Media Section -->
-    <div id="project">
+    <div id="project" style="display: none;">
         <h2 class="logo-text white">PROJECT_1</h2>
 
         <div id="app" class="vision-grid" style="margin-top: 10px;">
         
-            <img src="esset/image.png" alt="" width="100%">
+            <div style="width: 100%;">
+                <img src="esset/image.png" alt="" width="85%" style="text-align: center; justify-content: center;">
+            </div>
             <div class="white vision-left">
                 <h1 class="vision-text">K-POP을 바꿀 팬덤 플랫폼</h1>
                 <div style=" margin-top: 40px;">
@@ -159,9 +229,10 @@
         </div>
     </div>
 
+
+
     <div id="media">
-        <h2 class="logo-text white">MEDIA</h2>
-    
+        <h2 class="logo-text white" style="color: white;">Media</h2>
         <div id="app" class="news-grid" style="margin-top: 10px;">
             <div class="white">
                 <img id="artimage" src="esset/pr_image.png" alt="" width="100%">
@@ -175,11 +246,12 @@
 
     <!-- Career Section -->
     <div id="career">
-        <h2 class="logo-text white">PARTNERS</h2>
-        <p class="white">GSUGAR ENTERTAINMENT의 팬 플랫폼을 직접 만들어보세요.</p>
+        <h2 class="logo-text white">Partners</h2>
+        <p class="white">GSUGAR ENTERTAINMENT와 함께 K-POP 2.0을 향해!</p>
         <div id="app" class="vision-grid" style="margin-top: 10px;">
-            
-            <img id="career_img" src="esset/pr_image.png" alt="" width="100%">
+            <div style="width: 100%;">
+                <img id="career_img" src="esset/pr_image.png" alt="" width="85%">
+            </div>
             <div class="white vision-left">
                 <h1 id="arti" class="vision-text">GSUAGR Partners 모집 중</h1>
                 <!-- <p>우대 사항1 : 다양한 아이돌 덕질 경험이 있는 분<br>우대 사항2 : 웹/앱 등 IT개발 경험이 있는 분</p> -->
@@ -192,12 +264,17 @@
 
     <!-- Contact Us Section (Unchanged) -->
     <div id="contact">
-        <h1 class="logo-text white">CONTACT US</h1>
-        <span class="white"><strong>문의 </strong></span><span class="gold"> gsugar0fficial@gmail.com</span><br>
+        <h1 class="logo-text black">Contact to GSUGAR Ent</h1>
+        <img id="mailbox" src="esset/mailbox.webp" alt="메일로고" width="120px"><br>
+        <span class="white" style="color: black;"><strong>Email : </strong></span><span class="white" style="color: blueviolet;"> gsugar0fficial@gmail.com</span><br>
     </div>
     <!-- Career Section -->
     <div id="capyright">
-        <p class="white">© GSUGAR ENTERTAINMENT</p>
+        <p class="white">GSUGAR ENTERTAINMENT</p>
+        <p class="white">폰트 정보
+            <a href="https://cactus.tistory.com/306" class="white">[Pretendard]</a>
+            <a href="https://sun.fo/suit/" class="white">[SUIT]</a>
+        </p>
     </div>
 </body>
 <script>

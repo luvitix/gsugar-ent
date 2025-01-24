@@ -95,14 +95,40 @@
 
         }
 
+        function click_main_var(clickedElement, key) {
+            // 모든 <li> 태그의 select_bottom_line 클래스 제거
+            document.querySelectorAll('#pc_controler li').forEach((li) => {
+                li.classList.remove('select_bottom_line');
+            });
+            console.log(clickedElement)
+            // 클릭된 <li> 요소에 select_bottom_line 클래스 추가
+            clickedElement.classList.add('select_bottom_line');
+            
+            if (key == 0) {
+                window.location.href = '../'
+            } else if (key == 1) {
+                window.location.href = '../?project'
+            } else if (key == 2) {
+                window.location.href = '/store';
+            }
+        }
+
     </script>
 </head>
 <body>
-    <div id="var">
-        <a href="store.html"><h1 class="logo-text white">MY PAGE</h1></a>
+    <div id="var" style="display: flex;">
+        <!-- <img src="esset/newsugar.png" alt="" height="100%"> -->
+        <h1 class="logo-text white" style="margin-left: 20px;">GSUGAR Ent.</h1>
+        <ul id="pc_controler" style="list-style: none; align-items: center; margin: -13px;">
+            <li style="margin: 13px;" class="white" onclick="click_main_var(this, 0)">About</li>
+            <li style="margin: 13px;" class="white" onclick="click_main_var(this, 1)">Project</li>
+            <li style="margin: 13px;" class="white" onclick="click_main_var(this, 2)">Store</li>
+            <li style="margin: 13px;" class="white" onclick="click_main_var(this, 3)">Audition</li>
+            <li style="margin: 13px;" class="white select_bottom_line" onclick="click_main_var(this, 4)">MyPage</li>
+        </ul>
     </div>
 
-    <div style="position: fixed; background-color: black; color: white; bottom: 0; width: 100%; margin: -8px; text-align: center; display: flex; height: 70px;">
+    <div id="mobile_controler" style="position: fixed; background-color: black; color: white; bottom: 0; width: 100%; margin: -8px; text-align: center; height: 70px;">
         <a href="../" class="whiteNpadding">메인<br>Main</a>
         <a href="store" class="whiteNpadding">스토어<br>Store</a>
         <a href="event" class="whiteNpadding">이벤트<br>Event</a>
@@ -129,9 +155,12 @@
         </div>
     </div>
 
-    <!-- Career Section -->
-    <div id="capyright" style="margin-bottom: 60px;">
-        <p class="white">© GSUGAR ENTERTAINMENT</p>
+    <div id="capyright">
+        <p class="white">GSUGAR ENTERTAINMENT</p>
+        <p class="white">폰트 정보
+            <a href="https://cactus.tistory.com/306" class="white">[Pretendard]</a>
+            <a href="https://sun.fo/suit/" class="white">[SUIT]</a>
+        </p>
     </div>
 </body>
 <script>
