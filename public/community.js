@@ -28,24 +28,43 @@ fetch("https://api.ipify.org?format=json")
 // XOR 변환 함수
 async function xorTransform(data) {
   // DB에서 보안 데이터 가져오기
-  const doc = await DB.collection("Community").doc(open_lounge).get();
-  const sec_dt = doc.data();
+  const response = await fetch("https://communitycallup-eno2n4pmqq-uc.a.run.app", {
+    method: "POST",
+    headers: {
+        "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ 
+        key: open_lounge,
+    }),
+  });
+
+  const result = await response.json();
 
   // sec 값이 유효한지 확인
-  if (!sec_dt || typeof sec_dt["sec"] !== "number") {
+  if (!result.Doc || typeof result.Doc["sec"] !== "number") {
     throw new Error("Invalid security data in database.");
   }
 
   let transformed = "";
   for (let i = 0; i < data.length; i++) {
-    transformed += String.fromCharCode(data.charCodeAt(i) ^ sec_dt["sec"]);
+    transformed += String.fromCharCode(data.charCodeAt(i) ^ result["sec"]);
   }
   return transformed;
 }
 
 async function callData() {
-  const doc = await DB.collection('Community').doc(open_lounge).get();
-  const data = doc.data();
+  const response = await fetch("https://communitycallup-eno2n4pmqq-uc.a.run.app", {
+    method: "POST",
+    headers: {
+        "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ 
+        key: open_lounge,
+    }),
+  });
+
+  const result = await response.json();
+  const data = result.Doc
   return data
 }
 
@@ -68,13 +87,16 @@ function restoreScrollPosition() {
 window.addEventListener("scroll", () => {
   const scrollPosition = window.scrollY;
   const windowHeight = window.innerHeight;
-  let documentHeight = 1000;
+  const documentHeight2 = document.documentElement.scrollHeight;
+  let documentHeight = 1500;
 
   // 1000px 간격으로 호출
-  if (scrollPosition >= documentHeight && open_tab == "home_tab" && open_section['home_tab'] == "Community_section" && scroll_function == false) {
+  if (scrollPosition >= documentHeight || scrollPosition + windowHeight >= documentHeight) {
+    if (open_tab == "home_tab" && open_section['home_tab'] == "Community_section" && scroll_function == false) {
     scroll_function = true
     loadPosts(5);
-    documentHeight += 1000;
+    documentHeight += 1500;
+    }
   } else {
     
   }
@@ -337,36 +359,7 @@ bestPosts()
 loadPosts(5)
 let list_up
 
-async function best_heart_button(e) {
-  let realheart = (e.classList[1]).split('best')[0]
-  const likeCountElement = document.querySelector(`.${e.classList[1]}.heart_count`);
-  const likeImgElement = document.querySelector(`.heart_button.${e.classList[1]}`);
-    
-  let like_count = Number(likeCountElement.textContent);
-  let like_img = likeImgElement.src;
-    
-  if (like_img.includes("heart-none.webp")) {
-    likeImgElement.src = `esset/${await getHeartImage(open_theme)}`
-    likeCountElement.style.color = getComputedStyle(document.documentElement).getPropertyValue('--main-color').trim();
-    // 게시글 ID를 list 배열에 추가
-    await DB.collection('Community').doc(open_lounge).update({
-      [`${realheart}.heart.heart`]: firebase.firestore.FieldValue.arrayUnion(user_IP)
-        });
-    } else if (like_img.includes(`heart-full`)) {
-        likeImgElement.src = "esset/heart-none.webp";
-        likeCountElement.style.color = "black";
-        // 게시글 ID를 list 배열에 추가
-        await DB.collection('Community').doc(open_lounge).update({
-          [`${realheart}.heart.heart`]: firebase.firestore.FieldValue.arrayRemove(user_IP)
-        });
-    }
 
-    const data = await callData();
-    console.log(data[realheart].heart)
-
-    // 업데이트된 좋아요 개수 적용
-    likeCountElement.textContent = data[realheart].heart.heart.length + data[realheart].heart.temporarily;
-}
 
 async function bestPosts() {
   const postsContainer = document.getElementById('best_community_media');
@@ -377,24 +370,14 @@ async function bestPosts() {
   // 하트 버튼 이벤트 설정
   const heartButtons = postsContainer.querySelectorAll('.heart_button');
   heartButtons.forEach(button => {
-    button.onclick = null
     button.classList.value = `${button.classList.value}best`
   });
 
   // 하트 버튼 이벤트 설정
   const heartCount = postsContainer.querySelectorAll('.heart_count');
   heartCount.forEach(button => {
-    button.onclick = null
     button.classList.value = `${button.classList.value}best`
   });
-
-  // 하트 버튼 클릭 이벤트 처리
-  postsContainer.addEventListener('click', function(event) {
-    if (event.target.classList.contains('heart_button')) {
-      best_heart_button(event.target);
-    }
-  });
-
 
     // 이미지 클릭 이벤트 위임 설정 (popup-image 클래스만 대상)
     postsContainer.addEventListener('click', function(event) {
@@ -472,7 +455,6 @@ async function PostGenerator(postIds, container, element) {
       const imagesContainer = document.createElement('div');
       imagesContainer.classList.add('photo-grid'); // CSS Grid 스타일을 적용할 클래스 추가
       imagesContainer.style.cssText = "margin-top: 15px";
-      
       
       // 각 이미지를 비동기적으로 가져와 추가
       for (const imgPath of post.img) {

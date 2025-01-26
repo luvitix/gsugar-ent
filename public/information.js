@@ -26,12 +26,21 @@ function openEndEvent() {
 }
 
 async function sectionDesignFullsize(value, key) {
-    const storageRef = STORAGE.ref();
-    const imageRef = storageRef.child(value['img_link']);
+    const response = await fetch("https://getfileurl-eno2n4pmqq-uc.a.run.app", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ 
+            key: value['img_link'],
+        }),
+    });
+
+    const result = await response.json();
     const designHtml =
     `<a id=${key} onclick="productSection(this.id); showSection('shop_tab', 'Product_section');">
         <div style="background-color: #f6f6f6; text-align: center; display: flex; justify-content: center; align-items: center; aspect-ratio: 1 / 1; width: 100%;">
-            <img src=${await imageRef.getDownloadURL()} alt=${value['title']} style="width: 100%; height: auto;">
+            <img src=${result.url} alt=${value['title']} style="width: 100%; height: auto;">
         </div>
         <h1 class="testshop_name black">${value['title']}</h1>
         <h2 class="testshop_price black">${value['price']}</h2>
@@ -41,12 +50,21 @@ async function sectionDesignFullsize(value, key) {
 }
 
 async function sectionDesignAutosize(value, key) {
-    const storageRef = STORAGE.ref();
-    const imageRef = storageRef.child(value['img_link']);
+    const response = await fetch("https://getfileurl-eno2n4pmqq-uc.a.run.app", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ 
+            key: value['img_link'],
+        }),
+    });
+
+    const result = await response.json();
     const designHtml =
     `<a id=${key} onclick="productSection(this.id); showSection('shop_tab', 'Product_section');">
         <div style="background-color: #f6f6f6; text-align: center; display: flex; justify-content: center; align-items: center; aspect-ratio: 1 / 1; width: 100%;">
-            <img src=${await imageRef.getDownloadURL()} alt=${value['title']} style="width: 80%; height: auto;">
+            <img src=${result.url} alt=${value['title']} style="width: 80%; height: auto;">
         </div>
         <h1 class="testshop_name black">${value['title']}</h1>
         <h2 class="testshop_price black">${value['price']}</h2>
@@ -396,9 +414,18 @@ async function productSection(key) {
     const result = await response.json();
             
     const doc = result.mdDoc
-    const storageRef = STORAGE.ref();
-    const imageRef = storageRef.child(doc[key]['img_link']);
-    document.getElementById('goodsimage').src = await imageRef.getDownloadURL()
+    const response2 = await fetch("https://getfileurl-eno2n4pmqq-uc.a.run.app", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ 
+            key: doc[key]['img_link'],
+        }),
+    });
+
+    const result2 = await response2.json();
+    document.getElementById('goodsimage').src = result2.url
     document.getElementById('goods-title').textContent = doc[key]['title']
     document.getElementById('Product_description').textContent = doc[key]['description']
     document.getElementById('Product_price').textContent = doc[key]['price']
