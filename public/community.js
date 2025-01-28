@@ -165,9 +165,17 @@ async function click_the_button(e) {
         } catch {
           console.log("best글이 아닙니다")
         }
+        likeCountElement.textContent = Number(likeCountElement.textContent) + 1
         // 게시글 ID를 list 배열에 추가
-        await DB.collection('Community').doc(open_lounge).update({
-          [`${e}.heart.heart`]: firebase.firestore.FieldValue.arrayUnion(user_IP)
+        await fetch("https://updatecommunityheart-eno2n4pmqq-uc.a.run.app", {
+          method: "POST",
+          headers: {"Content-Type": "application/json",},
+          body: JSON.stringify({ 
+            key: e,
+            lounge: open_lounge,
+            ip: user_IP,
+            on: 0
+          }),
         });
     } else if (like_img.includes(`heart-full`)) {
         likeImgElement.src = "esset/heart-none.webp";
@@ -178,9 +186,17 @@ async function click_the_button(e) {
         } catch {
           console.log("best글이 아닙니다")
         }
+        likeCountElement.textContent = Number(likeCountElement.textContent) - 1
         // 게시글 ID를 list 배열에 추가
-        await DB.collection('Community').doc(open_lounge).update({
-          [`${e}.heart.heart`]: firebase.firestore.FieldValue.arrayRemove(user_IP)
+        await fetch("https://updatecommunityheart-eno2n4pmqq-uc.a.run.app", {
+          method: "POST",
+          headers: {"Content-Type": "application/json",},
+          body: JSON.stringify({ 
+            key: e,
+            lounge: open_lounge,
+            ip: user_IP,
+            on: 1
+          }),
         });
     }
 
