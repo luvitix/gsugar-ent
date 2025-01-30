@@ -79,7 +79,7 @@ async function openMediaLink2(key) {
     document.getElementById("media").style.display = 'none'
     document.getElementById("project").style.display = 'none'
     document.getElementById("capyright").style.display = 'none'
-    // loadImage('testbed_album_1.png', 'albumImage');
+    // load1mage('testbed_album_1.png', 'albumImage');
 
     const response = await fetch("https://storerequest-eno2n4pmqq-uc.a.run.app", {
         method: "POST",
@@ -96,7 +96,7 @@ async function openMediaLink2(key) {
     const doc = result.mdDoc
         // document.getElementById('test_md').textContent = doc.data()['test']['title']
         // document.getElementById('test_md_price').textContent = doc.data()['test']['price']
-        // loadImage(doc.data()['test']['img_link'], 'test_md_img');
+        // load1mage(doc.data()['test']['img_link'], 'test_md_img');
     let storeContentArray = new Array(doc['list'].length);
     // 모든 비동기 작업을 처리할 Promise 배열 생성
     var promises = doc['list'].reverse().map(async (item, index) => {
@@ -173,6 +173,7 @@ async function changeLounge() {
     if (theme_yn == true) {
         themeChange(open_theme)
     } else {
+        open_theme = open_lounge
         document.documentElement.style.setProperty('--main-color', data.color.maincolor);
         document.documentElement.style.setProperty('--selected-color', data.color.selectedcolor);
         document.documentElement.style.setProperty('--un-bg', data.color.unselected_BGcolor);
@@ -234,6 +235,7 @@ async function openLounge(key) {
     change_tab('home_tab')
     closeMypage()
     document.getElementById('ArtistLounge').style.display = "none";
+    call_checker = false
 }
 
 

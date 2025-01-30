@@ -15,37 +15,8 @@
     <!-- 스크립트 태그 -->
     <script src="information.js" defer></script>
     <script src="community.js" defer></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js"></script> <!-- Firebase Storage 추가 -->
     <script>
-        const firebaseConfig = {
-            apiKey: "AIzaSyCbg4hzNgHuHLPPf-p81tOR9NokHUkJEYU",
-            authDomain: "wav-page.firebaseapp.com",
-            projectId: "wav-page",
-            storageBucket: "wav-page.appspot.com",
-            messagingSenderId: "177402832992",
-            appId: "1:177402832992:web:f9e73201becffd901cfb05",
-            measurementId: "G-7LRKNDFK7B"
-        };
-        // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
 
-
-        // Initialize Cloud Firestore and get a reference to the service
-        const DB = firebase.firestore();
-        const STORAGE = firebase.storage();
-
-    // 이미지를 불러오는 함수
-    function loadImage(key, key2) {
-        const storageRef = STORAGE.ref();
-        const imageRef = storageRef.child(key);
-
-        // 이미지 파일의 다운로드 URL을 가져와서 <img> 태그에 적용
-        imageRef.getDownloadURL().then((url) => {
-            document.getElementById(key2).src = url;
-        }).catch((error) => {console.error('이미지 파일 불러오기 오류:', error)});
-    }
 
     function closeSpecial() {
         window.location.href = "../"
@@ -56,7 +27,7 @@
         document.getElementById("capyright").style.display = 'block'
     }
       
-    //   window.onload = loadImage('testbed_album_1.png');
+    //   window.onload = load1mage('testbed_album_1.png');
       
     </script>
 </head>
@@ -216,7 +187,7 @@
                 <div id="storeContent" class="testshop-grid black" style="margin: 8px;">
                     <a>
                         <div style="background-color: #f6f6f6; text-align: center; display: flex; justify-content: center; align-items: center; aspect-ratio: 1 / 1; width: 100%;">
-                            <img src="esset/testbed_album_1.png" alt="각설탕 미니 1집 앨범 SF ver." style="width: 80%; height: auto;">
+                            <img src="esset/testbed_album_1.webp" alt="각설탕 미니 1집 앨범 SF ver." style="width: 80%; height: auto;">
                         </div>
                         <h1 class="testshop_name black">[미니 1집] Sugar Fantasy SF ver.</h1>
                         <h2 class="testshop_price black">17,800원</h2>
@@ -484,6 +455,9 @@
                                 <img src="esset/plusimg.webp" alt="Add more images" style="width: 50px; height: 50px;">
                             </label>
                             <input type="file" id="extra-images" multiple accept="image/*" style="display: none;">
+                        </div>
+                        <div>
+                            <p id="edit_key" class="black"></p>
                         </div>
 
                         <button class="hovering" id="submitButton" style="color: var(--white-tone);" onclick="submitPost()">글쓰기</button>
