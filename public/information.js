@@ -226,6 +226,9 @@ function ArtistLounge() {
     });
     document.getElementById('ArtistLounge').style.display = "flex";
     shouldStopLoading = true
+    document.getElementById('top_btn').onclick = function() {
+        closeSpecial()
+    }
 }
 
 async function openLounge(key) {
