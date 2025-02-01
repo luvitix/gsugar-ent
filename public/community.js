@@ -457,8 +457,9 @@ async function PostGenerator(postIds, container, element) {
       const formattedTime = `${dateTime.slice(0, 4)}. ${dateTime.slice(4, 6)}. ${dateTime.slice(6, 8)}. ${dateTime.slice(8, 10)}:${dateTime.slice(10, 12)}`;
 
       // 상단 프로필, 닉네임, 업로드 시간
+      if (element == 1 || element == null) {
       postElement.innerHTML = `
-          <div style="display: flex;">
+          <div style="display: flex; align-items: center;"">
               <img src="esset/newalien.png" alt="프로필 사진" style="width: 8vh; height: 8vh; border-radius: 50%;">
 
               <div style="display: flex; flex-direction: column; margin-left: 10px; justify-content: center;">
@@ -467,8 +468,22 @@ async function PostGenerator(postIds, container, element) {
                       <p class="time_style black">${formattedTime}</p>
                   </div>
               </div>
+              <img src="esset/more.webp" style="width: 4vh; height: 4vh; margin-left: auto" onclick="activeControl('${postId}')">
           </div>
       `;
+      } else {
+        postElement.innerHTML = `
+        <div style="display: flex; align-items: center;"">
+            <img src="esset/newalien.png" alt="프로필 사진" style="width: 8vh; height: 8vh; border-radius: 50%;">
+
+            <div style="display: flex; flex-direction: column; margin-left: 10px; justify-content: center;">
+                <div style="display: flex; flex-direction: column;">
+                    <h4 class="nickname_style black">${post['nickname']}</h4>
+                    <p class="time_style black">${formattedTime}</p>
+                </div>
+            </div>
+        </div>`
+      }
 
       // 글 내용 추가
       const contentElement = document.createElement('div');
@@ -544,7 +559,16 @@ async function PostGenerator(postIds, container, element) {
   }
 }
 
+async function activeControl(key) {
+  const controlDiv = document.getElementById('activeControler');
+  
+  // 초기 위치 설정
+  controlDiv.style.display = 'flex';
 
+  setTimeout(() => {
+    controlDiv.classList.add('active');
+  }, 10); // 약간의 지연으로 애니메이션 실행
+}
 
 const submitButton = document.getElementById('submitButton')
 

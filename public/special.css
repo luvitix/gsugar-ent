@@ -100,6 +100,28 @@
     box-shadow: 2px 5px 20px rgba(201, 201, 201, 0.356);
 }
 
+#activeControler {
+    position: fixed;
+    bottom: -100px; /* 화면 밖에 위치 */
+    width: 56.3vh;
+    height: 100px;
+    background-color: white;
+    display: none; /* 초기에는 숨김 */
+    text-align: center;
+    border-radius: 10px;
+    opacity: 0;
+    transition: transform 0.5s ease, opacity 0.5s ease;
+    align-items: center;
+    text-align: center;
+    box-shadow: 2px 5px 20px rgba(95, 95, 95, 0.356);
+  }
+  
+  #activeControler.active {
+    display: flex;
+    transform: translateY(-100px);
+    opacity: 1;
+  }
+
 #write_button_mobile {
     display: none;
 }
@@ -222,5 +244,9 @@
 
     .eventPopupSpace {
         width: 80%; height: auto;
+    }
+
+    #activeControler {
+        width: 100%;
     }
 }
