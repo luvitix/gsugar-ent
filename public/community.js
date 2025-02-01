@@ -468,7 +468,7 @@ async function PostGenerator(postIds, container, element) {
                       <p class="time_style black">${formattedTime}</p>
                   </div>
               </div>
-              <img src="esset/more.webp" style="width: 4vh; height: 4vh; margin-left: auto" onclick="activeControl('${postId}')">
+              <img id="more${postId}" src="esset/more.webp" style="width: 4vh; height: 4vh; margin-left: auto" onclick="activeControl('${postId}')">
           </div>
       `;
       } else {
@@ -561,6 +561,7 @@ async function PostGenerator(postIds, container, element) {
 
 async function activeControl(key) {
   const controlDiv = document.getElementById('activeControler');
+  const more = document.getElementById(`more${key}`);
   
   // 초기 위치 설정
   controlDiv.style.display = 'flex';
@@ -568,6 +569,38 @@ async function activeControl(key) {
   setTimeout(() => {
     controlDiv.classList.add('active');
   }, 10); // 약간의 지연으로 애니메이션 실행
+
+    // 닫기 함수
+    function closeActiveControl() {
+      controlDiv.classList.remove('active');
+      setTimeout(() => {
+        controlDiv.style.display = 'none';
+      }, 500); // 애니메이션 종료 후 숨기기
+      removeEventListeners();
+    }
+  
+    // 이벤트 리스너 제거
+    function removeEventListeners() {
+      document.removeEventListener('click', handleOutsideClick);
+      window.removeEventListener('scroll', closeActiveControl);
+    }
+  
+    // 외부 클릭 감지
+    function handleOutsideClick(event) {
+      if (!controlDiv.contains(event.target) && !more.contains(event.target)) {
+        closeActiveControl();
+      }
+    }
+  
+    // 이벤트 전파 방지 (버튼 클릭 시)
+    controlDiv.addEventListener('click', (event) => {
+      event.stopPropagation();
+    });
+  
+    // 이벤트 리스너 등록
+    document.addEventListener('click', handleOutsideClick);
+    window.addEventListener('scroll', closeActiveControl, { once: true });
+  
 }
 
 const submitButton = document.getElementById('submitButton')
