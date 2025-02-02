@@ -562,7 +562,9 @@ async function PostGenerator(postIds, container, element) {
 async function activeControl(key) {
   const controlDiv = document.getElementById('activeControler');
   const more = document.getElementById(`more${key}`);
-  
+  document.getElementById('edit_button').onclick = function() {post_key_checker(key, 'edit')}
+  document.getElementById('delete_button').onclick = function() {post_key_checker(key, 'delete')}
+  // document.getElementById('top_btn').onclick = function() {showSection('home', 'Community_section');};
   // 초기 위치 설정
   controlDiv.style.display = 'flex';
 
@@ -603,9 +605,55 @@ async function activeControl(key) {
   
 }
 
+let activeCommentSection
+
+function post_key_checker(key, act) {
+  saveScrollPosition();
+  closeCommentButton();
+  document.getElementById('activeControler').style.display = "none"
+  document.getElementById("write_button").style.display = "none"
+  document.getElementById("checker_section").style.display = "flex"
+  document.getElementById('top_btn').onclick = function() {close_key_checker();};
+  document.getElementById("write_button_mobile").style.display = "none"
+  document.getElementById("Community_content_section").style.display = "none"
+  document.getElementById("button_line").style.display = "none"
+  document.getElementById("ticket_showWindow").style.display = "none"
+
+  document.getElementById("checker_test").textContent = key;
+  if (act == 'edit') {
+    document.getElementById("checker_button").onclick = function() {editPost(key, act);};
+  } else if (act == 'delete') {
+    document.getElementById("checker_button").onclick = function() {deletePost(key, act);};
+  }
+}
+
+function close_key_checker() {
+  document.getElementById("checker_section").style.display = "none"
+  if (activeCommentSection[0] == true) {
+    commentWriteButton(activeCommentSection[1])
+  } else {
+  document.getElementById("write_button").style.display = ""
+  document.getElementById('top_btn').onclick = function() {closeSection("Community_section");};
+  document.getElementById("write_button_mobile").style.display = ""
+  document.getElementById("Community_content_section").style.display = "block"
+  document.getElementById("button_line").style.display = "flex"
+  document.getElementById("ticket_showWindow").style.display = "flex"
+  restoreScrollPosition();
+}
+}
+
+async function editPost(key) {
+  alert(`수정 기능 제작 중 입니다! 감사해요! ${key}`)
+}
+
+async function deletePost(key) {
+  alert(`삭제 기능 제작 중 입니다! 감사해요! ${key}`)
+}
+
 const submitButton = document.getElementById('submitButton')
 
 async function commentWriteButton(key) {
+  activeCommentSection = [true, key];
   openWriteSection()
   document.getElementById('top_btn').onclick = function() {closeCommentButton();};
   document.getElementById('Community_comment_section').style.display = "block"
@@ -938,6 +986,7 @@ async function loadComment(key) {
                       <p class="time_style black">${formattedTime}</p>
                   </div>
               </div>
+              <img id="more${postId}" src="esset/more.webp" style="width: 4vh; height: 4vh; margin-left: auto" onclick="activeControl('${postId}')">
           </div>
       `;
 

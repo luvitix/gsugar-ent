@@ -286,11 +286,11 @@
             <!-- 커뮤니티 추가 기능 라인 -->
             <div id="activeControler">
                 <div style="display: flex; flex-direction: column; width: 50%; align-items: center;">
-                    <img src="esset/edit.webp" width="50px" onclick="alert('기능 제작 중 입니다!')">
+                    <img id="edit_button" src="esset/edit.webp" alt="edit_button" width="50px" onclick="alert('기능 제작 중 입니다!')">
                     <p class="black" style="margin: 0; height: auto;" onclick="alert('기능 제작 중 입니다!')">Edit</p>
                 </div>
                 <div style="display: flex; flex-direction: column; width: 50%; align-items: center;">
-                    <img src="esset/delete.webp" width="50px" onclick="alert('기능 제작 중 입니다!')">
+                    <img id="delete_button" src="esset/delete.webp" alt="delete_button" width="50px" onclick="alert('기능 제작 중 입니다!')">
                     <p class="black" style="margin: 0; height: auto;" onclick="alert('기능 제작 중 입니다!')">Delete</p>
                 </div>
             </div>
@@ -441,7 +441,14 @@
                 <div id="content_value" class="black">컨텐츠 밸류</div><div id="photo_value" class="photo-grid" data-count="1" style="margin-top: 15px;"></div>
                 <div id="heart_box"></div>
                 </div>
-                
+
+                <div id="checker_section" style="display: none; height: 80vh; flex-direction: column; justify-content: center; align-items: center;">
+                    <h3 id="checker_test" class="black"></h3>
+                    <div style="display: flex; justify-content: center;">
+                        <input type="text" id="nickname" placeholder="게시글 암호를 입력하세요" style="resize: none; border: none; border-radius: 10px;">
+                        <button id="checker_button" class="hovering">확인</button>
+                    </div>
+                </div>
 
                 <!-- 글 쓰기 버튼 -->
                 <div id="write_button">
