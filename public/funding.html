@@ -443,10 +443,32 @@
                 </div>
 
                 <div id="checker_section" style="display: none; height: 80vh; flex-direction: column; justify-content: center; align-items: center;">
-                    <h3 id="checker_test" class="black"></h3>
-                    <div style="display: flex; justify-content: center;">
-                        <input type="text" id="nickname" placeholder="게시글 암호를 입력하세요" style="resize: none; border: none; border-radius: 10px;">
-                        <button id="checker_button" class="hovering">확인</button>
+
+                    <!-- 수정 확인 구간 -->
+                    <div id="edit_section" style="display: none;">
+                        <h3 id="delete_check" class="black">정말 수정하시겠습니까?</h3>
+                        <div style="display: flex; justify-content: center;">
+                            <button id="ok_button1" class="hovering" style="color: var(--white-tone);">확인</button>
+                            <button id="cancel_button1" class="hovering" style="color: var(--white-tone);">취소</button>
+                        </div>
+                    </div>
+
+                    <!-- 삭제 확인 구간 -->
+                    <div id="delete_check_section" style="display: none;">
+                        <h3 id="delete_check" class="black">정말 삭제하시겠습니까?</h3>
+                        <div style="display: flex; justify-content: center;">
+                            <button id="ok_button2" class="hovering" style="color: var(--white-tone);">확인</button>
+                            <button id="cancel_button2" class="hovering" style="color: var(--white-tone);">취소</button>
+                        </div>
+                    </div>
+
+                    <!-- 암호 확인 구간 -->
+                    <div id="end_check_section" style="display: none;">
+                        <h3 id="checker_test" class="black"></h3>
+                        <div style="display: flex; justify-content: center;">
+                            <input type="text" id="password" placeholder="게시글 암호를 입력하세요" style="resize: none; border: none; border-radius: 10px;">
+                            <button id="checker_button" class="hovering">확인</button>
+                        </div>
                     </div>
                 </div>
 

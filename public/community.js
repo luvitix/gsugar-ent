@@ -605,11 +605,13 @@ async function activeControl(key) {
   
 }
 
-let activeCommentSection
+let activeCommentSection = false
 
 function post_key_checker(key, act) {
   saveScrollPosition();
-  closeCommentButton();
+  if (activeCommentSection[0] == true) {
+    closeCommentButton();
+  }
   document.getElementById('activeControler').style.display = "none"
   document.getElementById("write_button").style.display = "none"
   document.getElementById("checker_section").style.display = "flex"
@@ -621,14 +623,20 @@ function post_key_checker(key, act) {
 
   document.getElementById("checker_test").textContent = key;
   if (act == 'edit') {
-    document.getElementById("checker_button").onclick = function() {editPost(key, act);};
+    document.getElementById("edit_section").style.display = ""
+    document.getElementById("ok_button1").onclick = function() {editPost(key, act);};
+    document.getElementById("cancel_button1").onclick = function() {close_key_checker();};
   } else if (act == 'delete') {
-    document.getElementById("checker_button").onclick = function() {deletePost(key, act);};
+    document.getElementById("delete_check_section").style.display = ""
+    document.getElementById("ok_button2").onclick = function() {deletePost(key, act);};
+    document.getElementById("cancel_button2").onclick = function() {close_key_checker();};
   }
 }
 
 function close_key_checker() {
   document.getElementById("checker_section").style.display = "none"
+  document.getElementById("delete_check_section").style.display = "none"
+  document.getElementById("end_check_section").style.display = "none"
   if (activeCommentSection[0] == true) {
     commentWriteButton(activeCommentSection[1])
   } else {
@@ -643,11 +651,13 @@ function close_key_checker() {
 }
 
 async function editPost(key) {
-  alert(`수정 기능 제작 중 입니다! 감사해요! ${key}`)
+  document.getElementById("edit_section").style.display = "none"
+  document.getElementById("end_check_section").style.display = ""
 }
 
 async function deletePost(key) {
-  alert(`삭제 기능 제작 중 입니다! 감사해요! ${key}`)
+  document.getElementById("delete_check_section").style.display = "none"
+  document.getElementById("end_check_section").style.display = ""
 }
 
 const submitButton = document.getElementById('submitButton')
