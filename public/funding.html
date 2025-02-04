@@ -445,24 +445,24 @@
                 <div id="checker_section" style="display: none; height: 80vh; flex-direction: column; justify-content: center; align-items: center;">
 
                     <!-- 수정 확인 구간 -->
-                    <div id="edit_section" style="display: none;">
-                        <div id="edit_section_detail" class="community_media_style">
+                    <div id="edit_section" class="community_media_style" style="display: none;">
+                        <div style="display: flex; flex-direction: column;">
                             <div style="display: flex;">
                                 <img src="esset/newalien.png" alt="프로필 사진" style="width: 8vh; height: 8vh; border-radius: 50%;">
                   
                                 <div style="display: flex; flex-direction: column; margin-left: 10px; justify-content: center;">
                                     <div style="display: flex; flex-direction: column;">
-                                        <input type="text" id="nickname_edit" placeholder="닉네임을 입력하세요" style="resize: none; border: none; border-radius: 10px; margin-bottom: 8px;">
+                                        <input type="text" id="nickname_edit" class="nickname_style" placeholder="닉네임을 입력하세요" style="background-color: #f6f6f6; resize: none; border: none; border-radius: 10px;">
                                         <p id="time_value_in_edit" class="time_style black">시간 밸류</p>
                                     </div>
                                 </div>
                             </div>
-                            <textarea id="edit_content" rows="4" placeholder="내용을 입력하세요" class="black" style="resize: none; border: none; border-radius: 10px; "></textarea>
-                        <div id="photo_in_edit" class="photo-grid" data-count="1" style="margin-top: 15px;"></div>
+                            <textarea id="edit_content" rows="4" placeholder="내용을 입력하세요" class="black" style="background-color: #f6f6f6; resize: none; border: none; border-radius: 10px;"></textarea>
                         </div>
-                        <div style="display: flex; justify-content: center;">
-                            <button id="ok_button1" class="hovering" style="color: var(--white-tone);">확인</button>
-                            <button id="cancel_button1" class="hovering" style="color: var(--white-tone);">취소</button>
+                        <div id="photo_in_edit" class="photo-grid" data-count="1"></div>
+                        <div style="display: flex; margin-top: 8px;">
+                            <button id="ok_button1" class="hovering" style="color: var(--white-tone); width: 100%;">글 수정</button>
+                            <button id="cancel_button1" class="hovering" style="color: var(--white-tone); width: 100%;">취소</button>
                         </div>
                     </div>
 

@@ -91,7 +91,7 @@ window.addEventListener("scroll", () => {
   let documentHeight = 1500;
 
   // 1000px 간격으로 호출
-  if (scrollPosition >= documentHeight || scrollPosition + windowHeight >= documentHeight) {
+  if (scrollPosition + windowHeight >= documentHeight2) {
     if (open_tab == "home_tab" && open_section['home_tab'] == "Community_section" && scroll_function == false) {
     scroll_function = true
     loadPosts(5);
@@ -449,6 +449,7 @@ async function PostGenerator(postIds, container, element) {
       const post = data[`${postId}`];
       const postElement = document.createElement('div');
       postElement.classList.add('community_media_style');
+      postElement.classList.add(`${postId}`)
 
       // console.log(((post.heart.heart.length+post.heart.temporarily)**1.8)/timerate(postId, 10800000))
 
@@ -464,7 +465,7 @@ async function PostGenerator(postIds, container, element) {
 
               <div style="display: flex; flex-direction: column; margin-left: 10px; justify-content: center;">
                   <div style="display: flex; flex-direction: column;">
-                      <h4 class="nickname_style black">${post['nickname']}</h4>
+                      <h4 class="${postId}nick nickname_style black">${post['nickname']}</h4>
                       <p class="time_style black">${formattedTime}</p>
                   </div>
               </div>
@@ -478,7 +479,7 @@ async function PostGenerator(postIds, container, element) {
 
             <div style="display: flex; flex-direction: column; margin-left: 10px; justify-content: center;">
                 <div style="display: flex; flex-direction: column;">
-                    <h4 class="nickname_style black">${post['nickname']}</h4>
+                    <h4 class="${postId}nick nickname_style black">${post['nickname']}</h4>
                     <p class="time_style black">${formattedTime}</p>
                 </div>
             </div>
@@ -489,11 +490,13 @@ async function PostGenerator(postIds, container, element) {
       const contentElement = document.createElement('div');
       contentElement.innerText = post.content;
       contentElement.classList.add('black');
+      contentElement.classList.add(`${postId}content`)
       postElement.appendChild(contentElement);
 
       // 이미지 추가
       const imagesContainer = document.createElement('div');
-      imagesContainer.classList.add('photo-grid'); // CSS Grid 스타일을 적용할 클래스 추가
+      imagesContainer.classList.add("photo-grid"); // CSS Grid 스타일을 적용할 클래스 추가
+      imagesContainer.classList.add(`${postId}`)
       imagesContainer.style.cssText = "margin-top: 15px";
       
       // 각 이미지를 비동기적으로 가져와 추가
@@ -623,8 +626,13 @@ function post_key_checker(key, act) {
 
   document.getElementById("checker_test").textContent = key;
   if (act == 'edit') {
-    document.getElementById("edit_section").style.display = ""
-    document.getElementById("ok_button1").onclick = function() {editPost(key);};
+    document.getElementById('checker_section').style.display = "block"
+    document.getElementById("edit_section").style.display = "block"
+    editPost(key);
+    document.getElementById("ok_button1").onclick = function() {
+      document.getElementById("edit_section").style.display = "none"
+      document.getElementById("end_check_section").style.display = ""
+    };
     document.getElementById("cancel_button1").onclick = function() {close_key_checker();};
   } else if (act == 'delete') {
     document.getElementById("delete_check_section").style.display = ""
@@ -635,6 +643,7 @@ function post_key_checker(key, act) {
 
 function close_key_checker() {
   document.getElementById("checker_section").style.display = "none"
+  document.getElementById("edit_section").style.display = "none"
   document.getElementById("delete_check_section").style.display = "none"
   document.getElementById("end_check_section").style.display = "none"
   if (activeCommentSection[0] == true) {
@@ -651,8 +660,7 @@ function close_key_checker() {
 }
 
 async function editPost(key) {
-  document.getElementById("edit_section").style.display = "none"
-  document.getElementById("end_check_section").style.display = ""
+
 
   const data = await callData();
   console.log(key)
@@ -664,9 +672,36 @@ async function editPost(key) {
   document.getElementById('time_value_in_edit').innerText = formattedTime
   document.getElementById('edit_content').value = data[key].content
 
-  document.getElementById("checker_button").addEventListener("click", function () {
+    // 이미지 추가
+    let imagesContainer = document.getElementById('photo_in_edit');
+    imagesContainer.style.cssText = "margin-top: 8px";
+    imagesContainer.innerHTML = document.querySelector(`.photo-grid.${key}`).innerHTML;
+    imagesContainer.setAttribute('data-count', document.querySelector(`.photo-grid.${key}`).dataset.count);
+
+  document.getElementById("checker_button").addEventListener("click", async function () {
+    const editednick = document.getElementById('nickname_edit').value;
+    const editedcontent = document.getElementById('edit_content').value;
     const password = document.getElementById("password").value
-    alert(`수정 기능 제작 중입니다! ${password}`);
+    const response = await fetch("https://postedit-eno2n4pmqq-uc.a.run.app", {
+      method: "POST",
+      headers: {"Content-Type": "application/json",},
+      body: JSON.stringify({ 
+        lounge: open_lounge, 
+        postKey: key, 
+        editKey: password, 
+        editnickname: editednick,
+        editcontent: editedcontent,
+       }),
+    });
+    const result = await response.json()
+    if (result.check == true) {
+      alert("게시글이 수정되었습니다");
+      close_key_checker()
+      document.querySelector(`.${key}nick`).textContent = editednick;
+      document.querySelector(`.${key}content`).textContent = editedcontent;
+    } else {
+      alert("암호가 일치하지 않습니다")
+    }
   });
 }
 
@@ -685,6 +720,8 @@ async function deletePost(key) {
     const result = await response.json()
     if (result.check == true) {
       alert("게시글이 삭제되었습니다");
+      close_key_checker()
+      document.querySelector(`.community_media_style.${key}`).style.display = 'none'
     } else {
       alert("암호가 일치하지 않습니다")
     }
@@ -739,37 +776,38 @@ async function commentWriteButton(key) {
   // 이미지 추가
   const imagesContainer = document.getElementById('photo_value');
   imagesContainer.style.cssText = "margin-top: 15px";
-  imagesContainer.innerHTML = ""
+  imagesContainer.innerHTML = document.querySelector(`.photo-grid.${key}`).innerHTML;
+  imagesContainer.setAttribute('data-count', document.querySelector(`.photo-grid.${key}`).dataset.count);
 
-  const imageElements = []; // 이미지를 담을 배
+  // const imageElements = []; // 이미지를 담을 배
   
-  // 각 이미지를 비동기적으로 가져와 추가
-  for (const imgPath of data[key].img) {
-      try {
-          //사진 불러오기
-          const response = await fetch("https://getfileurl-eno2n4pmqq-uc.a.run.app", {
-            method: "POST",
-            headers: {"Content-Type": "application/json",},
-            body: JSON.stringify({ key: imgPath, }),
-          });
+  // // 각 이미지를 비동기적으로 가져와 추가
+  // for (const imgPath of data[key].img) {
+  //     try {
+  //         //사진 불러오기
+  //         const response = await fetch("https://getfileurl-eno2n4pmqq-uc.a.run.app", {
+  //           method: "POST",
+  //           headers: {"Content-Type": "application/json",},
+  //           body: JSON.stringify({ key: imgPath, }),
+  //         });
       
-          const result = await response.json();
-          const url = result.url;
-          const img = document.createElement('img');
-          img.src = url;
-          img.style.cssText = "width: 100%; aspect-ratio: 1 / 1; object-fit: cover; border-radius: 10px;";
-          img.setAttribute('data-url', url); // 데이터 속성에 URL 저장
-          img.classList.add('popup-image'); // 특정 클래스 추가
+  //         const result = await response.json();
+  //         const url = result.url;
+  //         const img = document.createElement('img');
+  //         img.src = url;
+  //         img.style.cssText = "width: 100%; aspect-ratio: 1 / 1; object-fit: cover; border-radius: 10px;";
+  //         img.setAttribute('data-url', url); // 데이터 속성에 URL 저장
+  //         img.classList.add('popup-image'); // 특정 클래스 추가
 
-          imageElements.push(img); // 이미지 요소를 배열에 추가
-      } catch (error) {
-          console.error("Error fetching image URL for path:", imgPath, error);
-      }
-  }
+  //         imageElements.push(img); // 이미지 요소를 배열에 추가
+  //     } catch (error) {
+  //         console.error("Error fetching image URL for path:", imgPath, error);
+  //     }
+  // }
 
-  // 배열에 담긴 모든 이미지를 한 번에 DOM에 추가
-  imagesContainer.append(...imageElements);
-  imagesContainer.setAttribute('data-count', data[key].img.length);
+  // // 배열에 담긴 모든 이미지를 한 번에 DOM에 추가
+  // imagesContainer.append(...imageElements);
+  // imagesContainer.setAttribute('data-count', data[key].img.length);
   // postElement.appendChild(imagesContainer);
   
 }
