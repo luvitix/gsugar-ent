@@ -628,7 +628,7 @@ function post_key_checker(key, act) {
     document.getElementById("cancel_button1").onclick = function() {close_key_checker();};
   } else if (act == 'delete') {
     document.getElementById("delete_check_section").style.display = ""
-    document.getElementById("ok_button2").onclick = function() {deletePost(key, act);};
+    document.getElementById("ok_button2").onclick = function() {deletePost(key);};
     document.getElementById("cancel_button2").onclick = function() {close_key_checker();};
   }
 }
@@ -653,11 +653,42 @@ function close_key_checker() {
 async function editPost(key) {
   document.getElementById("edit_section").style.display = "none"
   document.getElementById("end_check_section").style.display = ""
+
+  const data = await callData();
+  console.log(key)
+  // postId에서 날짜와 시간 추출 및 포맷팅
+  const dateTime = key.match(/z(\d{12})a/)[1]; // YYYYMMDDhhmm 추출
+  const formattedTime = `${dateTime.slice(0, 4)}. ${dateTime.slice(4, 6)}. ${dateTime.slice(6, 8)}. ${dateTime.slice(8, 10)}:${dateTime.slice(10, 12)}`;
+
+  document.getElementById('nickname_edit').value = data[key].nickname
+  document.getElementById('time_value_in_edit').innerText = formattedTime
+  document.getElementById('edit_content').value = data[key].content
+
+  document.getElementById("checker_button").addEventListener("click", function () {
+    const password = document.getElementById("password").value
+    alert(`수정 기능 제작 중입니다! ${password}`);
+  });
 }
 
 async function deletePost(key) {
   document.getElementById("delete_check_section").style.display = "none"
   document.getElementById("end_check_section").style.display = ""
+  
+  document.getElementById("checker_button").addEventListener("click", async function () {
+    const password = document.getElementById("password").value
+    console.log(open_lounge, key, password)
+    const response = await fetch("https://postdelete-eno2n4pmqq-uc.a.run.app", {
+      method: "POST",
+      headers: {"Content-Type": "application/json",},
+      body: JSON.stringify({ lounge: open_lounge, postKey: key, editKey: password}),
+    });
+    const result = await response.json()
+    if (result.check == true) {
+      alert("게시글이 삭제되었습니다");
+    } else {
+      alert("암호가 일치하지 않습니다")
+    }
+  });
 }
 
 const submitButton = document.getElementById('submitButton')
