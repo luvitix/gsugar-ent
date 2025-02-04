@@ -624,7 +624,7 @@ function post_key_checker(key, act) {
   document.getElementById("checker_test").textContent = key;
   if (act == 'edit') {
     document.getElementById("edit_section").style.display = ""
-    document.getElementById("ok_button1").onclick = function() {editPost(key, act);};
+    document.getElementById("ok_button1").onclick = function() {editPost(key);};
     document.getElementById("cancel_button1").onclick = function() {close_key_checker();};
   } else if (act == 'delete') {
     document.getElementById("delete_check_section").style.display = ""
