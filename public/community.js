@@ -630,6 +630,7 @@ function post_key_checker(key, act) {
     document.getElementById("edit_section").style.display = "block"
     editPost(key);
     document.getElementById("ok_button1").onclick = function() {
+      document.getElementById("checker_section").style.display = "flex"
       document.getElementById("edit_section").style.display = "none"
       document.getElementById("end_check_section").style.display = ""
     };
@@ -678,7 +679,8 @@ async function editPost(key) {
     imagesContainer.innerHTML = document.querySelector(`.photo-grid.${key}`).innerHTML;
     imagesContainer.setAttribute('data-count', document.querySelector(`.photo-grid.${key}`).dataset.count);
 
-  document.getElementById("checker_button").addEventListener("click", async function () {
+  document.getElementById("checker_button").onclick = async function () {
+
     const editednick = document.getElementById('nickname_edit').value;
     const editedcontent = document.getElementById('edit_content').value;
     const password = document.getElementById("password").value
@@ -702,14 +704,14 @@ async function editPost(key) {
     } else {
       alert("암호가 일치하지 않습니다")
     }
-  });
+  };
 }
 
 async function deletePost(key) {
   document.getElementById("delete_check_section").style.display = "none"
   document.getElementById("end_check_section").style.display = ""
   
-  document.getElementById("checker_button").addEventListener("click", async function () {
+  document.getElementById("checker_button").onclick = async function () {
     const password = document.getElementById("password").value
     console.log(open_lounge, key, password)
     const response = await fetch("https://postdelete-eno2n4pmqq-uc.a.run.app", {
@@ -725,7 +727,7 @@ async function deletePost(key) {
     } else {
       alert("암호가 일치하지 않습니다")
     }
-  });
+  };
 }
 
 const submitButton = document.getElementById('submitButton')
