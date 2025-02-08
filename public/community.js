@@ -867,25 +867,25 @@ async function submitPost() {
       IMGarray.push(base64File)
       imgUrls.push(`community/${open_lounge}/${postId + randomString}_${i + 1}`);
 
-      await fetch("https://submitimgs-eno2n4pmqq-uc.a.run.app", {
-        method: "POST",
-        headers: {"Content-Type": "application/json",},
-        body: JSON.stringify({ 
-          filePath: `community/${open_lounge}/${postId + randomString}_${i + 1}`, 
-          file: base64File, 
-        }),
-      });
+      // await fetch("https://submitimgs-eno2n4pmqq-uc.a.run.app", {
+      //   method: "POST",
+      //   headers: {"Content-Type": "application/json",},
+      //   body: JSON.stringify({ 
+      //     filePath: `community/${open_lounge}/${postId + randomString}_${i + 1}`, 
+      //     file: base64File, 
+      //   }),
+      // });
     }
 
-    // await fetch("https://submitimgs-eno2n4pmqq-uc.a.run.app", {
-    //   method: "POST",
-    //   headers: {"Content-Type": "application/json",},
-    //   body: JSON.stringify({ 
-    //     roop: files.length,
-    //     filePath: imgUrls, 
-    //     file: IMGarray, 
-    //   }),
-    // });
+    await fetch("https://submitroopimgs-eno2n4pmqq-uc.a.run.app", {
+      method: "POST",
+      headers: {"Content-Type": "application/json",},
+      body: JSON.stringify({ 
+        roop: files.length,
+        filePath: imgUrls, 
+        file: IMGarray, 
+      }),
+    });
 
       // 게시글 ID를 list 배열에 추가
   await fetch("https://submitposts-eno2n4pmqq-uc.a.run.app", {
