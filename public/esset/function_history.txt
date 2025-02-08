@@ -140,10 +140,12 @@ function bottom_button_style(key) {
 }
 
 async function submitPost() {
+  channel[0] = false;
   const nickname = document.getElementById('nickname').value;
   const content = document.getElementById('content').value;
   const files = selectedFiles;
   const postId = getCurrentFormattedTime();
+  const randomString = generateRandomString();
   let imgUrls = [];
 
   if (!nickname || !content) {
@@ -154,34 +156,54 @@ async function submitPost() {
   submitButton.disabled = true;
   submitButton.innerText = "업로드 중...";
 
-  const randomString = generateRandomString();
-
   try {
     // IP 주소 가져오기
     const userIP = user_IP;
-
-    // Storage에 이미지 업로드
+    const IMGarray = [];
+    // St0rage에 이미지 업로드
     for (let i = 0; i < files.length && i < 10; i++) {
       const webpFile = await convertImageToWebP(files[i]);
-      const fileRef = STORAGE.ref().child(`community/${open_lounge}/${postId + randomString}_${i + 1}`);
-      await fileRef.put(webpFile);
+
+      // 웹P 파일을 Base64로 인코딩
+      const base64File = await convertFileToBase64(webpFile);
+
+      
+      await fetch("https://submitimgs-eno2n4pmqq-uc.a.run.app", {
+        method: "POST",
+        headers: {"Content-Type": "application/json",},
+        body: JSON.stringify({ 
+          filePath: `community/${open_lounge}/${postId + randomString}_${i + 1}`, 
+          file: base64File, 
+        }),
+      });
+
       imgUrls.push(`community/${open_lounge}/${postId + randomString}_${i + 1}`);
     }
 
-    // Firestore에 게시글 정보 저장
-    await DB.collection('Community').doc(open_lounge).set({
-      [postId + randomString]: {
-        nickname: nickname,
-        content: content,
-        img: imgUrls,
-        ip: userIP, // IP 주소 추가
-        heart: { heart: [], temporarily: 0 }
-      }
-    }, { merge: true });
+      // 게시글 ID를 list 배열에 추가
+  await fetch("https://submitposts-eno2n4pmqq-uc.a.run.app", {
+    method: "POST",
+    headers: {"Content-Type": "application/json",},
+    body: JSON.stringify({ 
+      lounge: open_lounge, 
+      postId: postId+randomString, 
+      nickname: nickname, 
+      content: content, 
+      imgUrls: imgUrls, 
+      ip: userIP,
+      editKey: edit_key
+    }),
+  });
 
     // 게시글 ID를 list 배열에 추가
-    await DB.collection('Community').doc(open_lounge).update({
-      list: firebase.firestore.FieldValue.arrayUnion(postId + randomString)
+    await fetch("https://updatecommunitycomment-eno2n4pmqq-uc.a.run.app", {
+      method: "POST",
+      headers: {"Content-Type": "application/json",},
+      body: JSON.stringify({ 
+        key: `list`,
+        lounge: open_lounge,
+        postId: postId+randomString,
+      }),
     });
 
     alert("글이 성공적으로 저장되었습니다.");
@@ -201,6 +223,7 @@ async function submitPost() {
     selectedFiles = [];
     document.getElementById('preview-section').innerHTML = "";
     updateUI();
+    keymake()
   }
 }
 
@@ -249,6 +272,7 @@ async function editPost(key) {
     //         console.error("Error fetching image URL for path:", imgPath, error);
     //     }
     // }
+}
   
     // // 배열에 담긴 모든 이미지를 한 번에 DOM에 추가
     // imagesContainer.append(...imageElements);

@@ -91,7 +91,7 @@ window.addEventListener("scroll", () => {
   let documentHeight = 1500;
 
   // 1000px 간격으로 호출
-  if (scrollPosition + windowHeight >= documentHeight2) {
+  if (scrollPosition + windowHeight - 100 >= documentHeight2) {
     if (open_tab == "home_tab" && open_section['home_tab'] == "Community_section" && scroll_function == false) {
     scroll_function = true
     loadPosts(5);
@@ -835,11 +835,15 @@ async function convertFileToBase64(file) {
   });
 }
 
+let channel = [true, true];
+
 async function submitPost() {
+  channel[0] = false;
   const nickname = document.getElementById('nickname').value;
   const content = document.getElementById('content').value;
   const files = selectedFiles;
   const postId = getCurrentFormattedTime();
+  const randomString = generateRandomString();
   let imgUrls = [];
 
   if (!nickname || !content) {
@@ -850,18 +854,19 @@ async function submitPost() {
   submitButton.disabled = true;
   submitButton.innerText = "업로드 중...";
 
-  const randomString = generateRandomString();
-
   try {
     // IP 주소 가져오기
     const userIP = user_IP;
-
+    const IMGarray = [];
     // St0rage에 이미지 업로드
     for (let i = 0; i < files.length && i < 10; i++) {
       const webpFile = await convertImageToWebP(files[i]);
-
       // 웹P 파일을 Base64로 인코딩
       const base64File = await convertFileToBase64(webpFile);
+
+      IMGarray.push(base64File)
+      imgUrls.push(`community/${open_lounge}/${postId + randomString}_${i + 1}`);
+
       await fetch("https://submitimgs-eno2n4pmqq-uc.a.run.app", {
         method: "POST",
         headers: {"Content-Type": "application/json",},
@@ -870,9 +875,17 @@ async function submitPost() {
           file: base64File, 
         }),
       });
-
-      imgUrls.push(`community/${open_lounge}/${postId + randomString}_${i + 1}`);
     }
+
+    // await fetch("https://submitimgs-eno2n4pmqq-uc.a.run.app", {
+    //   method: "POST",
+    //   headers: {"Content-Type": "application/json",},
+    //   body: JSON.stringify({ 
+    //     roop: files.length,
+    //     filePath: imgUrls, 
+    //     file: IMGarray, 
+    //   }),
+    // });
 
       // 게시글 ID를 list 배열에 추가
   await fetch("https://submitposts-eno2n4pmqq-uc.a.run.app", {
