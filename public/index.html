@@ -78,7 +78,7 @@
     // }
     window.onload = function() {
         DBload(); // 가장 먼저 실행
-        openMediaContent();
+        // openMediaContent();
     };
 
     // 페이지 로드 시 URL에 '?community'가 포함되어 있는지 확인
@@ -104,26 +104,22 @@
         // 클릭된 <li> 요소에 select_bottom_line 클래스 추가
         clickedElement.classList.add('select_bottom_line');
 
-        document.getElementById('career').style.display = "";
         document.getElementById('contact').style.display = "";
         document.getElementById('capyright').style.display = "";
         
         if (key == 0) {
             document.getElementById('main').style.display = "";
             document.getElementById('project').style.display = "none";
-            document.getElementById('store').style.display = "";
             document.getElementById('media').style.display = "";
         } else if (key == 1) {
             document.getElementById('main').style.display = "none";
             document.getElementById('project').style.display = "";
-            document.getElementById('store').style.display = "none";
             document.getElementById('media').style.display = "none";
         } else if (key == 2) {
             window.location.href = '/store';
         } else if (key == 3) {
             document.getElementById('main').style.display = "none";
             document.getElementById('project').style.display = "none";
-            document.getElementById('store').style.display = "none";
             document.getElementById('media').style.display = "none";
         } else if (key == 4) {
             window.location.href = '/mypage';
@@ -142,9 +138,7 @@
             document.getElementById('pc_controler').style.display = "flex"
             document.getElementById('main').style.display = "none";
             document.getElementById('project').style.display = "none";
-            document.getElementById('store').style.display = "none";
             document.getElementById('media').style.display = "none";
-            document.getElementById('career').style.display = "none";
             document.getElementById('contact').style.display = "none";
             document.getElementById('capyright').style.display = "none";
         } else {
@@ -166,9 +160,9 @@
         <ul id="pc_controler">
             <li style="margin: 13px;" class="white select_bottom_line" onclick="click_main_var(this, 0)">About</li>
             <li style="margin: 13px;" class="white" onclick="click_main_var(this, 1)">Project</li>
-            <li style="margin: 13px;" class="white" onclick="click_main_var(this, 2)">Store</li>
+            <!-- <li style="margin: 13px;" class="white" onclick="click_main_var(this, 2)">Store</li> -->
             <li style="margin: 13px;" class="white" onclick="click_main_var(this, 3)">Audition</li>
-            <li style="margin: 13px;" class="white" onclick="click_main_var(this, 4)">MyPage</li>
+            <!-- <li style="margin: 13px;" class="white" onclick="click_main_var(this, 4)">MyPage</li> -->
         </ul>
     </div>
 
@@ -181,9 +175,9 @@
         <div class="image-container" style="position: relative; text-align: center;">
             <img src="esset/cosmic.jpg" alt="" class="image" style="width: 100%; height: auto; filter: brightness(50%);">
             <div class="centered-text">
-                <h3 class="logo-text vision-letter">K-POP 팬들의 행복을 위하여!</h3>
-                <p class="vision-letter">k-pop 팬과 기획사 사이에서 중립적이고 지혜롭게 문제를 해결하는 각설탕엔터테인먼트</p>
-                <a href="gsugarofficial"><button style="border-radius: 50px; font-size: 20px; padding: 8px;">회사에 대해 더 알아보기</button></a>
+                <h3 class="logo-text vision-letter">K-POP 2.0 시대를 여는 기획사</h3>
+                <p class="vision-letter">"팬 경험 증진"과 "아이돌의 성공"을 위해 기존 K-POP에서 좋은 효과를 보았던 시스템은 가져오고, 문제점은 해결하여 최상의 시스템을 구축하는 것이 K-POP 2.0입니다!</p>
+                <a href="gsugarofficial"><button style="border-radius: 50px; font-size: 20px; padding: 8px;">스크롤하여 회사에 대해 알아보기</button></a>
             </div>
         </div>
     </div>
@@ -198,68 +192,33 @@
                 <img src="esset/image.png" alt="" width="85%" style="text-align: center; justify-content: center;">
             </div>
             <div class="white vision-left">
-                <h1 class="vision-text">K-POP을 바꿀 팬덤 플랫폼</h1>
+                <h1 class="vision-text">팬덤 플랫폼</h1>
                 <div style=" margin-top: 40px;">
                     <a href="funding"><button style="border-style: solid; border-color: aliceblue; border-radius: 50px; font-size: 20px; padding: 8px;">프로젝트에 체험하기</button></a>
                 </div>
             </div>
         </div>
     </div>
-        
-    <div id="store" style="padding-left: 50px; padding-right: 50px; text-align: center;">
-        <h2 class="logo-text black">Store</h2>
-    
-        <div id="app" class="news-grid super-vision" width="100%" style="margin-top: 10px; align-items: center;">
-            
-            <div style="flex-direction: column;">
-                <img id="goods_img1" alt="굳즈1" width="80%" style="border-radius: 50px; background-color: #f6f6f6; padding: 20px;">
-                <p id="goods_description1" class="black">굳즈 1</p>
-            </div>
-            <div style="flex-direction: column;" class="mobile-none">
-                <img id="goods_img2" alt="굳즈2" width="80%" style="border-radius: 50px; background-color: #f6f6f6; padding: 20px;">
-                <p id="goods_description2" class="black">굳즈 2</p>
-            </div>
-            <div style="width: 100%; text-align: left">
-                <h1 class="vision-text black">각설탕엔터테인먼트 응원하고 굳즈 받는 방법</h1>
-                <p class="black">기획사 입점 문의 : gsugar0fficial@gmail.com</p>
-                <div style=" margin-top: 10px;">
-                    <a href="store"><button style="border-radius: 50px; font-size: 20px; padding: 8px;">스토어로 이동</button></a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
 
     <div id="media">
-        <h2 class="logo-text white" style="color: white;">Media</h2>
-        <div id="app" class="news-grid" style="margin-top: 10px;">
-            <div class="white">
-                <img id="artimage" src="esset/pr_image.png" alt="" width="100%">
-                <h1 id="arti" class="vision-text">1</h1>
-                <div>
-                    <a><button onclick="openMediaLink()" style="border-style: solid; border-color: aliceblue; border-radius: 50px; font-size: 20px; padding: 8px;">아티클 보러가기</button></a>
-                </div>
-            </div>
-        </div>
-    </div>
+    <div>
+        <h2 class="logo-text white" style="color: white">리스크 관리팀</h2>
+        <p>아이돌 산업은 사옥·숙소 같은 고정비와 활동에 따른 변동비가 모두 막대하게 드는 구조입니다. 이로 인해 중소 기획사는 소속 아이돌이 히트하더라도 흑자로 전환하기 어렵고, 자본이 고갈되면서 활동을 지속하지 못하는 ‘침몰하는 배’ 현상에 직면하게 됩니다.</p>
 
-    <!-- Career Section -->
-    <div id="career">
-        <h2 class="logo-text white">Partners</h2>
-        <p class="white">GSUGAR ENTERTAINMENT와 함께 K-POP 2.0을 향해!</p>
-        <div id="app" class="vision-grid" style="margin-top: 10px;">
-            <div style="width: 100%;">
-                <img id="career_img" src="esset/pr_image.png" alt="" width="85%">
-            </div>
-            <div class="white vision-left">
-                <h1 id="arti" class="vision-text">GSUAGR Partners 모집 중</h1>
-                <!-- <p>우대 사항1 : 다양한 아이돌 덕질 경험이 있는 분<br>우대 사항2 : 웹/앱 등 IT개발 경험이 있는 분</p> -->
-                <div style=" margin-top: 30px;">
-                    <a><button onclick="openCareerLink()" style="border-style: solid; border-color: aliceblue; border-radius: 50px; font-size: 20px; padding: 8px;">함께 하기!</button></a>
-                </div>
-            </div>
-        </div>
+        <p>저희 기획사의 ‘리스크 관리팀’은 이러한 문제를 해결하기 위해 존재합니다. 아이돌의 활동 지속 가능성을 위협하는 구조적 리스크를 식별하고 제거하여, 연습생 여러분이 안정적으로 데뷔하고 꾸준히 활동할 수 있도록 지원합니다. 이는 K-POP 2.0을 설계하는 핵심 팀입니다.</p>
+    </div>
+    <div style="margin-top: 50px;"> 
+        <h2 class="logo-text white" style="color: white">HR팀</h2>
+        <p>“Company”는 ‘함께(Com)’와 ‘빵(Panis)’을 나눈다는 의미에서 시작된 말로, ‘회사’란 사람들이 모여 가치를 나누는 공동체를 뜻합니다. HR팀은 이 본질에 가장 가까운 조직으로, “사람과 사람을 연결한다.”는 철학 아래 연습생 발굴과 인사 영입을 수행합니다.</p>
+
+        <p>잠재력 있는 인재를 찾아 적합한 환경과 팀에 연결하고, 개인의 역량과 방향성이 가장 효과적으로 발휘될 수 있도록 설계합니다. 연습생 및 인재 여러분이 가장 먼저 만나게 될 저희 기획사의 팀이며, 이는 K-POP 2.0을 구성하는 핵심 팀입니다.</p>
+    </div>
+    <div style="margin-top: 50px;">
+        <h2 class="logo-text white" style="color: white">프로듀싱팀</h2>
+        <p>프로듀싱팀은 말 그대로 아티스트의 음악과 콘텐츠 전반을 기획, 제작, 운영하는 조직입니다. A&R 및 곡 프로듀싱, 컨셉트 및 앨범 기획, 크리에이티브 디렉팅 등등 아티스트의 결과물을 완성하는 모든 과정을 담당합니다.</p>
+
+        <p>아티스트의 개성과 방향성을 기반으로 일관된 콘텐츠를 만들어내며, 이를 통해 팀의 정체성과 경쟁력을 구축합니다. 이는 K-POP 2.0을 실현하는 핵심 팀입니다.</p>
+    </div>
     </div>
 
     <!-- Contact Us Section (Unchanged) -->

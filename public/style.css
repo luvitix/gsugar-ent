@@ -84,11 +84,14 @@ li:hover { font-size: 18px; border-bottom: 1px solid white; cursor: pointer; }
 }
 
 #media {
-    background-color: rgb(62, 0, 144);
+    /* background-color: white;
+    color: rgb(62, 0, 144); */
+    background-color: black;
+    color: white;
     margin: -8px;
     margin-top: -4px;
     padding: 50px;
-    text-align: center;
+    text-align: left;
 }
 
 #store {
