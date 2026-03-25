@@ -109,12 +109,12 @@
         
         if (key == 0) {
             document.getElementById('main').style.display = "";
-            document.getElementById('project').style.display = "none";
-            document.getElementById('media').style.display = "";
-        } else if (key == 1) {
-            document.getElementById('main').style.display = "none";
             document.getElementById('project').style.display = "";
             document.getElementById('media').style.display = "none";
+        } else if (key == 1) {
+            document.getElementById('main').style.display = "none";
+            document.getElementById('project').style.display = "none";
+            document.getElementById('media').style.display = "";
         } else if (key == 2) {
             window.location.href = '/store';
         } else if (key == 3) {
@@ -142,7 +142,7 @@
             document.getElementById('contact').style.display = "none";
             document.getElementById('capyright').style.display = "none";
         } else {
-            console.log("넌 위에 있잖아")
+            console.log("-")
         }
     };
 
@@ -158,8 +158,8 @@
         </div>
  
         <ul id="pc_controler">
-            <li style="margin: 13px;" class="white select_bottom_line" onclick="click_main_var(this, 0)">About</li>
-            <li style="margin: 13px;" class="white" onclick="click_main_var(this, 1)">Project</li>
+            <li style="margin: 13px;" class="white select_bottom_line" onclick="click_main_var(this, 0)">Main</li>
+            <li id="controler_team" style="margin: 13px;" class="white" onclick="click_main_var(this, 1)">Team</li>
             <!-- <li style="margin: 13px;" class="white" onclick="click_main_var(this, 2)">Store</li> -->
             <li style="margin: 13px;" class="white" onclick="click_main_var(this, 3)">Audition</li>
             <!-- <li style="margin: 13px;" class="white" onclick="click_main_var(this, 4)">MyPage</li> -->
@@ -177,14 +177,15 @@
             <div class="centered-text">
                 <h3 class="logo-text vision-letter">K-POP 2.0 시대를 여는 기획사</h3>
                 <p class="vision-letter">"팬 경험 증진"과 "아이돌의 성공"을 위해 기존 K-POP에서 좋은 효과를 보았던 시스템은 가져오고, 문제점은 해결하여 최상의 시스템을 구축하는 것이 K-POP 2.0입니다!</p>
-                <a href=""><button style="border-radius: 50px; font-size: 20px; padding: 8px;">스크롤하여 회사에 대해 알아보기</button></a>
+                <a><button style="border-radius: 50px; font-size: 20px; padding: 8px;" onclick="click_main_var(document.getElementById('controler_team'), 1)">더 알아보기</button></a>
             </div>
         </div>
     </div>
 
     <!-- Media Section -->
-    <div id="project" style="display: none;">
-        <h2 class="logo-text white">PROJECT_1</h2>
+    <div id="project" style="display: '';">
+        <div>
+        <h2 class="logo-text white">FANDOM PLATFORM PROJECT</h2>
 
         <div id="app" class="vision-grid" style="margin-top: 10px;">
         
@@ -192,15 +193,38 @@
                 <img src="esset/image.png" alt="" width="85%" style="text-align: center; justify-content: center;">
             </div>
             <div class="white vision-left">
-                <h1 class="vision-text">팬덤 플랫폼</h1>
+                <h1 class="vision-text">혁신적으로 팬 경험을 증진시킬 팬덤 플랫폼</h1>
+                <p>티켓 시스템을 통해 꾸준한 덕질의 가치를 올리고 팬들의 소비 경험에 만족감을 증진시킵니다.</p>
                 <div style=" margin-top: 40px;">
-                    <a href="funding"><button style="border-style: solid; border-color: aliceblue; border-radius: 50px; font-size: 20px; padding: 8px;">프로젝트에 체험하기</button></a>
+                    <a href="funding"><button style="border-style: solid; border-color: aliceblue; border-radius: 50px; font-size: 20px; padding: 8px;">프로젝트 체험하기</button></a>
                 </div>
             </div>
         </div>
+        </div>
     </div>
 
-    <div id="media">
+    <!-- Media Section -->
+    <div id="project2" style="display: '';">
+        <div>
+            <h2 class="logo-text white">GIRL GROUP PROJECT</h2>
+    
+            <div id="app" class="vision-grid" style="margin-top: 10px;">
+            
+                <div style="width: 100%;">
+                    <!-- <img src="esset/image.png" alt="" width="85%" style="text-align: center; justify-content: center;"> -->
+                </div>
+                <div class="white vision-left">
+                    <h1 class="vision-text">GSUGAR Ent.의 첫 여자아이돌 프로젝트</h1>
+                    <p>설명란</p>
+                    <!-- <div style=" margin-top: 40px;">
+                        <a href="funding"><button style="border-style: solid; border-color: aliceblue; border-radius: 50px; font-size: 20px; padding: 8px;">프로젝트 체험하기</button></a>
+                    </div> -->
+                </div>
+            </div>
+            </div>
+    </div>
+
+    <div id="media" style="display: none;">
     <div>
         <h2 class="logo-text white" style="color: white">리스크 관리팀</h2>
         <p>아이돌 산업은 사옥·숙소 같은 고정비와 활동에 따른 변동비가 모두 막대하게 드는 구조입니다. 이로 인해 중소 기획사는 소속 아이돌이 히트하더라도 흑자로 전환하기 어렵고, 자본이 고갈되면서 활동을 지속하지 못하는 ‘침몰하는 배’ 현상에 직면하게 됩니다.</p>
@@ -225,7 +249,7 @@
     <div id="contact">
         <h1 class="logo-text black">Contact to GSUGAR Ent</h1>
         <img id="mailbox" src="esset/mailbox.webp" alt="메일로고" width="120px"><br>
-        <span class="white" style="color: black;"><strong>Email : </strong></span><span class="white" style="color: blueviolet;"> gsugar0fficial@gmail.com</span><br>
+        <span class="white" style="color: black;"><strong>Email : </strong></span><span class="white" style="color: blueviolet;"> gsugar0fficial@gsugar-ent.com</span><br>
     </div>
     <!-- Career Section -->
     <div id="capyright">
