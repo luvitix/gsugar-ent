@@ -83,6 +83,13 @@ li:hover { font-size: 18px; border-bottom: 1px solid white; cursor: pointer; }
     text-align: center;
 }
 
+#audition {
+    /* background-color: white; */
+    margin: -8px;
+    padding: 50px;
+    text-align: center;
+}
+
 #media {
     /* background-color: white;
     color: rgb(62, 0, 144); */

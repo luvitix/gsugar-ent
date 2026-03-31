@@ -112,11 +112,15 @@
             document.getElementById('project').style.display = "";
             document.getElementById('project2').style.display = "";
             document.getElementById('media').style.display = "none";
+            document.getElementById('contact').style.display = "";
+            document.getElementById('audition').style.display = "none";
         } else if (key == 1) {
             document.getElementById('main').style.display = "none";
             document.getElementById('project').style.display = "none";
             document.getElementById('project2').style.display = "none";
             document.getElementById('media').style.display = "";
+            document.getElementById('contact').style.display = "none";
+            document.getElementById('audition').style.display = "none";
         } else if (key == 2) {
             window.location.href = '/store';
         } else if (key == 3) {
@@ -124,6 +128,8 @@
             document.getElementById('project').style.display = "none";
             document.getElementById('project2').style.display = "none";
             document.getElementById('media').style.display = "none";
+            document.getElementById('contact').style.display = "none";
+            document.getElementById('audition').style.display = "";
         } else if (key == 4) {
             window.location.href = '/mypage';
         }
@@ -189,7 +195,7 @@
     <!-- Media Section -->
     <div id="project" style="display: '';">
         <div>
-        <h2 class="logo-text white">FANDOM PLATFORM PROJECT</h2>
+        <h2 class="logo-text white">FANDOM PLATFORM</h2>
 
         <div id="app" class="vision-grid" style="margin-top: 10px;">
         
@@ -200,7 +206,7 @@
                 <h1 class="vision-text">혁신적으로 팬 경험을 증진시킬 팬덤 플랫폼</h1>
                 <p>티켓 시스템을 통해 꾸준한 덕질의 가치를 올리고 팬들의 소비 경험에 만족감을 증진시킵니다.</p>
                 <div style=" margin-top: 40px;">
-                    <a href="funding"><button style="border-style: solid; border-color: aliceblue; border-radius: 50px; font-size: 20px; padding: 8px;">프로젝트 체험하기</button></a>
+                    <a href="funding"><button style="border-style: solid; border-color: aliceblue; border-radius: 50px; font-size: 20px; padding: 8px;">프로젝트 알아보기</button></a>
                 </div>
             </div>
         </div>
@@ -210,7 +216,7 @@
     <!-- Media Section -->
     <div id="project2" style="display: '';">
         <div>
-            <h2 class="logo-text white">GIRL GROUP PROJECT</h2>
+            <h2 class="logo-text white">LAB SYSTEM</h2>
     
             <div id="app" class="vision-grid" style="margin-top: 10px;">
             
@@ -218,8 +224,8 @@
                     <!-- <img src="esset/image.png" alt="" width="85%" style="text-align: center; justify-content: center;"> -->
                 </div>
                 <div class="white vision-left">
-                    <h1 class="vision-text">GSUGAR Ent.의 첫 여자아이돌 프로젝트</h1>
-                    <p>설명란 준비 중</p>
+                    <h1 class="vision-text">GSUGAR Ent.의 아이돌 기획 체계</h1>
+                    <p>이 기획 체계를 활용하는 첫 여자아이돌 프로젝트를 준비 중입니다. 자세한 설명 준비 중 (홈페이지 개편 중)</p>
                     <!-- <div style=" margin-top: 40px;">
                         <a href="funding"><button style="border-style: solid; border-color: aliceblue; border-radius: 50px; font-size: 20px; padding: 8px;">프로젝트 체험하기</button></a>
                     </div> -->
@@ -247,6 +253,12 @@
 
         <p>아티스트의 개성과 방향성을 기반으로 일관된 콘텐츠를 만들어내며, 이를 통해 팀의 정체성과 경쟁력을 구축합니다. 이는 K-POP 2.0을 실현하는 핵심 팀입니다.</p>
     </div>
+    </div>
+
+    <div id="audition" style="display: none;">
+        <h1 class="logo-text black" style="color: white;">Ongoing Auditions</h1>
+        
+        <span class="white" style="color: white;"><strong>Email : </strong></span><span class="white" style="color: blueviolet;"> gsugar0fficial@gsugar-ent.com</span><br>
     </div>
 
     <!-- Contact Us Section (Unchanged) -->
