@@ -172,7 +172,7 @@
             <li style="margin: 13px;" class="white select_bottom_line" onclick="click_main_var(this, 0)">Main</li>
             <li id="controler_team" style="margin: 13px;" class="white" onclick="click_main_var(this, 1)">Team</li>
             <!-- <li style="margin: 13px;" class="white" onclick="click_main_var(this, 2)">Store</li> -->
-            <li style="margin: 13px;" class="white" onclick="click_main_var(this, 3)">Audition</li>
+            <li id="controler_audition" style="margin: 13px;" class="white" onclick="click_main_var(this, 3)">Audition</li>
             <!-- <li style="margin: 13px;" class="white" onclick="click_main_var(this, 4)">MyPage</li> -->
         </ul>
     </div>
@@ -227,9 +227,9 @@
                 <div class="white vision-left">
                     <h1 class="vision-text">GSUGAR Ent.의 아이돌 기획 체계</h1>
                     <p>이 기획 체계를 활용하는 첫 여자아이돌 프로젝트를 준비 중입니다. 자세한 설명 준비 중 (홈페이지 개편 중)</p>
-                    <!-- <div style=" margin-top: 40px;">
-                        <a href="funding"><button style="border-style: solid; border-color: aliceblue; border-radius: 50px; font-size: 20px; padding: 8px;">프로젝트 체험하기</button></a>
-                    </div> -->
+                    <div style=" margin-top: 40px;">
+                        <a><button style="border-style: solid; border-color: aliceblue; border-radius: 50px; font-size: 20px; padding: 8px;" onclick="click_main_var(document.getElementById('controler_audition'), 3)">오디션 지원하기</button></a>
+                    </div>
                 </div>
             </div>
             </div>
@@ -258,8 +258,130 @@
 
     <div id="audition" style="display: none;">
         <h1 class="logo-text black" style="color: white;">Ongoing Auditions</h1>
-        <input placeholder="이름">
-        <input placeholder=""
+        <div style="display: flex; flex-direction: column; align-items: center;">
+            <div style="display: flex;">
+                <input id="namespace" placeholder="이름 Name" style="width: 200px;">
+                <input placeholder="국적 Nationality" style="width: 200px;">
+            </div>
+            <div style="display: flex;">
+                <select name="sector" style="width: 217.2px;">
+                    <option value="">지원 분야 Sector</option>
+                    <option value="female">보컬 Vocal</option>
+                    <option value="male">랩 Rap</option>
+                    <option value="female">댄스 Dance</option>
+                    <option value="male">비주얼 Visual</option>
+                </select>
+                <select name="gender" style="width: 217.2px;">
+                    <option value="">성별 Gender</option>
+                    <option value="female">여 Female</option>
+                    <option value="male">남 Male</option>
+                </select>
+            </div>
+            <div style="display: flex;">
+                <input placeholder="신장(cm) height" style="width: 200px;">
+                <input placeholder="체중(kg) weight" style="width: 200px;">
+
+            </div>
+
+            <div style="display: flex;">
+                <select name="YYYY" style="width: 217.2px;">
+                    <option value="">YYYY</option>
+                    <option value="2017 ~ 2026">~ 2026</option>
+                    <option value="2016">2016</option>
+                    <option value="2015">2015</option>
+                    <option value="2014">2014</option>
+                    <option value="2013">2013</option>
+                    <option value="2012">2012</option>
+                    <option value="2011">2011</option>
+                    <option value="2010">2010</option>
+                    <option value="2009">2009</option>
+                    <option value="2008">2008</option>
+                    <option value="2007">2007</option>
+                    <option value="2006">2006</option>
+                    <option value="2005">2005</option>
+                    <option value="2004">2004</option>
+                    <option value="2003">2003</option>
+                    <option value="2002">2002</option>
+                    <option value="2001">2001</option>
+                    <option value="2000">2000</option>
+                    <option value="1999 under">1999 ~ </option>
+                </select>
+                <select name="MM" style="width: 107px;">
+                    <option value="">MM</option>
+                    <option value="female">01</option>
+                    <option value="female">02</option>
+                    <option value="female">03</option>
+                    <option value="female">04</option>
+                    <option value="female">05</option>
+                    <option value="female">06</option>
+                    <option value="female">07</option>
+                    <option value="female">08</option>
+                    <option value="female">09</option>
+                    <option value="female">10</option>
+                    <option value="female">11</option>
+                    <option value="female">12</option>
+                </select>
+                <select name="DD" style="width: 107px;">
+                    <option value="">DD</option>
+                    <option value="female">01</option>
+                    <option value="female">02</option>
+                    <option value="female">03</option>
+                    <option value="female">04</option>
+                    <option value="female">05</option>
+                    <option value="female">06</option>
+                    <option value="female">07</option>
+                    <option value="female">08</option>
+                    <option value="female">09</option>
+                    <option value="female">10</option>
+                    <option value="female">11</option>
+                    <option value="female">12</option>
+                    <option value="female">13</option>
+                    <option value="female">14</option>
+                    <option value="female">15</option>
+                    <option value="female">16</option>
+                    <option value="female">17</option>
+                    <option value="female">18</option>
+                    <option value="female">19</option>
+                    <option value="female">20</option>
+                    <option value="female">21</option>
+                    <option value="female">22</option>
+                    <option value="female">23</option>
+                    <option value="female">24</option>
+                    <option value="female">25</option>
+                    <option value="female">26</option>
+                    <option value="female">27</option>
+                    <option value="female">28</option>
+                    <option value="female">29</option>
+                    <option value="female">30</option>
+                    <option value="female">31</option>
+                </select>
+            </div>
+            <div style="display: flex;">
+                <input placeholder="이메일 E-mail" style="width: 200px;">
+                <input placeholder="연락처 Phone Number" style="width: 200px;">
+            </div>
+            <input placeholder="주소 Address" style="width: 417.2px;">
+            <textarea id="experience" placeholder="특기/경력사항 Specialty/Experience" style="width: 417.2px; height: 100px; border-radius: 17px;"></textarea>
+            <!-- 사진 -->
+            <div>
+                <div style="text-align: center; align-items: center;">
+                    <label for="photoInput" class="custom-btn">사진 업로드 Photo Upload (MAX 4)</label>
+                    <input type="file" id="photoInput" accept="image/*" style="display: none;" multiple>
+                </div>
+                <div id="photoPreview" style="display:flex; gap:10px; flex-wrap:wrap; margin-top:10px;"></div>
+              </div>
+            
+            <!-- 영상 -->
+            <div style="margin-top:10px;">
+                <label for="videoInput" class="custom-btn">영상 업로드 Video Upload (MAX 1)</label>
+                <input type="file" id="videoInput" accept="video/*" style="display: none;">
+            
+                <div id="videoPreview" style="margin-top:10px;"></div>
+            </div>
+        </div>
+
+        
+
         <span class="white" style="color: white;"><strong>Email : </strong></span><span class="white" style="color: blueviolet;"> gsugar0fficial@gsugar-ent.com</span><br>
     </div>
 
@@ -310,5 +432,73 @@
     observer.observe(vision[1]);
     observer_store.observe(store[0]);
 </script>
+<script>
+    let photoFiles = [];
+    
+    const input = document.getElementById("photoInput");
+    
+    input.addEventListener("change", (e) => {
+      const newFiles = Array.from(e.target.files);
+    
+      if (photoFiles.length === 0) {
+        // 초기 업로드
+        photoFiles = newFiles.slice(0, 9);
+      } else {
+        // 추가 업로드
+        photoFiles = [...photoFiles, ...newFiles].slice(0, 9);
+      }
+    
+      renderPhotos();
+    
+      // 같은 파일 다시 선택 가능하게 초기화 (중요)
+      input.value = "";
+    });
+    
+    function renderPhotos() {
+      const preview = document.getElementById("photoPreview");
+      preview.innerHTML = "";
+    
+      photoFiles.forEach((file, index) => {
+        const wrapper = document.createElement("div");
+        wrapper.style.position = "relative";
+    
+        const img = document.createElement("img");
+        img.src = URL.createObjectURL(file);
+        img.style.width = "100px";
+        img.style.height = "100px";
+        img.style.objectFit = "cover";
+    
+        const btn = document.createElement("button");
+        btn.innerText = "X";
+        btn.style.position = "absolute";
+        btn.style.top = "0";
+        btn.style.right = "0";
+        btn.onclick = () => {
+          photoFiles.splice(index, 1);
+          renderPhotos();
+        };
+    
+        wrapper.appendChild(img);
+        wrapper.appendChild(btn);
+        preview.appendChild(wrapper);
+      });
+    }
+
+    // 영상 (1개만)
+document.getElementById("videoInput").addEventListener("change", (e) => {
+  const preview = document.getElementById("videoPreview");
+  preview.innerHTML = "";
+
+  const file = e.target.files[0];
+  if (!file) return;
+
+  const video = document.createElement("video");
+  video.src = URL.createObjectURL(file);
+  video.controls = true;
+  video.style.width = "300px";
+
+  preview.appendChild(video);
+});
+    </script>
 
 </html>
