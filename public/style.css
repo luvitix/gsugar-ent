@@ -385,6 +385,19 @@ li:hover { font-size: 18px; border-bottom: 1px solid white; cursor: pointer; }
     display: none;
 }
 
+.rank1box {
+    width: 417.2px;
+}
+
+.rank2input {
+    width: 200px;
+}
+.rank2drop {
+    width: 217.2px;
+}
+.rank3box {
+    width: 107px;
+}
 
 @media (max-width: 900px) {
     .vision-grid {
@@ -528,6 +541,22 @@ li:hover { font-size: 18px; border-bottom: 1px solid white; cursor: pointer; }
     #mobile_nav {
         padding: 0;
     }
+    label {
+        width: 319px;
+    }
+    .rank1box {
+        width: 317.2px;
+    }
+    .rank2input {
+        width: 150px;
+    }
+    .rank2drop {
+        width: 167.2px;
+    }
+    .rank3box {
+        width: 82px;
+    }
+
 }
 
 @media (min-width: 901px) {
