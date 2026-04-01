@@ -399,6 +399,44 @@ li:hover { font-size: 18px; border-bottom: 1px solid white; cursor: pointer; }
     width: 107px;
 }
 
+
+
+.popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    display: none;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .popup-content {
+    background: #fff;
+    padding: 20px;
+    width: clamp(300px, 80vw, 420px);
+    border-radius: 12px;
+  }
+  
+  .terms-text {
+    max-height: 200px;
+    overflow-y: auto;
+    margin: 10px 0;
+    font-size: 14px;
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+  }
+  
+  .agree-box {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+  }
+
 @media (max-width: 900px) {
     .vision-grid {
         grid-template-columns: repeat(1, 1fr);
@@ -556,6 +594,7 @@ li:hover { font-size: 18px; border-bottom: 1px solid white; cursor: pointer; }
     .rank3box {
         width: 82px;
     }
+    
 
 }
 

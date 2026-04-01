@@ -378,6 +378,45 @@
             
                 <div id="videoPreview" style="margin-top:10px;"></div>
             </div>
+
+            <!--  -->
+            <!-- 외부 동의 -->
+            <label class="agree-box" id="openTerms">
+                <input type="checkbox" id="agreeCheck" disabled>
+                <span>[필수] 개인정보 수집 및 이용 동의</span>
+            </label>
+            
+            <!-- 팝업 -->
+            <div id="termsPopup" class="popup">
+                <div class="popup-content">
+                <h3>개인정보 수집 및 이용 안내</h3>
+            
+                <div class="terms-text" id="termsText">
+                    당사는 오디션 지원자 선발 및 관리, 결과 안내를 위해 아래와 같이 개인정보를 수집 및 이용합니다.<br><br>
+                  
+                    1. 수집 항목<br>
+                    - 이름, 생년월일, 연락처, 이메일, 사진, 영상, 특기/경력사항 등<br><br>
+                  
+                    2. 수집 및 이용 목적<br>
+                    - 오디션 지원자 확인 및 본인 식별<br>
+                    - 오디션 일정 안내 및 결과 통보<br>
+                    - 향후 관련 프로젝트 및 기획 제안 안내<br><br>
+                  
+                    3. 보유 및 이용 기간<br>
+                    - 지원일로부터 1년간 보관 후 파기<br>
+                    (단, 관련 법령에 따라 보관이 필요한 경우 해당 기간 동안 보관될 수 있습니다.)<br><br>
+                  
+                    4. 동의 거부 권리 및 불이익 안내<br>
+                    - 지원자는 개인정보 수집 및 이용에 대한 동의를 거부할 권리가 있습니다.<br>
+                    - 다만, 필수항목에 대한 동의를 거부할 경우 오디션 지원이 제한될 수 있습니다.<br><br>
+                  
+                    본인은 위 내용을 충분히 숙지하였으며, 개인정보 수집 및 이용에 동의합니다.
+                </div>
+            
+                <button id="agreeBtn" disabled>동의합니다</button>
+                <button id="closePopup">거부합니다(또는 닫기)</button>
+                </div>
+            </div>
         </div>
 
         
@@ -498,6 +537,43 @@ document.getElementById("videoInput").addEventListener("change", (e) => {
   video.style.width = "300px";
 
   preview.appendChild(video);
+});
+    </script>
+
+    <script>
+     const openArea = document.getElementById("openTerms");
+const popup = document.getElementById("termsPopup");
+const closeBtn = document.getElementById("closePopup");
+const agreeBtn = document.getElementById("agreeBtn");
+const termsText = document.getElementById("termsText");
+const checkbox = document.getElementById("agreeCheck");
+
+// 팝업 열기 (라벨 클릭 시)
+openArea.addEventListener("click", (e) => {
+  e.preventDefault(); // 체크되는 거 막기
+  popup.style.display = "flex";
+});
+
+// 팝업 닫기
+closeBtn.addEventListener("click", () => {
+  popup.style.display = "none";
+});
+
+// 스크롤 끝 감지
+termsText.addEventListener("scroll", () => {
+  const isBottom =
+    termsText.scrollTop + termsText.clientHeight >= termsText.scrollHeight - 5;
+
+  if (isBottom) {
+    agreeBtn.disabled = false;
+  }
+});
+
+// 팝업 내부 동의
+agreeBtn.addEventListener("click", () => {
+  checkbox.checked = true;
+  checkbox.disabled = false;
+  popup.style.display = "none";
 });
     </script>
 
