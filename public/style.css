@@ -441,6 +441,10 @@ li:hover { font-size: 18px; border-bottom: 1px solid white; cursor: pointer; }
     color: red;
   }
 
+  #submitBtn {
+    width: 434.4px
+    }
+
 @media (max-width: 900px) {
     .vision-grid {
         grid-template-columns: repeat(1, 1fr);
