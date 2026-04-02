@@ -599,7 +599,9 @@ li:hover { font-size: 18px; border-bottom: 1px solid white; cursor: pointer; }
         width: 82px;
     }
     
-
+    #submitBtn {
+        width: 319px
+    }
 }
 
 @media (min-width: 901px) {
