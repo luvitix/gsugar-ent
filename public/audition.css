@@ -1,0 +1,187 @@
+@font-face {
+    font-family: 'Pretendard';
+    src: url('esset/Pretendard-Regular.woff2') format('woff2'),
+         url('esset/Pretendard-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    -webkit-font-smoothing: antialiased;
+}
+
+@font-face {
+    font-family: 'SUIT-Regular';
+    src: url('esset/SUIT-Regular.woff2') format('woff2'),
+         url('esset/SUIT-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    -webkit-font-smoothing: antialiased;
+}
+
+label {
+    display: block;
+    background-color: white;
+    border-radius: 50px;
+    padding: 7px;
+    font-family: 'Pretendard', sans-serif;
+    color: rgb(118, 118, 118);
+    width: 419px;
+    font-size: 13px;
+    margin: 1.6px;
+}
+
+
+.rank1box {
+    width: 417.2px;
+}
+
+.rank2input {
+    width: 200px;
+}
+.rank2drop {
+    width: 217.2px;
+}
+.rank3box {
+    width: 107px;
+}
+
+
+
+.popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    display: none;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .popup-content {
+    background: #fff;
+    padding: 20px;
+    width: clamp(300px, 80vw, 420px);
+    border-radius: 12px;
+  }
+  
+  .terms-text {
+    max-height: 200px;
+    overflow-y: auto;
+    margin: 10px 0;
+    font-size: 14px;
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+  }
+  
+  .agree-box {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+  }
+
+  .red-placeholder::placeholder {
+    color: #e71212;
+  }
+
+  #submitBtn {
+    width: 434.4px
+    }
+
+
+
+    .photo-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5px;
+        max-width: 500px;
+        margin-top: 1px;
+      }
+      
+      .photo-box {
+        width: 216px;
+        height: 216px;
+        background: white;
+        color: rgb(118, 118, 118);
+        font-family: 'Pretendard', sans-serif;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        border-radius: 15px;
+        cursor: pointer;
+        font-size: 16px;
+        position: relative;
+        overflow: hidden;
+      }
+      
+      .photo-box img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      
+      /* 팝업 */
+      .modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.85);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+      
+      .modal img {
+        max-width: 90%;
+        max-height: 80%;
+        margin-bottom: 15px;
+      }
+      
+      .change-btn {
+        background: white;
+        color: black;
+        padding: 10px 20px;
+        border-radius: 20px;
+        cursor: pointer;
+      }
+
+      #videoPreview {
+        width: 434.4px;
+      }
+
+
+
+      @media (max-width: 900px) {
+        label {
+            width: 319px;
+        }
+        .rank1box {
+            width: 317.2px;
+        }
+        .rank2input {
+            width: 150px;
+        }
+        .rank2drop {
+            width: 167.2px;
+        }
+        .rank3box {
+            width: 82px;
+        }
+        
+        #submitBtn {
+            width: 333px
+        }
+        .photo-box {
+            width: 166px;
+            height: 166px;
+            font-size: 14px;
+        }
+        #videoPreview {
+            width: 333px;
+        }
+    }

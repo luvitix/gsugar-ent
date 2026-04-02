@@ -6,6 +6,7 @@
     <meta name="facebook-domain-verification" content="izww706vitlsjbxq2ue1hxfgugjy92" />
     <title>GSUGAR ENTERTAINMENT</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="audition.css">
     <link rel="script" href="script.js">
     <link rel="icon" href="favicon.ico">
     <script>
@@ -289,15 +290,21 @@
             <!-- 사진 -->
             <div>
                 <div style="text-align: center; align-items: center;">
-                    <label id="photoBtn" for="photoInput" class="custom-btn">사진 업로드 Photo Upload (MAX 4)</label>
-                    <input type="file" id="photoInput" accept="image/*" style="display: none;" multiple>
+                    <div class="photo-grid">
+                        <div class="photo-box" data-type="front">Face (Front)</div>
+                        <div class="photo-box" data-type="full">Full Body</div>
+                        <div class="photo-box" data-type="left">Face (Left Angle)</div>
+                        <div class="photo-box" data-type="right">Face (Right Angle)</div>
+                      </div>
+                    <!-- <label id="photoBtn" for="photoInput" class="custom-btn">사진 업로드 Photo Upload (MAX 4)</label> -->
+                    <input type="file" id="photoInput" accept="image/*" style="display: none;">
                 </div>
                 <div id="photoPreview" style="display:flex; gap:10px; flex-wrap:wrap; margin-top:10px;"></div>
-              </div>
+            </div>
             
             <!-- 영상 -->
             <div >
-                <label for="videoInput" class="custom-btn">영상 업로드 Video Upload (MAX 1)</label>
+                <label for="videoInput" class="custom-btn" id="videoInputLabel" onclick="this.style.color=''">영상 업로드 Video Upload (MAX 1)</label>
                 <input type="file" id="videoInput" accept="video/*" style="display: none;">
             
                 <div id="videoPreview" style="margin-top:10px;"></div>
@@ -391,56 +398,122 @@
     observer_store.observe(store[0]);
 </script>
 <script>
-    let photoFiles = [];
+    // let photoFiles = [];
     
+    // const input = document.getElementById("photoInput");
+    
+    // input.addEventListener("change", (e) => {
+    //   const newFiles = Array.from(e.target.files);
+    
+    //   if (photoFiles.length === 0) {
+    //     // 초기 업로드
+    //     photoFiles = newFiles.slice(0, 9);
+    //   } else {
+    //     // 추가 업로드
+    //     photoFiles = [...photoFiles, ...newFiles].slice(0, 9);
+    //   }
+    
+    //   renderPhotos();
+    
+    //   // 같은 파일 다시 선택 가능하게 초기화 (중요)
+    //   input.value = "";
+    // });
+    
+    // function renderPhotos() {
+    //   const preview = document.getElementById("photoPreview");
+    //   preview.innerHTML = "";
+    
+    //   photoFiles.forEach((file, index) => {
+    //     const wrapper = document.createElement("div");
+    //     wrapper.style.position = "relative";
+    
+    //     const img = document.createElement("img");
+    //     img.src = URL.createObjectURL(file);
+    //     img.style.width = "100px";
+    //     img.style.height = "100px";
+    //     img.style.objectFit = "cover";
+    
+    //     const btn = document.createElement("button");
+    //     btn.innerText = "X";
+    //     btn.style.position = "absolute";
+    //     btn.style.top = "0";
+    //     btn.style.right = "0";
+    //     btn.onclick = () => {
+    //       photoFiles.splice(index, 1);
+    //       renderPhotos();
+    //     };
+    
+    //     wrapper.appendChild(img);
+    //     wrapper.appendChild(btn);
+    //     preview.appendChild(wrapper);
+    //   });
+    // }
     const input = document.getElementById("photoInput");
-    
-    input.addEventListener("change", (e) => {
-      const newFiles = Array.from(e.target.files);
-    
-      if (photoFiles.length === 0) {
-        // 초기 업로드
-        photoFiles = newFiles.slice(0, 9);
-      } else {
-        // 추가 업로드
-        photoFiles = [...photoFiles, ...newFiles].slice(0, 9);
-      }
-    
-      renderPhotos();
-    
-      // 같은 파일 다시 선택 가능하게 초기화 (중요)
-      input.value = "";
-    });
-    
-    function renderPhotos() {
-      const preview = document.getElementById("photoPreview");
-      preview.innerHTML = "";
-    
-      photoFiles.forEach((file, index) => {
-        const wrapper = document.createElement("div");
-        wrapper.style.position = "relative";
-    
-        const img = document.createElement("img");
-        img.src = URL.createObjectURL(file);
-        img.style.width = "100px";
-        img.style.height = "100px";
-        img.style.objectFit = "cover";
-    
-        const btn = document.createElement("button");
-        btn.innerText = "X";
-        btn.style.position = "absolute";
-        btn.style.top = "0";
-        btn.style.right = "0";
-        btn.onclick = () => {
-          photoFiles.splice(index, 1);
-          renderPhotos();
-        };
-    
-        wrapper.appendChild(img);
-        wrapper.appendChild(btn);
-        preview.appendChild(wrapper);
-      });
+    const boxes = document.querySelectorAll(".photo-box");
+
+    let photoData = {};
+    let currentType = null;
+
+// 박스 클릭
+boxes.forEach(box => {
+  box.addEventListener("click", () => {
+    const type = box.dataset.type;
+
+    // 이미 사진 있으면 → 전체보기
+    if (photoData[type]) {
+      showModal(type);
+    } else {
+      currentType = type;
+      input.click();
     }
+  });
+});
+
+// 파일 선택
+input.addEventListener("change", (e) => {
+  const file = e.target.files[0];
+  if (!file || !currentType) return;
+
+  photoData[currentType] = file;
+
+  const targetBox = document.querySelector(`[data-type="${currentType}"]`);
+  targetBox.innerHTML = `<img src="${URL.createObjectURL(file)}">`;
+
+  input.value = "";
+});
+
+// 팝업
+function showModal(type) {
+  const modal = document.createElement("div");
+  modal.className = "modal";
+
+  const img = document.createElement("img");
+  img.src = URL.createObjectURL(photoData[type]);
+
+  const changeBtn = document.createElement("div");
+  changeBtn.className = "change-btn";
+  changeBtn.innerText = "사진 바꾸기";
+
+  changeBtn.onclick = (e) => {
+    e.stopPropagation();
+    currentType = type;
+    modal.remove();
+    input.click();
+  };
+
+  modal.appendChild(img);
+  modal.appendChild(changeBtn);
+
+  modal.onclick = () => modal.remove();
+
+  document.body.appendChild(modal);
+}
+
+
+
+
+
+
 
     // 영상 (1개만)
 document.getElementById("videoInput").addEventListener("change", (e) => {
@@ -522,7 +595,7 @@ agreeBtn.addEventListener("click", () => {
         address: document.querySelector(".rank1box").value,
         experience: document.getElementById("experience").value,
 
-        photos: photoFiles, // 이미 변수 있음
+        photos: photoData, // 이미 변수 있음
         video: document.getElementById("videoInput").files[0],
 
         agree: document.getElementById("agreeCheck").checked
@@ -541,10 +614,14 @@ agreeBtn.addEventListener("click", () => {
         || data.email == ""
         || data.phone == ""
         || data.address == ""
-        || data.photos.length == 0
+        || data.photos.front == undefined
+        || data.photos.full == undefined
+        || data.photos.left == undefined
+        || data.photos.right == undefined
+        || data.video == undefined
     ) {
         if (data.agree != true) {
-            document.getElementById("openTerms").style.color = "red"
+            document.getElementById("openTerms").style.color = "#e71212"
         }
         if (data.name == "") {
             document.getElementById("namespace").classList.add("red-placeholder");
@@ -553,10 +630,10 @@ agreeBtn.addEventListener("click", () => {
             document.querySelectorAll(".rank2input")[1].classList.add("red-placeholder")
         }
         if (data.sector == "") {
-            document.querySelector("select[name='sector']").style.color = "red"
+            document.querySelector("select[name='sector']").style.color = "#e71212"
         }
         if (data.gender == "") {
-            document.querySelector("select[name='gender']").style.color = "red"
+            document.querySelector("select[name='gender']").style.color = "#e71212"
         }
         if (data.height == "") {
             document.querySelectorAll(".rank2input")[2].classList.add("red-placeholder")
@@ -565,13 +642,13 @@ agreeBtn.addEventListener("click", () => {
             document.querySelectorAll(".rank2input")[3].classList.add("red-placeholder")
         }
         if (data.birth.year == "") {
-            document.querySelector("select[name='YYYY']").style.color = "red"
+            document.querySelector("select[name='YYYY']").style.color = "#e71212"
         }
         if (data.birth.month == "") {
-            document.querySelector("select[name='MM']").style.color = "red"
+            document.querySelector("select[name='MM']").style.color = "#e71212"
         }
         if (data.birth.day == "") {
-            document.querySelector("select[name='DD']").style.color = "red"
+            document.querySelector("select[name='DD']").style.color = "#e71212"
         }
         if (data.email == "") {
             document.querySelectorAll(".rank2input")[4].classList.add("red-placeholder")
@@ -582,12 +659,18 @@ agreeBtn.addEventListener("click", () => {
         if (data.address == "") {
             document.querySelector(".rank1box").classList.add("red-placeholder")
         }
-        if (data.photos.length == 0) {
-            document.getElementById("photoBtn").style.color = "red"
+        if (data.photos.front == undefined || data.photos.full == undefined || data.photos.left == undefined || data.photos.right == undefined) {
+            document.querySelectorAll(".photo-box")[0].style.color = "#e71212"
+            document.querySelectorAll(".photo-box")[1].style.color = "#e71212"
+            document.querySelectorAll(".photo-box")[2].style.color = "#e71212"
+            document.querySelectorAll(".photo-box")[3].style.color = "#e71212"
+        }
+        if (data.video == undefined) {
+            document.getElementById("videoInputLabel").style.color = "#e71212"
         }
         alert("입력하지 않은 칸이 있습니다.")
     }
-    console.log("지원 데이터:", data);
+    console.log("지원 데이터:", data, data.photos.length);
 });
     </script>
 
