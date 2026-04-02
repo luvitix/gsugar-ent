@@ -12,8 +12,8 @@ app.get('/:id1', (req, res) => {
     // 어떤 페이지로 갈지 결정
     if (id1 == "funding") {
         dynamicHtmlPath = path.join(__dirname, 'public', 'funding.html');
-    } else if (id1 == "store") {
-        dynamicHtmlPath = path.join(__dirname, 'public', 'store.html');
+    } else if (id1 == "audition") {
+        dynamicHtmlPath = path.join(__dirname, 'public', 'audition.html');
     } else if (id1 == "mypage") {
         dynamicHtmlPath = path.join(__dirname, 'public', 'mypage.html');
     } else if (id1 == "event") {
@@ -59,7 +59,7 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-// const port = 3000;
-// app.listen(port, () => {
-//     console.log(`Server is running at http://localhost:${port}`);
-// });
+const port = 3000;
+app.listen(port, () => {
+    console.log(`Server is running at http://localhost:${port}`);
+});

@@ -437,6 +437,10 @@ li:hover { font-size: 18px; border-bottom: 1px solid white; cursor: pointer; }
     cursor: pointer;
   }
 
+  .red-placeholder::placeholder {
+    color: red;
+  }
+
 @media (max-width: 900px) {
     .vision-grid {
         grid-template-columns: repeat(1, 1fr);

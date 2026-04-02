@@ -113,23 +113,16 @@
             document.getElementById('project2').style.display = "";
             document.getElementById('media').style.display = "none";
             document.getElementById('contact').style.display = "";
-            document.getElementById('audition').style.display = "none";
         } else if (key == 1) {
             document.getElementById('main').style.display = "none";
             document.getElementById('project').style.display = "none";
             document.getElementById('project2').style.display = "none";
             document.getElementById('media').style.display = "";
             document.getElementById('contact').style.display = "none";
-            document.getElementById('audition').style.display = "none";
         } else if (key == 2) {
             window.location.href = '/store';
         } else if (key == 3) {
-            document.getElementById('main').style.display = "none";
-            document.getElementById('project').style.display = "none";
-            document.getElementById('project2').style.display = "none";
-            document.getElementById('media').style.display = "none";
-            document.getElementById('contact').style.display = "none";
-            document.getElementById('audition').style.display = "";
+            window.location.href = '/audition';
         } else if (key == 4) {
             window.location.href = '/mypage';
         }
@@ -151,7 +144,6 @@
             document.getElementById('media').style.display = "none";
             document.getElementById('contact').style.display = "none";
             document.getElementById('capyright').style.display = "none";
-            document.getElementById('audition').style.display = "none";
         } else {
             console.log("-")
         }
@@ -256,174 +248,6 @@
     </div>
     </div>
 
-    <div id="audition" style="display: none;">
-        <h1 class="logo-text black" style="color: white;">Ongoing Auditions</h1>
-        <div style="display: flex; flex-direction: column; align-items: center;">
-            <div style="display: flex;">
-                <input id="namespace" class="rank2input" placeholder="이름 Name">
-                <input class="rank2input" placeholder="국적 Nationality">
-            </div>
-            <div style="display: flex;">
-                <select class="rank2drop" name="sector">
-                    <option value="">지원 분야 Sector</option>
-                    <option value="vocal">보컬 Vocal</option>
-                    <option value="rap">랩 Rap</option>
-                    <option value="dance">댄스 Dance</option>
-                    <option value="visual">비주얼 Visual</option>
-                </select>
-                <select class="rank2drop" name="gender">
-                    <option value="">성별 Gender</option>
-                    <option value="female">여 Female</option>
-                    <option value="male">남 Male</option>
-                </select>
-            </div>
-            <div style="display: flex;">
-                <input class="rank2input" placeholder="신장(cm) height">
-                <input class="rank2input" placeholder="체중(kg) weight">
-
-            </div>
-
-            <div style="display: flex;">
-                <select class="rank2drop" name="YYYY">
-                    <option value="">YYYY</option>
-                    <option value="2017 ~ 2026">~ 2026</option>
-                    <option value="2016">2016</option>
-                    <option value="2015">2015</option>
-                    <option value="2014">2014</option>
-                    <option value="2013">2013</option>
-                    <option value="2012">2012</option>
-                    <option value="2011">2011</option>
-                    <option value="2010">2010</option>
-                    <option value="2009">2009</option>
-                    <option value="2008">2008</option>
-                    <option value="2007">2007</option>
-                    <option value="2006">2006</option>
-                    <option value="2005">2005</option>
-                    <option value="2004">2004</option>
-                    <option value="2003">2003</option>
-                    <option value="2002">2002</option>
-                    <option value="2001">2001</option>
-                    <option value="2000">2000</option>
-                    <option value="1999 under">1999 ~ </option>
-                </select>
-                <select class="rank3box" name="MM">
-                    <option value="">MM</option>
-                    <option value="female">01</option>
-                    <option value="female">02</option>
-                    <option value="female">03</option>
-                    <option value="female">04</option>
-                    <option value="female">05</option>
-                    <option value="female">06</option>
-                    <option value="female">07</option>
-                    <option value="female">08</option>
-                    <option value="female">09</option>
-                    <option value="female">10</option>
-                    <option value="female">11</option>
-                    <option value="female">12</option>
-                </select>
-                <select class="rank3box" name="DD">
-                    <option value="">DD</option>
-                    <option value="female">01</option>
-                    <option value="female">02</option>
-                    <option value="female">03</option>
-                    <option value="female">04</option>
-                    <option value="female">05</option>
-                    <option value="female">06</option>
-                    <option value="female">07</option>
-                    <option value="female">08</option>
-                    <option value="female">09</option>
-                    <option value="female">10</option>
-                    <option value="female">11</option>
-                    <option value="female">12</option>
-                    <option value="female">13</option>
-                    <option value="female">14</option>
-                    <option value="female">15</option>
-                    <option value="female">16</option>
-                    <option value="female">17</option>
-                    <option value="female">18</option>
-                    <option value="female">19</option>
-                    <option value="female">20</option>
-                    <option value="female">21</option>
-                    <option value="female">22</option>
-                    <option value="female">23</option>
-                    <option value="female">24</option>
-                    <option value="female">25</option>
-                    <option value="female">26</option>
-                    <option value="female">27</option>
-                    <option value="female">28</option>
-                    <option value="female">29</option>
-                    <option value="female">30</option>
-                    <option value="female">31</option>
-                </select>
-            </div>
-            <div style="display: flex;">
-                <input class="rank2input" placeholder="이메일 E-mail">
-                <input class="rank2input" placeholder="연락처 Phone Number">
-            </div>
-            <input class="rank1box" placeholder="주소 Address">
-            <textarea class="rank1box" id="experience" placeholder="특기/경력사항 Specialty/Experience" style="height: 100px; border-radius: 17px;"></textarea>
-            <!-- 사진 -->
-            <div>
-                <div style="text-align: center; align-items: center;">
-                    <label for="photoInput" class="custom-btn">사진 업로드 Photo Upload (MAX 4)</label>
-                    <input type="file" id="photoInput" accept="image/*" style="display: none;" multiple>
-                </div>
-                <div id="photoPreview" style="display:flex; gap:10px; flex-wrap:wrap; margin-top:10px;"></div>
-              </div>
-            
-            <!-- 영상 -->
-            <div style="margin-top:10px;">
-                <label for="videoInput" class="custom-btn">영상 업로드 Video Upload (MAX 1)</label>
-                <input type="file" id="videoInput" accept="video/*" style="display: none;">
-            
-                <div id="videoPreview" style="margin-top:10px;"></div>
-            </div>
-
-            <!--  -->
-            <!-- 외부 동의 -->
-            <label class="agree-box" id="openTerms">
-                <input type="checkbox" id="agreeCheck" disabled>
-                <span>[필수] 개인정보 수집 및 이용 동의</span>
-            </label>
-            
-            <!-- 팝업 -->
-            <div id="termsPopup" class="popup">
-                <div class="popup-content">
-                <h3>개인정보 수집 및 이용 안내</h3>
-            
-                <div class="terms-text" id="termsText">
-                    당사는 오디션 지원자 선발 및 관리, 결과 안내를 위해 아래와 같이 개인정보를 수집 및 이용합니다.<br><br>
-                  
-                    1. 수집 항목<br>
-                    - 이름, 생년월일, 연락처, 이메일, 사진, 영상, 특기/경력사항 등<br><br>
-                  
-                    2. 수집 및 이용 목적<br>
-                    - 오디션 지원자 확인 및 본인 식별<br>
-                    - 오디션 일정 안내 및 결과 통보<br>
-                    - 향후 관련 프로젝트 및 기획 제안 안내<br><br>
-                  
-                    3. 보유 및 이용 기간<br>
-                    - 지원일로부터 1년간 보관 후 파기<br>
-                    (단, 관련 법령에 따라 보관이 필요한 경우 해당 기간 동안 보관될 수 있습니다.)<br><br>
-                  
-                    4. 동의 거부 권리 및 불이익 안내<br>
-                    - 지원자는 개인정보 수집 및 이용에 대한 동의를 거부할 권리가 있습니다.<br>
-                    - 다만, 필수항목에 대한 동의를 거부할 경우 오디션 지원이 제한될 수 있습니다.<br><br>
-                  
-                    본인은 위 내용을 충분히 숙지하였으며, 개인정보 수집 및 이용에 동의합니다.
-                </div>
-            
-                <button id="agreeBtn" disabled>동의합니다</button>
-                <button id="closePopup">거부합니다(또는 닫기)</button>
-                </div>
-            </div>
-        </div>
-
-        
-
-        <span class="white" style="color: white;"><strong>Email : </strong></span><span class="white" style="color: blueviolet;"> gsugar0fficial@gsugar-ent.com</span><br>
-    </div>
-
     <!-- Contact Us Section (Unchanged) -->
     <div id="contact">
         <h1 class="logo-text black">Contact to GSUGAR Ent</h1>
@@ -471,110 +295,5 @@
     observer.observe(vision[1]);
     observer_store.observe(store[0]);
 </script>
-<script>
-    let photoFiles = [];
-    
-    const input = document.getElementById("photoInput");
-    
-    input.addEventListener("change", (e) => {
-      const newFiles = Array.from(e.target.files);
-    
-      if (photoFiles.length === 0) {
-        // 초기 업로드
-        photoFiles = newFiles.slice(0, 9);
-      } else {
-        // 추가 업로드
-        photoFiles = [...photoFiles, ...newFiles].slice(0, 9);
-      }
-    
-      renderPhotos();
-    
-      // 같은 파일 다시 선택 가능하게 초기화 (중요)
-      input.value = "";
-    });
-    
-    function renderPhotos() {
-      const preview = document.getElementById("photoPreview");
-      preview.innerHTML = "";
-    
-      photoFiles.forEach((file, index) => {
-        const wrapper = document.createElement("div");
-        wrapper.style.position = "relative";
-    
-        const img = document.createElement("img");
-        img.src = URL.createObjectURL(file);
-        img.style.width = "100px";
-        img.style.height = "100px";
-        img.style.objectFit = "cover";
-    
-        const btn = document.createElement("button");
-        btn.innerText = "X";
-        btn.style.position = "absolute";
-        btn.style.top = "0";
-        btn.style.right = "0";
-        btn.onclick = () => {
-          photoFiles.splice(index, 1);
-          renderPhotos();
-        };
-    
-        wrapper.appendChild(img);
-        wrapper.appendChild(btn);
-        preview.appendChild(wrapper);
-      });
-    }
-
-    // 영상 (1개만)
-document.getElementById("videoInput").addEventListener("change", (e) => {
-  const preview = document.getElementById("videoPreview");
-  preview.innerHTML = "";
-
-  const file = e.target.files[0];
-  if (!file) return;
-
-  const video = document.createElement("video");
-  video.src = URL.createObjectURL(file);
-  video.controls = true;
-  video.style.width = "300px";
-
-  preview.appendChild(video);
-});
-    </script>
-
-    <script>
-     const openArea = document.getElementById("openTerms");
-const popup = document.getElementById("termsPopup");
-const closeBtn = document.getElementById("closePopup");
-const agreeBtn = document.getElementById("agreeBtn");
-const termsText = document.getElementById("termsText");
-const checkbox = document.getElementById("agreeCheck");
-
-// 팝업 열기 (라벨 클릭 시)
-openArea.addEventListener("click", (e) => {
-  e.preventDefault(); // 체크되는 거 막기
-  popup.style.display = "flex";
-});
-
-// 팝업 닫기
-closeBtn.addEventListener("click", () => {
-  popup.style.display = "none";
-});
-
-// 스크롤 끝 감지
-termsText.addEventListener("scroll", () => {
-  const isBottom =
-    termsText.scrollTop + termsText.clientHeight >= termsText.scrollHeight - 5;
-
-  if (isBottom) {
-    agreeBtn.disabled = false;
-  }
-});
-
-// 팝업 내부 동의
-agreeBtn.addEventListener("click", () => {
-  checkbox.checked = true;
-  checkbox.disabled = false;
-  popup.style.display = "none";
-});
-    </script>
 
 </html>

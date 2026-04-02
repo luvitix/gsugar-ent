@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="facebook-domain-verification" content="izww706vitlsjbxq2ue1hxfgugjy92" />
+    <title>GSUGAR ENTERTAINMENT</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="script" href="script.js">
+    <link rel="icon" href="favicon.ico">
+    <script>
+
+    let result
+
+    async function DBload() {
+        const response = await fetch("https://mainpage-eno2n4pmqq-uc.a.run.app", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
+        
+        result = await response.json();
+    }
+
+    // Firestore에서 career링크 가져오기
+    async function openCareerLink() {
+        const doc = result.career
+        // Firestore에서 가져온 링크를 새 창으로 열기
+        window.location.replace(doc['link'], '_blank');
+    }
+
+    // Firestore에서 링크 가져오기
+    async function openMediaLink() {
+        const doc = result.media
+        // Firestore에서 가져온 링크를 새 창으로 열기
+        window.location.replace(doc['link'], '_blank');
+    }
+
+    // Firestore에서 정보 가져오기
+    async function openMediaContent() {
+
+        const response = await fetch("https://mainpage-eno2n4pmqq-uc.a.run.app", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
+        
+        const result = await response.json();
+
+        const doc = result.career
+        document.getElementById('career_img').src = doc['image'];
+
+        var storeContent = ""
+        // 모든 비동기 작업을 처리할 Promise 배열 생성
+        for (const item of result.mediaContent) {
+            storeContent += `
+            <div class="white">
+                <img id="artimage" src="${item['image']}" alt="" width="100%">
+                <h3 id="arti" class="vision-text">${item['media']}</h3>
+                <div>
+                    <a href=${item['link']}><button style="border-style: solid; border-color: aliceblue; border-radius: 50px; font-size: 20px; padding: 8px;">아티클 보러가기</button></a>
+                </div>
+            </div>`;
+        }
+
+        document.getElementsByClassName('news-grid')[1].innerHTML = storeContent
+
+        var control = result.goods
+
+        document.getElementById('goods_description1').textContent = control['description'][0];
+        document.getElementById('goods_description2').textContent = control['description'][1];
+        document.getElementById('goods_img1').src = control['img_link'][0];
+        document.getElementById('goods_img2').src = control['img_link'][1];
+    }
+        
+    // }
+    window.onload = function() {
+        DBload(); // 가장 먼저 실행
+        // openMediaContent();
+    };
+
+    // 페이지 로드 시 URL에 '?community'가 포함되어 있는지 확인
+    window.addEventListener('load', function() {
+        // 현재 URL 확인
+        const currentUrl = window.location.href;
+
+        console.log(currentUrl)
+
+        // URL에 '?community'가 포함되어 있으면 showSection 호출
+        if (currentUrl.includes('?project')) {
+            const projectLi = document.querySelectorAll('#pc_controler li')[1];
+            click_main_var(projectLi, 1)
+        }
+    });
+
+    function click_main_var(clickedElement, key) {
+        // 모든 <li> 태그의 select_bottom_line 클래스 제거
+        document.querySelectorAll('#pc_controler li').forEach((li) => {
+            li.classList.remove('select_bottom_line');
+        });
+        console.log(clickedElement)
+        // 클릭된 <li> 요소에 select_bottom_line 클래스 추가
+        clickedElement.classList.add('select_bottom_line');
+
+        document.getElementById('capyright').style.display = "";
+        
+        if (key == 0) {
+            window.location.href = '../';
+        } else if (key == 1) {
+            document.getElementById('media').style.display = "";
+            document.getElementById('audition').style.display = "none";
+        } else if (key == 2) {
+            window.location.href = '/store';
+        } else if (key == 3) {
+            document.getElementById('media').style.display = "none";
+            document.getElementById('audition').style.display = "";
+        } else if (key == 4) {
+            window.location.href = '/mypage';
+        }
+
+        if (window.innerWidth <= 900) {
+            document.getElementById('pc_controler').style.display = ""
+        } else {
+            console.log("넌 위에 있잖아")
+        }
+    }
+
+    // 디바이스 크기가 변경될 때도 동작하도록 추가
+    function test() {
+        if (window.innerWidth <= 900) {
+            document.getElementById('pc_controler').style.display = "flex"
+            document.getElementById('media').style.display = "none";
+            document.getElementById('capyright').style.display = "none";
+            document.getElementById('audition').style.display = "none";
+        } else {
+            console.log("-")
+        }
+    };
+
+    </script>
+    
+</head>
+<body>
+    <div id="var" style="display: flex; margin-bottom: 5px;">
+        <!-- <img src="esset/newsugar.png" alt="" height="100%"> -->
+        <div id="main_var_box" style="display: flex;">
+            <h1 id="main_var" class="logo-text white">GSUGAR Ent.</h1>
+            <button id="mobile_nav" class="black" style="width: 10%; font-size: 24px; background-color: white;" onclick="test()">⋮</button>
+        </div>
+ 
+        <ul id="pc_controler">
+            <li style="margin: 13px;" class="white" onclick="click_main_var(this, 0)">Main</li>
+            <li id="controler_team" style="margin: 13px;" class="white" onclick="click_main_var(this, 1)">Team</li>
+            <!-- <li style="margin: 13px;" class="white" onclick="click_main_var(this, 2)">Store</li> -->
+            <li id="controler_audition" style="margin: 13px;" class="white select_bottom_line" onclick="click_main_var(this, 3)">Audition</li>
+            <!-- <li style="margin: 13px;" class="white" onclick="click_main_var(this, 4)">MyPage</li> -->
+        </ul>
+    </div>
+
+    <div id="media" style="display: none;">
+    <div>
+        <h2 class="logo-text white" style="color: white">리스크 관리팀</h2>
+        <p>아이돌 산업은 사옥·숙소 같은 고정비와 활동에 따른 변동비가 모두 막대하게 드는 구조입니다. 이로 인해 중소 기획사는 소속 아이돌이 히트하더라도 흑자로 전환하기 어렵고, 자본이 고갈되면서 활동을 지속하지 못하는 ‘침몰하는 배’ 현상에 직면하게 됩니다.</p>
+
+        <p>저희 기획사의 ‘리스크 관리팀’은 이러한 문제를 해결하기 위해 존재합니다. 아이돌의 활동 지속 가능성을 위협하는 구조적 리스크를 식별하고 제거하여, 연습생 여러분이 안정적으로 데뷔하고 꾸준히 활동할 수 있도록 지원합니다. 이는 K-POP 2.0을 설계하는 핵심 팀입니다.</p>
+    </div>
+    <div style="margin-top: 50px;"> 
+        <h2 class="logo-text white" style="color: white">HR팀</h2>
+        <p>“Company”는 ‘함께(Com)’와 ‘빵(Panis)’을 나눈다는 의미에서 시작된 말로, ‘회사’란 사람들이 모여 가치를 나누는 공동체를 뜻합니다. HR팀은 이 본질에 가장 가까운 조직으로, “사람과 사람을 연결한다.”는 철학 아래 연습생 발굴과 인사 영입을 수행합니다.</p>
+
+        <p>잠재력 있는 인재를 찾아 적합한 환경과 팀에 연결하고, 개인의 역량과 방향성이 가장 효과적으로 발휘될 수 있도록 설계합니다. 연습생 및 인재 여러분이 가장 먼저 만나게 될 저희 기획사의 팀이며, 이는 K-POP 2.0을 구성하는 핵심 팀입니다.</p>
+    </div>
+    <div style="margin-top: 50px;">
+        <h2 class="logo-text white" style="color: white">프로듀싱팀</h2>
+        <p>프로듀싱팀은 말 그대로 아티스트의 음악과 콘텐츠 전반을 기획, 제작, 운영하는 조직입니다. A&R 및 곡 프로듀싱, 컨셉트 및 앨범 기획, 크리에이티브 디렉팅 등등 아티스트의 결과물을 완성하는 모든 과정을 담당합니다.</p>
+
+        <p>아티스트의 개성과 방향성을 기반으로 일관된 콘텐츠를 만들어내며, 이를 통해 팀의 정체성과 경쟁력을 구축합니다. 이는 K-POP 2.0을 실현하는 핵심 팀입니다.</p>
+    </div>
+    </div>
+
+    <div id="audition" style="display: '';">
+        <h1 class="logo-text black" style="color: white;">Ongoing Auditions</h1>
+        <div style="display: flex; flex-direction: column; align-items: center;">
+            <div style="display: flex;">
+                <input id="namespace" class="rank2input" placeholder="이름 Name" onkeydown="this.classList.remove('red-placeholder')">
+                <input class="rank2input" placeholder="국적 Nationality" onkeydown="this.classList.remove('red-placeholder')">
+            </div>
+            <div style="display: flex;">
+                <select class="rank2drop" name="sector" onclick="this.style.color=''">
+                    <option value="">지원 분야 Sector</option>
+                    <option value="vocal">보컬 Vocal</option>
+                    <option value="rap">랩 Rap</option>
+                    <option value="dance">댄스 Dance</option>
+                    <option value="visual">비주얼 Visual</option>
+                </select>
+                <select class="rank2drop" name="gender" onclick="this.style.color=''">
+                    <option value="">성별 Gender</option>
+                    <option value="female">여 Female</option>
+                    <option value="male">남 Male</option>
+                </select>
+            </div>
+            <div style="display: flex;">
+                <input class="rank2input" placeholder="신장(cm) height" onkeydown="this.classList.remove('red-placeholder')">
+                <input class="rank2input" placeholder="체중(kg) weight" onkeydown="this.classList.remove('red-placeholder')">
+
+            </div>
+
+            <div style="display: flex;">
+                <select class="rank2drop" name="YYYY">
+                    <option value="">YYYY</option>
+                    <option value="2017 ~ 2026">~ 2026</option>
+                    <option value="2016">2016</option>
+                    <option value="2015">2015</option>
+                    <option value="2014">2014</option>
+                    <option value="2013">2013</option>
+                    <option value="2012">2012</option>
+                    <option value="2011">2011</option>
+                    <option value="2010">2010</option>
+                    <option value="2009">2009</option>
+                    <option value="2008">2008</option>
+                    <option value="2007">2007</option>
+                    <option value="2006">2006</option>
+                    <option value="2005">2005</option>
+                    <option value="2004">2004</option>
+                    <option value="2003">2003</option>
+                    <option value="2002">2002</option>
+                    <option value="2001">2001</option>
+                    <option value="2000">2000</option>
+                    <option value="1999 under">1999 ~ </option>
+                </select>
+                <select class="rank3box" name="MM">
+                    <option value="">MM</option>
+                    <option value="month_01">01</option>
+                    <option value="month_02">02</option>
+                    <option value="month_03">03</option>
+                    <option value="month_04">04</option>
+                    <option value="month_05">05</option>
+                    <option value="month_06">06</option>
+                    <option value="month_07">07</option>
+                    <option value="month_08">08</option>
+                    <option value="month_09">09</option>
+                    <option value="month_10">10</option>
+                    <option value="month_11">11</option>
+                    <option value="month_12">12</option>
+                </select>
+                <select class="rank3box" name="DD">
+                    <option value="">DD</option>
+                    <option value="day_01">01</option>
+                    <option value="day_02">02</option>
+                    <option value="day_03">03</option>
+                    <option value="day_04">04</option>
+                    <option value="day_05">05</option>
+                    <option value="day_06">06</option>
+                    <option value="day_07">07</option>
+                    <option value="day_08">08</option>
+                    <option value="day_09">09</option>
+                    <option value="day_10">10</option>
+                    <option value="day_11">11</option>
+                    <option value="day_12">12</option>
+                    <option value="day_13">13</option>
+                    <option value="day_14">14</option>
+                    <option value="day_15">15</option>
+                    <option value="day_16">16</option>
+                    <option value="day_17">17</option>
+                    <option value="day_18">18</option>
+                    <option value="day_19">19</option>
+                    <option value="day_20">20</option>
+                    <option value="day_21">21</option>
+                    <option value="day_22">22</option>
+                    <option value="day_23">23</option>
+                    <option value="day_24">24</option>
+                    <option value="day_25">25</option>
+                    <option value="day_26">26</option>
+                    <option value="day_27">27</option>
+                    <option value="day_28">28</option>
+                    <option value="day_29">29</option>
+                    <option value="day_30">30</option>
+                    <option value="day_31">31</option>
+                </select>
+            </div>
+            <div style="display: flex;">
+                <input class="rank2input" placeholder="이메일 E-mail">
+                <input class="rank2input" placeholder="연락처 Phone Number">
+            </div>
+            <input class="rank1box" placeholder="주소 Address">
+            <textarea class="rank1box" id="experience" placeholder="특기/경력사항 Specialty/Experience" style="height: 100px; border-radius: 17px;"></textarea>
+            <!-- 사진 -->
+            <div>
+                <div style="text-align: center; align-items: center;">
+                    <label for="photoInput" class="custom-btn">사진 업로드 Photo Upload (MAX 4)</label>
+                    <input type="file" id="photoInput" accept="image/*" style="display: none;" multiple>
+                </div>
+                <div id="photoPreview" style="display:flex; gap:10px; flex-wrap:wrap; margin-top:10px;"></div>
+              </div>
+            
+            <!-- 영상 -->
+            <div >
+                <label for="videoInput" class="custom-btn">영상 업로드 Video Upload (MAX 1)</label>
+                <input type="file" id="videoInput" accept="video/*" style="display: none;">
+            
+                <div id="videoPreview" style="margin-top:10px;"></div>
+            </div>
+
+            <!--  -->
+            <!-- 외부 동의 -->
+            <label class="agree-box" id="openTerms">
+                <input type="checkbox" id="agreeCheck" disabled>
+                <span>[필수] 개인정보 수집 및 이용 동의</span>
+            </label>
+            
+            <!-- 팝업 -->
+            <div id="termsPopup" class="popup">
+                <div class="popup-content">
+                <h3>개인정보 수집 및 이용 안내</h3>
+            
+                <div class="terms-text" id="termsText">
+                    당사는 오디션 지원자 선발 및 관리, 결과 안내를 위해 아래와 같이 개인정보를 수집 및 이용합니다.<br><br>
+                  
+                    1. 수집 항목<br>
+                    - 이름, 성별, 생년월일, 연락처, 이메일 등<br><br>
+                  
+                    2. 수집 및 이용 목적<br>
+                    - 오디션 지원자 확인 및 본인 식별<br>
+                    - 오디션 일정 안내 및 결과 통보<br>
+                    - 향후 관련 프로젝트 및 기획 제안 안내<br><br>
+                  
+                    3. 보유 및 이용 기간<br>
+                    - 지원일로부터 1년간 보관 후 파기<br>
+                    (단, 관련 법령에 따라 보관이 필요한 경우 해당 기간 동안 보관될 수 있습니다.)<br><br>
+                  
+                    4. 동의 거부 권리 및 불이익 안내<br>
+                    - 지원자는 개인정보 수집 및 이용에 대한 동의를 거부할 권리가 있습니다.<br>
+                    - 다만, 필수항목에 대한 동의를 거부할 경우 오디션 지원이 제한될 수 있습니다.<br><br>
+                  
+                    본인은 위 내용을 충분히 숙지하였으며, 개인정보 수집 및 이용에 동의합니다.
+                </div>
+            
+                <button id="agreeBtn" disabled>동의합니다</button>
+                <button id="closePopup">거부합니다(또는 닫기)</button>
+                </div>
+            </div>
+            <button id="submitBtn" style="width: 434.4px; height: 33px; margin-top: 10px; border: solid 2px; border-radius: 50px; border-color: white;">지원하기</button>
+        </div>
+
+        
+
+        <span class="white" style="color: white;"><strong>Email : </strong></span><span class="white" style="color: blueviolet;"> gsugar0fficial@gsugar-ent.com</span><br>
+    </div>
+
+    <!-- Career Section -->
+    <div id="capyright">
+        <p class="white">GSUGAR ENTERTAINMENT</p>
+        <p class="white">폰트 정보
+            <a href="https://cactus.tistory.com/306" class="white">[Pretendard]</a>
+            <a href="https://sun.fo/suit/" class="white">[SUIT]</a>
+        </p>
+    </div>
+</body>
+<script>
+    let vision = document.querySelectorAll('.vision-letter')
+    let store = document.querySelectorAll('.super-vision')
+    var repeater = 0
+
+    let observer = new IntersectionObserver((e) => {
+        console.log("확인")
+        e.forEach((vision_letter) => {
+            if (vision_letter.isIntersecting) {
+                vision_letter.target.style.opacity = 1;
+            } else {
+                vision_letter.target.style.opacity = 0;
+            }
+            
+        }) //2
+    });
+
+    let observer_store = new IntersectionObserver((e) => {
+        console.log("확인super")
+        e.forEach((vision_letter) => {
+            if (vision_letter.isIntersecting) {
+                vision_letter.target.style.opacity = 1;
+                vision_letter.target.style.transform = "translateX(0px)";
+
+            } else {}
+        })
+    });
+
+    observer.observe(vision[0]);
+    observer.observe(vision[1]);
+    observer_store.observe(store[0]);
+</script>
+<script>
+    let photoFiles = [];
+    
+    const input = document.getElementById("photoInput");
+    
+    input.addEventListener("change", (e) => {
+      const newFiles = Array.from(e.target.files);
+    
+      if (photoFiles.length === 0) {
+        // 초기 업로드
+        photoFiles = newFiles.slice(0, 9);
+      } else {
+        // 추가 업로드
+        photoFiles = [...photoFiles, ...newFiles].slice(0, 9);
+      }
+    
+      renderPhotos();
+    
+      // 같은 파일 다시 선택 가능하게 초기화 (중요)
+      input.value = "";
+    });
+    
+    function renderPhotos() {
+      const preview = document.getElementById("photoPreview");
+      preview.innerHTML = "";
+    
+      photoFiles.forEach((file, index) => {
+        const wrapper = document.createElement("div");
+        wrapper.style.position = "relative";
+    
+        const img = document.createElement("img");
+        img.src = URL.createObjectURL(file);
+        img.style.width = "100px";
+        img.style.height = "100px";
+        img.style.objectFit = "cover";
+    
+        const btn = document.createElement("button");
+        btn.innerText = "X";
+        btn.style.position = "absolute";
+        btn.style.top = "0";
+        btn.style.right = "0";
+        btn.onclick = () => {
+          photoFiles.splice(index, 1);
+          renderPhotos();
+        };
+    
+        wrapper.appendChild(img);
+        wrapper.appendChild(btn);
+        preview.appendChild(wrapper);
+      });
+    }
+
+    // 영상 (1개만)
+document.getElementById("videoInput").addEventListener("change", (e) => {
+  const preview = document.getElementById("videoPreview");
+  preview.innerHTML = "";
+
+  const file = e.target.files[0];
+  if (!file) return;
+
+  const video = document.createElement("video");
+  video.src = URL.createObjectURL(file);
+  video.controls = true;
+  video.style.width = "300px";
+
+  preview.appendChild(video);
+});
+    </script>
+
+    <script>
+     const openArea = document.getElementById("openTerms");
+const popup = document.getElementById("termsPopup");
+const closeBtn = document.getElementById("closePopup");
+const agreeBtn = document.getElementById("agreeBtn");
+const termsText = document.getElementById("termsText");
+const checkbox = document.getElementById("agreeCheck");
+
+// 팝업 열기 (라벨 클릭 시)
+openArea.addEventListener("click", (e) => {
+  e.preventDefault(); // 체크되는 거 막기
+  popup.style.display = "flex";
+});
+
+// 팝업 닫기
+closeBtn.addEventListener("click", () => {
+  popup.style.display = "none";
+});
+
+// 스크롤 끝 감지
+termsText.addEventListener("scroll", () => {
+  const isBottom =
+    termsText.scrollTop + termsText.clientHeight >= termsText.scrollHeight - 5;
+
+  if (isBottom) {
+    agreeBtn.disabled = false;
+  }
+});
+
+// 팝업 내부 동의
+agreeBtn.addEventListener("click", () => {
+  checkbox.checked = true;
+  checkbox.disabled = false;
+  popup.style.display = "none";
+  document.getElementById("openTerms").style.color = ''
+});
+    </script>
+    <script>
+        document.getElementById("submitBtn").addEventListener("click", () => {
+    
+    const data = {
+        name: document.getElementById("namespace").value,
+
+        nationality: document.querySelectorAll(".rank2input")[1].value,
+
+        sector: document.querySelector("select[name='sector']").value,
+        gender: document.querySelector("select[name='gender']").value,
+
+        height: document.querySelectorAll(".rank2input")[2].value,
+        weight: document.querySelectorAll(".rank2input")[3].value,
+
+        birth: {
+            year: document.querySelector("select[name='YYYY']").value,
+            month: document.querySelector("select[name='MM']").value,
+            day: document.querySelector("select[name='DD']").value
+        },
+
+        email: document.querySelectorAll(".rank2input")[4].value,
+        phone: document.querySelectorAll(".rank2input")[5].value,
+
+        address: document.querySelector(".rank1box").value,
+        experience: document.getElementById("experience").value,
+
+        photos: photoFiles, // 이미 변수 있음
+        video: document.getElementById("videoInput").files[0],
+
+        agree: document.getElementById("agreeCheck").checked
+    };
+    if (data.agree != true || data.name == "" || data.nationality == "" || data.sector == "" || data.gender == "" || data.height == "" || data.weight == "") {
+        if (data.agree != true) {
+            document.getElementById("openTerms").style.color = "red"
+        }
+        if (data.name == "") {
+            document.getElementById("namespace").classList.add("red-placeholder");
+        }
+        if (data.nationality == "") {
+            document.querySelectorAll(".rank2input")[1].classList.add("red-placeholder")
+        }
+        if (data.sector == "") {
+            document.querySelector("select[name='sector']").style.color = "red"
+        }
+        if (data.gender == "") {
+            document.querySelector("select[name='gender']").style.color = "red"
+        }
+        if (data.height == "") {
+            document.querySelectorAll(".rank2input")[2].classList.add("red-placeholder")
+        }
+        if (data.weight == "") {
+            document.querySelectorAll(".rank2input")[3].classList.add("red-placeholder")
+        }
+        alert("입력하지 않은 칸이 있습니다.")
+    }
+    console.log("지원 데이터:", data);
+});
+    </script>
+
+</html>
