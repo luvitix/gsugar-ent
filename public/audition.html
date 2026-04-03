@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="audition.css">
     <link rel="script" href="script.js">
+    <script src="audition.js"></script>
     <link rel="icon" href="favicon.ico">
     <script>
 
@@ -233,52 +234,52 @@
                 </select>
                 <select class="rank3box" name="MM" onclick="this.style.color=''">
                     <option value="">MM</option>
-                    <option value="month_01">01</option>
-                    <option value="month_02">02</option>
-                    <option value="month_03">03</option>
-                    <option value="month_04">04</option>
-                    <option value="month_05">05</option>
-                    <option value="month_06">06</option>
-                    <option value="month_07">07</option>
-                    <option value="month_08">08</option>
-                    <option value="month_09">09</option>
-                    <option value="month_10">10</option>
-                    <option value="month_11">11</option>
-                    <option value="month_12">12</option>
+                    <option value="01">01</option>
+                    <option value="02">02</option>
+                    <option value="03">03</option>
+                    <option value="04">04</option>
+                    <option value="05">05</option>
+                    <option value="06">06</option>
+                    <option value="07">07</option>
+                    <option value="08">08</option>
+                    <option value="09">09</option>
+                    <option value="10">10</option>
+                    <option value="11">11</option>
+                    <option value="12">12</option>
                 </select>
                 <select class="rank3box" name="DD" onclick="this.style.color=''">
                     <option value="">DD</option>
-                    <option value="day_01">01</option>
-                    <option value="day_02">02</option>
-                    <option value="day_03">03</option>
-                    <option value="day_04">04</option>
-                    <option value="day_05">05</option>
-                    <option value="day_06">06</option>
-                    <option value="day_07">07</option>
-                    <option value="day_08">08</option>
-                    <option value="day_09">09</option>
-                    <option value="day_10">10</option>
-                    <option value="day_11">11</option>
-                    <option value="day_12">12</option>
-                    <option value="day_13">13</option>
-                    <option value="day_14">14</option>
-                    <option value="day_15">15</option>
-                    <option value="day_16">16</option>
-                    <option value="day_17">17</option>
-                    <option value="day_18">18</option>
-                    <option value="day_19">19</option>
-                    <option value="day_20">20</option>
-                    <option value="day_21">21</option>
-                    <option value="day_22">22</option>
-                    <option value="day_23">23</option>
-                    <option value="day_24">24</option>
-                    <option value="day_25">25</option>
-                    <option value="day_26">26</option>
-                    <option value="day_27">27</option>
-                    <option value="day_28">28</option>
-                    <option value="day_29">29</option>
-                    <option value="day_30">30</option>
-                    <option value="day_31">31</option>
+                    <option value="01">01</option>
+                    <option value="02">02</option>
+                    <option value="03">03</option>
+                    <option value="04">04</option>
+                    <option value="05">05</option>
+                    <option value="06">06</option>
+                    <option value="07">07</option>
+                    <option value="08">08</option>
+                    <option value="09">09</option>
+                    <option value="10">10</option>
+                    <option value="11">11</option>
+                    <option value="12">12</option>
+                    <option value="13">13</option>
+                    <option value="14">14</option>
+                    <option value="15">15</option>
+                    <option value="16">16</option>
+                    <option value="17">17</option>
+                    <option value="18">18</option>
+                    <option value="19">19</option>
+                    <option value="20">20</option>
+                    <option value="21">21</option>
+                    <option value="22">22</option>
+                    <option value="23">23</option>
+                    <option value="24">24</option>
+                    <option value="25">25</option>
+                    <option value="26">26</option>
+                    <option value="27">27</option>
+                    <option value="28">28</option>
+                    <option value="29">29</option>
+                    <option value="30">30</option>
+                    <option value="31">31</option>
                 </select>
             </div>
             <div style="display: flex;">
@@ -567,110 +568,6 @@ agreeBtn.addEventListener("click", () => {
   checkbox.disabled = false;
   popup.style.display = "none";
   document.getElementById("openTerms").style.color = ''
-});
-    </script>
-    <script>
-        document.getElementById("submitBtn").addEventListener("click", () => {
-    
-    const data = {
-        name: document.getElementById("namespace").value,
-
-        nationality: document.querySelectorAll(".rank2input")[1].value,
-
-        sector: document.querySelector("select[name='sector']").value,
-        gender: document.querySelector("select[name='gender']").value,
-
-        height: document.querySelectorAll(".rank2input")[2].value,
-        weight: document.querySelectorAll(".rank2input")[3].value,
-
-        birth: {
-            year: document.querySelector("select[name='YYYY']").value,
-            month: document.querySelector("select[name='MM']").value,
-            day: document.querySelector("select[name='DD']").value
-        },
-
-        email: document.querySelectorAll(".rank2input")[4].value,
-        phone: document.querySelectorAll(".rank2input")[5].value,
-
-        address: document.querySelector(".rank1box").value,
-        experience: document.getElementById("experience").value,
-
-        photos: photoData, // 이미 변수 있음
-        video: document.getElementById("videoInput").files[0],
-
-        agree: document.getElementById("agreeCheck").checked
-    };
-    if (
-        data.agree != true 
-        || data.name == "" 
-        || data.nationality == "" 
-        || data.sector == "" 
-        || data.gender == "" 
-        || data.height == "" 
-        || data.weight == "" 
-        || data.birth.year == "" 
-        || data.birth.month == "" 
-        || data.birth.day == ""
-        || data.email == ""
-        || data.phone == ""
-        || data.address == ""
-        || data.photos.front == undefined
-        || data.photos.full == undefined
-        || data.photos.left == undefined
-        || data.photos.right == undefined
-        || data.video == undefined
-    ) {
-        if (data.agree != true) {
-            document.getElementById("openTerms").style.color = "#e71212"
-        }
-        if (data.name == "") {
-            document.getElementById("namespace").classList.add("red-placeholder");
-        }
-        if (data.nationality == "") {
-            document.querySelectorAll(".rank2input")[1].classList.add("red-placeholder")
-        }
-        if (data.sector == "") {
-            document.querySelector("select[name='sector']").style.color = "#e71212"
-        }
-        if (data.gender == "") {
-            document.querySelector("select[name='gender']").style.color = "#e71212"
-        }
-        if (data.height == "") {
-            document.querySelectorAll(".rank2input")[2].classList.add("red-placeholder")
-        }
-        if (data.weight == "") {
-            document.querySelectorAll(".rank2input")[3].classList.add("red-placeholder")
-        }
-        if (data.birth.year == "") {
-            document.querySelector("select[name='YYYY']").style.color = "#e71212"
-        }
-        if (data.birth.month == "") {
-            document.querySelector("select[name='MM']").style.color = "#e71212"
-        }
-        if (data.birth.day == "") {
-            document.querySelector("select[name='DD']").style.color = "#e71212"
-        }
-        if (data.email == "") {
-            document.querySelectorAll(".rank2input")[4].classList.add("red-placeholder")
-        }
-        if (data.phone == "") {
-            document.querySelectorAll(".rank2input")[5].classList.add("red-placeholder")
-        }
-        if (data.address == "") {
-            document.querySelector(".rank1box").classList.add("red-placeholder")
-        }
-        if (data.photos.front == undefined || data.photos.full == undefined || data.photos.left == undefined || data.photos.right == undefined) {
-            document.querySelectorAll(".photo-box")[0].style.color = "#e71212"
-            document.querySelectorAll(".photo-box")[1].style.color = "#e71212"
-            document.querySelectorAll(".photo-box")[2].style.color = "#e71212"
-            document.querySelectorAll(".photo-box")[3].style.color = "#e71212"
-        }
-        if (data.video == undefined) {
-            document.getElementById("videoInputLabel").style.color = "#e71212"
-        }
-        alert("입력하지 않은 칸이 있습니다.")
-    }
-    console.log("지원 데이터:", data, data.photos.length);
 });
     </script>
 
