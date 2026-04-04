@@ -142,6 +142,37 @@ await fetch("https://submitinfo-eno2n4pmqq-uc.a.run.app", {
         nowTime: getTimestamp()
     }),
   });
+  let imgUrls = [];
+  const IMGarray = [];
+
+  for (let i = 0; i < Object.keys(data.photos).length && i < 4; i++) {
+    // 웹P 파일을 Base64로 인코딩
+    const file = Object.values(data.photos)[i];
+    const extension = file.name.split('.').pop();
+    const base64File = await convertFileToBase64(Object.values(data.photos)[i]);
+    
+    IMGarray.push(base64File)
+    imgUrls.push(`audition/${data.birth.year+". "+data.birth.month+". "+data.birth.day+". "}_${getTimestamp()}/${i + 1}.${extension}`);
+
+    // await fetch("https://submitimgs-eno2n4pmqq-uc.a.run.app", {
+    //   method: "POST",
+    //   headers: {"Content-Type": "application/json",},
+    //   body: JSON.stringify({ 
+    //     filePath: `community/${open_lounge}/${postId + randomString}_${i + 1}`, 
+    //     file: base64File, 
+    //   }),
+    // });
+  }
+
+  await fetch("https://submitauditionimgs-eno2n4pmqq-uc.a.run.app", {
+    method: "POST",
+    headers: {"Content-Type": "application/json",},
+    body: JSON.stringify({ 
+      roop: Object.keys(data.photos).length,
+      filePath: imgUrls, 
+      file: IMGarray, 
+    }),
+  });
 
 });
 });
