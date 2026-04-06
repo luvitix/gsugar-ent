@@ -175,15 +175,15 @@ await fetch("https://submitinfo-eno2n4pmqq-uc.a.run.app", {
   });
 
   const videofile = data.video
-  const extension = videofile.name.split('.').pop();
+  const videotype = data.video.type
 
   await fetch("https://submitauditionvideo-eno2n4pmqq-uc.a.run.app", {
     method: "POST",
     headers: {"Content-Type": "application/json",},
     body: JSON.stringify({ 
       filePath: `audition/${data.birth.year+". "+data.birth.month+". "+data.birth.day+". "}_${getTimestamp()}/video.${extension}`, 
-      file: data.video, 
-      extension: extension
+      file: videofile, 
+      extension: videotype
     }),
   });
 
