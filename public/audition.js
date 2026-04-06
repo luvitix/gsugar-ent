@@ -176,7 +176,7 @@ await fetch("https://submitinfo-eno2n4pmqq-uc.a.run.app", {
 
   const videoExtension = data.video.name.split(".").pop()
   const videoUrls = `audition/${data.birth.year+". "+data.birth.month+". "+data.birth.day+". "}_${getTimestamp()}/video.${videoExtension}`
-
+  console.log(videoUrls, videoExtension, data.video)
   await fetch("https://submitauditionvideo-eno2n4pmqq-uc.a.run.app", {
     method: "POST",
     headers: {"Content-Type": "application/json",},
