@@ -174,6 +174,9 @@ await fetch("https://submitinfo-eno2n4pmqq-uc.a.run.app", {
     }),
   });
 
+  const videofile = data.video
+  const extension = videofile.name.split('.').pop();
+
   await fetch("https://submitauditionvideo-eno2n4pmqq-uc.a.run.app", {
     method: "POST",
     headers: {"Content-Type": "application/json",},
