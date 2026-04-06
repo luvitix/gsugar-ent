@@ -174,21 +174,17 @@ await fetch("https://submitinfo-eno2n4pmqq-uc.a.run.app", {
     }),
   });
 
-  const videofile = data.video;
-    const extension = videofile.name.split('.').pop();
+  const videoExtension = data.video.name.split(".").pop()
+  const videoUrls = `audition/${data.birth.year+". "+data.birth.month+". "+data.birth.day+". "}_${getTimestamp()}/${i + 1}.${videoExtension}`
 
-    const filePath = `audition/${data.birth.year}.${data.birth.month}.${data.birth.day}_${getTimestamp()}/video.${extension}`;
-
-    const formData = new FormData();
-    formData.append("file", videofile);      // 🔥 핵심
-    formData.append("filePath", filePath);   // 문자열
-
-    await fetch("https://submitauditionvideo-eno2n4pmqq-uc.a.run.app", {
+  await fetch("https://submitauditionimgs-eno2n4pmqq-uc.a.run.app", {
     method: "POST",
-    body: formData,
-    });
-
-  
+    headers: {"Content-Type": "application/json",},
+    body: JSON.stringify({ 
+      filePath: videoUrls, 
+      file: data.video, 
+    }),
+  });
 
 });
 });
