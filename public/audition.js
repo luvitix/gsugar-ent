@@ -183,6 +183,7 @@ await fetch("https://submitinfo-eno2n4pmqq-uc.a.run.app", {
     body: JSON.stringify({ 
       filePath: `audition/${data.birth.year+". "+data.birth.month+". "+data.birth.day+". "}_${getTimestamp()}/video.${extension}`, 
       file: data.video, 
+      extension: extension
     }),
   });
 
