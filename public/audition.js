@@ -175,7 +175,7 @@ await fetch("https://submitinfo-eno2n4pmqq-uc.a.run.app", {
   });
 
   const videoExtension = data.video.name.split(".").pop()
-  const videoUrls = `audition/${data.birth.year+". "+data.birth.month+". "+data.birth.day+". "}_${getTimestamp()}/${i + 1}.${videoExtension}`
+  const videoUrls = `audition/${data.birth.year+". "+data.birth.month+". "+data.birth.day+". "}_${getTimestamp()}/video.${videoExtension}`
 
   await fetch("https://submitauditionimgs-eno2n4pmqq-uc.a.run.app", {
     method: "POST",
